@@ -1,0 +1,30 @@
+appId: com.kuade.desktop
+productName: Kuade Harness
+executableName: Kuade
+copyright: Copyright © 2026 Kuade contributors
+directories:
+  output: release
+files:
+  - dist/**/*
+  - assets/icon.png
+  - package.json
+  - THIRD_PARTY_NOTICES.md
+asar: true
+asarUnpack:
+  - node_modules/**/*
+  - dist/runtime/**/*
+win:
+  target:
+    - nsis
+    - zip
+  icon: assets/icon.png
+  signAndEditExecutable: true
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+npmRebuild: false
+extraResources:
+  - from: resources/computer
+    to: computer

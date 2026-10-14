@@ -1,0 +1,137 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "phase": "all",
+  "steps": [
+    {
+      "name": "web-skill",
+      "sessionId": "session-fb1a085c-acee-4d57-972e-e626f3685372",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__search__search",
+          "at": 1791957545412,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__search__fetch_content",
+          "at": 1791957551377,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_navigate",
+          "at": 1791957554865,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_snapshot",
+          "at": 1791957566834,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_fill_form",
+          "at": 1791957562083,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_click",
+          "at": 1791957565194,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "verified": true
+    },
+    {
+      "name": "computer",
+      "sessionId": "session-ef78eda9-8a05-4790-9775-f49798ab9f0a",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__qwen_computer__get_app_state",
+          "at": 1791957579108,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__set_value",
+          "at": 1791957583779,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__click",
+          "at": 1791957587700,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "verified": true,
+      "fixturePid": 48480
+    }
+  ],
+  "before": {
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "process": "8a9c7dd9098771e6ff5bf2f9e3135ad94187465cdfaf23b3cd1ea0bd799235b0"
+  },
+  "workspaceId": "d04c8764-55aa-4bdc-91b7-f57736cf283b",
+  "model": "kuade-ca49e51b::kimi-k3",
+  "submissions": [
+    {
+      "marker": "Kuade 技能验收 bfd975af-2e68-45db-9964-0ca3d626d1fb",
+      "url": "https://www.electronjs.org/docs/latest/api/app",
+      "at": 1791957564628
+    }
+  ],
+  "extensionsRestored": true,
+  "credentialsUnchanged": true,
+  "after": {
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "process": "8a9c7dd9098771e6ff5bf2f9e3135ad94187465cdfaf23b3cd1ea0bd799235b0"
+  },
+  "environmentUnchanged": true,
+  "sourceReceipt": "C:/Users/jiangrui/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/Kuade-development/Kuade-Hermes/.cache/real-capabilities-67238442-abc7-4a58-9055-1072c47c6ef5/acceptance.json",
+  "sourceReceiptSha256": "82A47B2C508B66EC786AF3945DE7E4CC4E7798D4F49F0EFB8177EA39D0C26BC3"
+}

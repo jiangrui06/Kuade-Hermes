@@ -1,0 +1,176 @@
+import { test, expect, _electron as electron, type ElectronApplication, type Page } from '@playwright/test';
+import { createServer } from 'node:http';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { randomUUID } from 'node:crypto';
+
+// A controlled provider fixture exercises the real runtime and filesystem tools.
+// It proves integration, not the reasoning quality of an external model.
+test('真实桌面：模型配置、写文件、恢复、审批终端、MCP 调用', async () => {
+  const root = resolve('.cache/e2e-' + randomUUID());
+  const project = resolve(root, '中文项目');
+  await mkdir(project, { recursive: true });
+  await mkdir(resolve(project, '.agents/skills/acceptance-skill'), { recursive: true });
+  await writeFile(resolve(project, '.agents/skills/acceptance-skill/SKILL.md'), '---\nname: acceptance-skill\ndescription: 验证项目技能读取\n---\nSkill acceptance marker: KUADE_SKILL_LOADED.\n');
+  const requests: any[] = [];
+  const discoveries: Array<{ url?: string; anthropic: boolean; authorized: boolean; version?: string | string[] }> = [];
+  let calls = 0;
+  let scenario: 'write' | 'terminal' | 'mcp' | 'question' | 'skill' = 'write';
+  const server = createServer(async (request, response) => {
+    if (request.method === 'GET') {
+      const anthropic = !!request.headers['x-api-key'];
+      const authorized = anthropic ? request.headers['x-api-key'] === 'kuade-fixture-key' : request.headers.authorization === 'Bearer kuade-fixture-key';
+      discoveries.push({ url: request.url, anthropic, authorized, version: request.headers['anthropic-version'] });
+      response.statusCode = authorized ? 200 : 401;
+      response.setHeader('Content-Type', 'application/json');
+      response.end(JSON.stringify(authorized ? { data: [{ id: anthropic ? 'claude-fixture' : 'kuade-fixture' }] } : { error: 'invalid fixture credential' })); return;
+    }
+    let raw = ''; for await (const chunk of request) raw += chunk;
+    const body = JSON.parse(raw); requests.push(body);
+    const tools = (body.tools ?? []).map((tool: any) => tool.function?.name);
+    const hasResult = body.messages.some((message: any) => message.role === 'tool');
+    const targetTool = scenario === 'write' ? 'write' : scenario === 'terminal' ? 'pwsh' : scenario === 'question' ? 'ask_user_question' : scenario === 'skill' ? 'skill' : 'mcp__fixture__echo';
+    const tool = tools.find((name: string) => name === targetTool);
+    const args = scenario === 'write' ? { file_path: 'acceptance.txt', content: 'Kuade real tool acceptance\n' } : scenario === 'terminal' ? { command: "Write-Output 'Kuade terminal acceptance'", description: '输出一条终端验收消息', sandbox_permissions: 'danger-full-access', justification: '验证用户确认后的一次终端执行。' } : scenario === 'question' ? { questions: [{ id: 'direction', question: '选择本次验收方向', options: [{ label: '继续开发' }, { label: '先看结果' }] }] } : scenario === 'skill' ? { name: 'acceptance-skill' } : { value: 'Kuade MCP acceptance' };
+    const delta = !hasResult && tool ? { tool_calls: [{ index: 0, id: 'fixture-' + scenario, type: 'function', function: { name: tool, arguments: JSON.stringify(args) } }] } : { content: hasResult ? `Kuade ${scenario} 验收任务完成。` : tools.length ? '验收未找到工具：' + tools.join(',') : 'Kuade 集成验收' };
+    calls++;
+    response.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
+    const part = (value: any) => response.write('data: ' + JSON.stringify({ id: 'fixture-' + calls, object: 'chat.completion.chunk', created: Math.floor(Date.now() / 1000), model: body.model, choices: [{ index: 0, ...value }] }) + '\n\n');
+    part({ delta: { role: 'assistant' }, finish_reason: null });
+    part({ delta, finish_reason: null });
+    part({ delta: {}, finish_reason: 'tool_calls' in delta ? 'tool_calls' : 'stop' });
+    response.end('data: [DONE]\n\n');
+  });
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
+  const port = (server.address() as { port: number }).port;
+  let app: ElectronApplication | undefined;
+  let page: Page | undefined;
+  const env: Record<string, string> = { ...Object.fromEntries(Object.entries(process.env).filter((entry): entry is [string, string] => entry[1] !== undefined)), KUADE_USER_DATA: resolve(root, 'app') };
+  delete env.ELECTRON_RUN_AS_NODE;
+  const executablePath = process.env.KUADE_TEST_EXECUTABLE;
+  const launch = () => electron.launch({ ...(executablePath ? { executablePath } : {}), args: executablePath ? [] : ['.'], cwd: resolve('.'), env });
+  const capture = async (name: string) => {
+    // A minimized/occluded Electron window can stop producing frames on a shared Windows desktop.
+    // Restore only this isolated test application before capturing evidence.
+    await app!.evaluate(({ BrowserWindow }) => {
+      for (const window of BrowserWindow.getAllWindows()) { if (window.isMinimized()) window.restore(); window.show(); }
+    });
+    await page!.screenshot({ path: resolve(root, name) });
+  };
+  try {
+    app = await launch();
+    page = await app.firstWindow();
+    await page.waitForURL('kuade://app/index.html');
+    await expect.poll(() => page!.evaluate(() => window.kuade.status()).catch(() => ({ phase: 'starting' })), { timeout: 130000 }).toMatchObject({ phase: 'ready' });
+    await expect(page.getByText('本机运行', { exact: true })).toBeVisible({ timeout: 130000 });
+    await capture('01-workbench.png');
+    await app.evaluate(({ dialog }, path) => { dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [path] }); }, project);
+    await page.getByRole('button', { name: '打开项目', exact: true }).click();
+    await expect(page.locator('.project-picker')).toContainText('中文项目');
+    await page.getByRole('button', { name: '模型连接', exact: true }).click();
+    await page.getByLabel('连接名称', { exact: true }).fill('本地验收模型');
+    await page.locator('input[type=password]').fill('wrong-fixture-key');
+    await page.getByLabel('API 地址', { exact: true }).fill(`http://127.0.0.1:${port}/v1`);
+    await expect(page.getByText(/请检查 Key 及模型列表访问权限/)).toBeVisible();
+    await page.locator('input[type=password]').fill('kuade-fixture-key');
+    await expect(page.getByRole('checkbox', { name: 'kuade-fixture', exact: true })).toBeVisible();
+    await page.getByLabel('接口协议').selectOption('anthropic-messages');
+    await expect(page.getByRole('checkbox', { name: 'claude-fixture', exact: true })).toBeVisible();
+    await page.getByLabel('接口协议').selectOption('openai-completions');
+    await page.getByRole('checkbox', { name: 'kuade-fixture', exact: true }).check();
+    expect(discoveries.some(row => row.url === '/v1/models' && row.authorized && !row.anthropic)).toBe(true);
+    expect(discoveries.some(row => row.url?.startsWith('/v1/models?limit=') && row.authorized && row.anthropic && row.version === '2023-06-01')).toBe(true);
+    await capture('model-discovery.png');
+    await page.getByRole('button', { name: '保存连接' }).click();
+    await expect(page.getByRole('status').filter({ hasText: '模型配置已保存' })).toBeVisible();
+    await page.getByRole('button', { name: '工作台', exact: true }).click();
+    await page.getByLabel('当前模型').selectOption({ label: 'kuade-fixture' });
+    await page.getByLabel('执行模式').selectOption('auto');
+    await page.getByLabel('任务需求').fill('创建 acceptance.txt，内容为 Kuade real tool acceptance，然后报告完成。');
+    await page.getByLabel('发送任务', { exact: true }).click();
+    await expect(page.locator('.message.assistant')).toContainText('Kuade write 验收任务完成。', { timeout: 90000 });
+    expect(await readFile(resolve(project, 'acceptance.txt'), 'utf8')).toBe('Kuade real tool acceptance\n');
+    expect(calls).toBeGreaterThanOrEqual(2);
+    await capture('02-complete.png');
+    await app.close(); app = undefined;
+    app = await launch();
+    page = await app.firstWindow();
+    await expect(page.getByText('本机运行', { exact: true })).toBeVisible({ timeout: 130000 });
+    const savedConnections = await page.evaluate(async () => {
+      const settings = await window.kuade.call('settings/describe');
+      const providers = settings.namespaces.find((ns: any) => ns.ns === 'llm-pi-ai')?.value?.providers ?? {};
+      return Object.values(providers).map((provider: any) => provider.displayName);
+    });
+    expect(savedConnections).toContain('本地验收模型');
+    await page.getByRole('button', { name: '模型连接', exact: true }).click();
+    await page.getByRole('button', { name: /本地验收模型/ }).click();
+    await expect(page.locator('input[type=password]')).toHaveValue('');
+    await expect(page.getByRole('checkbox', { name: 'kuade-fixture', exact: true })).toBeChecked();
+    await page.getByRole('button', { name: '工作台', exact: true }).click();
+    await page.locator('.recent-task').first().click();
+    await expect(page.locator('.message.assistant')).toContainText('Kuade write 验收任务完成。');
+    await capture('03-restored.png');
+    scenario = 'terminal';
+    await page.getByRole('button', { name: '新任务' }).click();
+    await page.getByLabel('执行模式').selectOption('ask');
+    await page.getByLabel('任务需求').fill('请求我确认后，用 PowerShell 输出一条验收消息。');
+    await page.getByLabel('发送任务', { exact: true }).click();
+    await expect(page.getByRole('button', { name: '允许本次操作' })).toBeVisible();
+    await capture('04-approval.png');
+    await page.getByRole('button', { name: '允许本次操作' }).click();
+    await expect(page.locator('.message.assistant')).toContainText('Kuade terminal 验收任务完成。');
+    await expect(page.locator('.tool-event')).toContainText(['Kuade terminal acceptance']);
+    expect(requests.some(body => body.messages.some((message: any) => message.role === 'tool' && message.tool_call_id === 'fixture-terminal' && String(message.content).trim() === 'Kuade terminal acceptance'))).toBe(true);
+    scenario = 'mcp';
+    const marker = resolve(root, 'mcp-invoked.txt');
+    await page.getByRole('button', { name: '工具与技能' }).click();
+    await page.getByLabel('MCP 配置').fill(JSON.stringify({ mcpServers: { fixture: { command: process.execPath, args: [resolve('tests/fixtures/mcp.mjs'), marker] } } }));
+    await page.getByRole('button', { name: '保存并重新加载' }).click();
+    await expect(page.getByRole('status').filter({ hasText: '配置已保存' })).toBeVisible();
+    await expect(page.getByText('本机运行', { exact: true })).toBeVisible();
+    await expect(page.getByRole('region', { name: '扩展运行状态' })).toContainText('1 个工具已注册');
+    await page.getByRole('button', { name: '新任务' }).click();
+    await page.getByLabel('执行模式').selectOption('auto');
+    await page.getByLabel('任务需求').fill('调用 fixture MCP 的 echo 工具进行验收。');
+    await page.getByLabel('发送任务', { exact: true }).click();
+    await expect(page.locator('.message.assistant')).toContainText('Kuade mcp 验收任务完成。');
+    expect(await readFile(marker, 'utf8')).toBe('Kuade MCP acceptance');
+    await capture('05-mcp.png');
+    await page.getByRole('button', { name: '工具与技能' }).click();
+    await page.getByText('fixture', { exact: true }).click();
+    await expect(page.getByRole('region', { name: '扩展运行状态' })).toContainText('工具返回成功');
+    await expect(page.getByRole('region', { name: '项目技能' })).toContainText('acceptance-skill');
+    scenario = 'skill';
+    await page.getByRole('button', { name: '新任务' }).click();
+    await page.getByRole('button', { name: '工具与技能' }).click();
+    await page.locator('.discovered-skills article').filter({ hasText: 'acceptance-skill' }).getByRole('button', { name: '用于任务' }).click();
+    await expect(page.getByLabel('任务需求')).toHaveValue('请使用 acceptance-skill 技能完成以下需求：');
+    await page.getByLabel('发送任务', { exact: true }).click();
+    await expect(page.locator('.message.assistant')).toContainText('Kuade skill 验收任务完成。');
+    expect(requests.some(body => body.messages.some((message: any) => message.role === 'tool' && message.tool_call_id === 'fixture-skill' && String(message.content).includes('KUADE_SKILL_LOADED')))).toBe(true);
+    scenario = 'question';
+    await page.getByRole('button', { name: '新任务' }).click();
+    await page.getByLabel('任务需求').fill('先询问我下一步的方向，再继续。');
+    await page.getByLabel('发送任务', { exact: true }).click();
+    await page.getByRole('radio', { name: '继续开发', exact: true }).check();
+    await page.getByRole('button', { name: '提交回答', exact: true }).click();
+    await expect(page.locator('.message.assistant')).toContainText('Kuade question 验收任务完成。');
+    expect(requests.some(body => body.messages.some((message: any) => message.role === 'tool' && message.tool_call_id === 'fixture-question' && String(message.content).includes('继续开发')))).toBe(true);
+    await page.getByRole('button', { name: '新任务' }).click();
+    await page.getByLabel('任务需求').fill('提出一个问题，然后等待我决定是否继续。');
+    await page.getByLabel('发送任务', { exact: true }).click();
+    await expect(page.getByRole('radio', { name: '继续开发', exact: true })).toBeVisible();
+    await page.getByLabel('停止任务', { exact: true }).click();
+    await expect(page.getByLabel('停止任务', { exact: true })).not.toBeVisible();
+    await expect(page.getByRole('radio', { name: '继续开发', exact: true })).not.toBeVisible();
+    const mcpPid = Number(await readFile(marker + '.pid', 'utf8'));
+    await app.close(); app = undefined;
+    await expect.poll(() => { try { process.kill(mcpPid, 0); return true; } catch { return false; } }).toBe(false);
+  } finally {
+    await writeFile(resolve(root, 'provider-requests.json'), JSON.stringify(requests, null, 2));
+    if (page && !page.isClosed()) await page.screenshot({ path: resolve(root, 'last-state.png') }).catch(() => {});
+    await app?.close();
+    await new Promise<void>(resolve => server.close(() => resolve()));
+    console.log('验收证据目录:', root);
+  }
+});

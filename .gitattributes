@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Preserve the exact imported upstream bytes recorded in the provenance manifest.
+vendor/qwen-computer-use/** -text whitespace=cr-at-eol

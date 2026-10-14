@@ -1,0 +1,114 @@
+{
+  "component": "qwen_computer",
+  "version": "0.2.3-local.15",
+  "origin": "CodeBuddy/tools/qwen-computer-use",
+  "upstream": "https://github.com/iFurySt/open-codex-computer-use",
+  "upstreamCommit": "24b7cae4d449a5a8ea58c583e5151096b26de03c",
+  "importedAt": "2026-10-14",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "a5270f91138fc2bb5470ecb521dab043140d7e0fd8cb33bb0644ac13efb60fe7"
+    },
+    {
+      "path": "bridge_regression_test.go",
+      "sha256": "223d9f98eb774da204f57ed19df1f5063d96f09fd07ef188c40b99c0b27ddae9"
+    },
+    {
+      "path": "desktop-input.cs",
+      "sha256": "830cf28a4bf2739cc31b5a0b44ffea5cc5b799f12735dc144426ba797d60830c"
+    },
+    {
+      "path": "go.mod",
+      "sha256": "f2cdb5d0212017b2c949ad03c7dfad217b5d4d5e9a95ffe16a745581b81ed038"
+    },
+    {
+      "path": "hosted_window_test.go",
+      "sha256": "0eee3a88711d886ef4d6c7c97e1b0ccad13a3d091e301955e5508e3836d7087b"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "0fdb775e00e6fdde23984b4f1184cd13c34135caac1e714ad489141c239704bc"
+    },
+    {
+      "path": "macos/contract-tests.swift",
+      "sha256": "54f9c9d367197bd3048c7016790c334dc04ce6e864db317e521e62661310678a"
+    },
+    {
+      "path": "macos/Info.plist",
+      "sha256": "4eacbc38c7ac780553f3631a01ca81c397eb15bf06f75a946f1184b9e74d350c"
+    },
+    {
+      "path": "macos/runtime.swift",
+      "sha256": "e77c848b6df829696d6e4f9cf5b385641bbdd5f6975238ee424e2c6e92f9f8be"
+    },
+    {
+      "path": "macos/RuntimeContract.swift",
+      "sha256": "ff954575ec7240c380f1136d931a65ee7db142d3faa8dca9d6b8afce622597cc"
+    },
+    {
+      "path": "main_test.go",
+      "sha256": "735b23e103f3e23e351fa7d15136b9764c912c33feaa361cc820985cb513bb3a"
+    },
+    {
+      "path": "main.go",
+      "sha256": "1e1cbe44d0e942d673c433a3b08214803d5b33589e1cff0298c4e9dc95e6b118"
+    },
+    {
+      "path": "multiple_windows_test.go",
+      "sha256": "aaa5fdacf0927060c8a198997192f2f5f77dfd9e16ac6001c32561a24047f97b"
+    },
+    {
+      "path": "native_runtime_test.go",
+      "sha256": "77eff6092e049a970bd12229e890442783484b18a2cc669132e6152adad64976"
+    },
+    {
+      "path": "native_runtime.go",
+      "sha256": "abfdbad1e51c40861b0474b83783ba835cbf21b566097daee7dd4440e9d807bc"
+    },
+    {
+      "path": "observation_test.go",
+      "sha256": "a9bfcd5b858b08ad5062fc4a2d651704f5ce26a43be3dce2cb196cedf2a59583"
+    },
+    {
+      "path": "process_other.go",
+      "sha256": "0967efcc8cd48f631f1950711904a71e3614f9382d91e825da6e92f106350913"
+    },
+    {
+      "path": "process_windows.go",
+      "sha256": "35676283c98846b2f3e115d37acad0f3a9d3258cf27bd04ecfe7dc8bb6672df1"
+    },
+    {
+      "path": "README.en.md",
+      "sha256": "2d2f18de98ed0f82d466d378c90e0578b7e35d8e30756ccf59d92a751dc35afc"
+    },
+    {
+      "path": "README.md",
+      "sha256": "699decd67e69cf09996bc1439f59dd40d94165e253c0e14e7999203b1f594542"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "ecc481073f2d178abd89853f4f95ddf0d3fb0de2a134f49d8333f6bcea502e1d"
+    },
+    {
+      "path": "runtime.ps1",
+      "sha256": "c12dbfbf3034f355483c86b6ef6f05c3f69b3382e21aa861486ebddfcec442d4"
+    },
+    {
+      "path": "snapshot_alias_test.go",
+      "sha256": "546e72ef14e13cbdcc2aeb2604d3e38dc1d806922b5e018c04a3d2cb51b4fdf4"
+    },
+    {
+      "path": "snapshot_indices_test.go",
+      "sha256": "42a2ab29730e501bb74380b4a3a65bfab0a28a1fb136a85a0a24a38ae1a03dfd"
+    },
+    {
+      "path": "snapshot_indices.go",
+      "sha256": "ac43c1be6ae832d799bf9bc1adf386606e34577daabf23a850693a023242e316"
+    },
+    {
+      "path": "window_selection_test.go",
+      "sha256": "6277cceabffe6fef1e6bbb17f8d904b6ddd6f20a47e2fd4d4fa7337c8c047e60"
+    }
+  ]
+}

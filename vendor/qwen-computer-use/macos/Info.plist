@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>CFBundleIdentifier</key><string>local.codebuddy.computer-runtime</string>
+  <key>CFBundleName</key><string>CodeBuddy Computer Runtime</string>
+  <key>CFBundleVersion</key><string>1</string>
+  <key>LSMinimumSystemVersion</key><string>14.0</string>
+  <key>NSAccessibilityUsageDescription</key><string>Operate the applications selected for your task.</string>
+  <key>NSScreenCaptureUsageDescription</key><string>Observe application windows and verify the results of your actions.</string>
+</dict></plist>

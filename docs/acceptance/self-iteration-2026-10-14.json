@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-14",
+  "scope": "Windows controlled-provider self-iteration",
+  "status": "passed",
+  "realExternalModel": "pending",
+  "macOS": "pending",
+  "unitAndComponentTests": 70,
+  "baseVersion": "0.1.5",
+  "candidateVersion": "0.1.6",
+  "executableSha256": "dd67b9fe10f296893c0d895f607532b7bee8315e466dc6b3e317341350890910",
+  "resourcesSha256": "56b8b2fe85c6e5e5a466bd0bcf40a6453ca1335d386149483d38122acc5be376",
+  "sourceUnchanged": true,
+  "selfIteration": {
+    "status": "passed",
+    "model": "controlled local provider",
+    "phases": [
+      {
+        "phase": "preparing",
+        "at": 1791956071018
+      },
+      {
+        "phase": "coding",
+        "at": 1791956073037
+      },
+      {
+        "phase": "testing",
+        "at": 1791956075052
+      },
+      {
+        "phase": "building",
+        "at": 1791956133702
+      },
+      {
+        "phase": "waiting-idle",
+        "at": 1791956510900
+      },
+      {
+        "phase": "restarting",
+        "at": 1791956511913
+      }
+    ],
+    "nativeTarget": "window:30248:30149228",
+    "result": {
+      "id": "0d08c114-ac7d-454f-9b4f-f6c1605c23e1",
+      "status": "completed",
+      "at": 1791956534033,
+      "pid": 30248,
+      "version": "0.1.6"
+    },
+    "verification": [
+      {
+        "name": "dependencies",
+        "startedAt": 1791956075003,
+        "finishedAt": 1791956098472,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\evidence\\01-dependencies.log"
+      },
+      {
+        "name": "typecheck",
+        "startedAt": 1791956098560,
+        "finishedAt": 1791956108468,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\evidence\\02-typecheck.log"
+      },
+      {
+        "name": "baseline-tests",
+        "startedAt": 1791956108477,
+        "finishedAt": 1791956132865,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\evidence\\03-baseline-tests.log"
+      },
+      {
+        "name": "desktop-build",
+        "startedAt": 1791956132900,
+        "finishedAt": 1791956142512,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\evidence\\04-desktop-build.log"
+      },
+      {
+        "name": "electron-runtime",
+        "startedAt": 1791956142519,
+        "finishedAt": 1791956145873,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\evidence\\05-electron-runtime.log"
+      },
+      {
+        "name": "package",
+        "startedAt": 1791956145877,
+        "finishedAt": 1791956496075,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\evidence\\06-package.log"
+      }
+    ],
+    "sourceUnchanged": true,
+    "candidate": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\source",
+    "evidence": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\evidence"
+  },
+  "rollback": {
+    "status": "passed",
+    "result": {
+      "id": "cffef95b-fa48-4cdd-a430-f93f136529fc",
+      "status": "rolled-back",
+      "at": 1791956672444,
+      "pid": 42824,
+      "version": "0.1.6",
+      "reason": "candidate 启动健康检查超时"
+    }
+  },
+  "receipts": [
+    {
+      "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\iteration-9d15dae9-9293-4e5c-813b-99690532792d\\acceptance.json",
+      "sha256": "ab88a2ce844f20c0101559c735e27dd17868b84ad312cd9f3405aea2e194dda4"
+    },
+    {
+      "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\iteration-rollback-bc840330-dfe3-4755-b5c9-5ea3ae17f9cb\\acceptance.json",
+      "sha256": "f3ed0bd4089da5e4686ee534e7f35e4f32abc239be664afa1ae664bd97a7eaad"
+    },
+    {
+      "path": "D:\\Kuade-acceptance\\iterations\\0d08c114-ac7d-454f-9b4f-f6c1605c23e1\\evidence\\artifact.json",
+      "sha256": "268416c08a82d6e489686cbfbd91d3d5d4269c9168532b92d23447033a27cbf0"
+    }
+  ]
+}
