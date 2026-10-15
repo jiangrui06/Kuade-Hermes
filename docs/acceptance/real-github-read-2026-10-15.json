@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "date": "2026-10-15",
+  "scope": "Real-model GitHub OAuth account and read acceptance; independent persisted-event follow-up",
+  "realProvider": true,
+  "realMcp": true,
+  "githubWrites": false,
+  "sessionId": "session-b7467beb-a56d-46cd-bc4a-4f71265a4729",
+  "login": "erjinyi-bool",
+  "userId": 305357631,
+  "commit": "002b715ec659ffa49b83df063679b4c1930cb0c4",
+  "readmeBlob": "b11b1995ebff159af774e83522f3e01482b2ea35",
+  "calls": [
+    "mcp__github__get_me",
+    "mcp__github__list_commits",
+    "mcp__github__get_file_contents",
+    "list_mcp_resources",
+    "mcp__github__get_file_contents",
+    "read_mcp_resource"
+  ],
+  "temporaryCredentialsRemoved": true,
+  "eventsSha256": "f3a4e329024a75531a558fb75bd9184452cc3e6ca626bf45c2af3764d4721050",
+  "initialScriptResult": {
+    "status": "not-passed",
+    "realProvider": true,
+    "realMcp": true,
+    "githubWrites": false,
+    "expectedCommit": "002b715ec659ffa49b83df063679b4c1930cb0c4",
+    "model": "kuade-ca49e51b:kimi-k3",
+    "error": "README tool result missing"
+  },
+  "followup": "Verified complete UTF-8 README Git blob through the official MCP resource-read result; original failed receipt retained."
+}
