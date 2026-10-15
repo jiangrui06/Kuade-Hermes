@@ -36,7 +36,15 @@ try {
   receipt.requirement = '增加 Ctrl+Shift+I 打开“自我迭代”页面的快捷键，同时保留 Ctrl+N 新建任务行为。保持模块独立，不新增依赖。为快捷键补充有意义的组件测试，并在简体、繁体和英文文档说明。先阅读现有代码，再自行实现；真实运行相关测试。不要修改验收脚本、版本字段、基线或用户配置，不要自己启动安装器或重启应用。完成后由宿主独立测试、构建和自动更新。';
   await page.getByLabel('自迭代需求').fill(receipt.requirement);
   stage = 'iteration';
+  let previousIterationId;
+  try { previousIterationId = JSON.parse(await readFile(join(profile, 'iteration.json'), 'utf8')).state.id; } catch {}
   await page.getByRole('button', { name: '开始迭代并自动更新' }).click();
+  // Clicking starts asynchronous model preparation. Do not mistake the preceding
+  // run's persisted failure for the new run before it has acquired its journal.
+  await expect.poll(async () => {
+    try { const current = JSON.parse(await readFile(join(profile, 'iteration.json'), 'utf8')); return Boolean(current.state.id && current.state.id !== previousIterationId); }
+    catch { return false; }
+  }, { timeout: 130000, intervals: [500] }).toBe(true);
   const deadline = Date.now() + 35 * 60_000;
   let nextLog = 0;
   while (Date.now() < deadline) {
@@ -76,11 +84,27 @@ try {
     const target = text.match(/Observed target: (window:\d+:\d+)\./)?.[1]; assert.ok(target);
     const pressed = await client.callTool({ name: 'press_key', arguments: { app: target, key: 'ctrl+shift+i' } }, undefined, { timeout: 60000 });
     assert.ok(!pressed.isError);
-    const state = pressed.content.filter(row => row.type === 'text').map(row => row.text).join('\n');
+    let after;
+    await expect.poll(async () => {
+      after = await client.callTool({ name: 'get_app_state', arguments: { app: target } }, undefined, { timeout: 60000 });
+      assert.ok(!after.isError);
+      const text = after.content.filter(row => row.type === 'text').map(row => row.text).join('\n');
+      return text.includes('自迭代需求') && text.includes('让 Kuade');
+    }, { timeout: 30000, intervals: [500, 1000] }).toBe(true);
+    const state = after.content.filter(row => row.type === 'text').map(row => row.text).join('\n');
     await writeFile(join(root, 'updated-native-state.txt'), state);
-    for (const row of pressed.content) if (row.type === 'image') await writeFile(join(root, 'updated-desktop.png'), Buffer.from(row.data, 'base64'));
+    for (const row of after.content) if (row.type === 'image') await writeFile(join(root, 'updated-desktop.png'), Buffer.from(row.data, 'base64'));
     assert.ok(state.includes('自迭代需求') && state.includes('让 Kuade'));
     receipt.newShortcutVerified = true;
+    const newTask = await client.callTool({ name: 'press_key', arguments: { app: target, key: 'ctrl+n' } }, undefined, { timeout: 60000 });
+    assert.ok(!newTask.isError);
+    await expect.poll(async () => {
+      const current = await client.callTool({ name: 'get_app_state', arguments: { app: target } }, undefined, { timeout: 60000 });
+      assert.ok(!current.isError);
+      const text = current.content.filter(row => row.type === 'text').map(row => row.text).join('\n');
+      return text.includes('任务需求') && !text.includes('自迭代需求');
+    }, { timeout: 30000, intervals: [500, 1000] }).toBe(true);
+    receipt.existingShortcutVerified = true;
   } finally { await client.close(); await transport.close(); }
   receipt.status = 'passed';
   // The user's updated application remains open after a successful handoff.

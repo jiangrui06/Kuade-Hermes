@@ -4,6 +4,23 @@ import { Extensions } from '../src/renderer/features/Extensions';
 import { Skills } from '../src/renderer/features/Skills';
 
 afterEach(cleanup);
+it('GitHub 组件准备成功才填入配置，授权状态不冒充连接成功', async () => {
+  const call = vi.fn(async (endpoint: string): Promise<any> => {
+    if (endpoint === 'extensions/read') return { mcpServers: {} };
+    if (endpoint === 'extensions/status') return { observedAt: 1, servers: [] };
+    if (endpoint === 'extensions/github') throw new Error('GitHub 下载文件校验失败');
+  });
+  Object.defineProperty(window, 'kuade', { value: { call }, configurable: true });
+  render(<Extensions ready onUseSkill={() => {}} />);
+  fireEvent.click(await screen.findByRole('button', { name: '添加GitHub' }));
+  expect(await screen.findByText('GitHub 下载文件校验失败')).toBeInTheDocument();
+  expect((screen.getByLabelText('MCP 配置') as HTMLTextAreaElement).value).not.toContain('github');
+  call.mockImplementation(async endpoint => endpoint === 'extensions/github' ? { command: 'C:/tools/github-mcp-server.exe', args: ['stdio'] } : { observedAt: 1, servers: [] });
+  fireEvent.click(screen.getByRole('button', { name: '添加GitHub' }));
+  expect(await screen.findByText(/工具已注册不代表已登录/)).toBeInTheDocument();
+  expect((screen.getByLabelText('MCP 配置') as HTMLTextAreaElement).value).toContain('github-mcp-server.exe');
+  expect(call).not.toHaveBeenCalledWith('extensions/save', expect.anything());
+});
 it('电脑控制由主进程解析随应用提供的组件，读取失败保留原配置', async () => {
   const call = vi.fn(async (endpoint: string): Promise<any> => {
     if (endpoint === 'extensions/read') return { mcpServers: {} };

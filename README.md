@@ -92,4 +92,8 @@ npm run package:win
 
 上游仍处于预览阶段。升级须先通过接口契约和真实引擎回归，再调整锁定版本。
 
+快捷键：Ctrl+N 新建任务，Ctrl+Shift+I 打开「自我迭代」页。快捷键解析集中在 `src/renderer/features/shortcuts.ts`，不依赖 Electron。
+
 自我迭代的模块、前提与验收状态见 [自我迭代](docs/SELF_ITERATION.zh-CN.md)。
+
+GitHub 官方 MCP 的添加、账号授权和验收边界见 [Git 与 GitHub](docs/GITHUB.zh-CN.md)。

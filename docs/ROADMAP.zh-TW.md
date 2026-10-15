@@ -8,10 +8,11 @@
 | --- | --- | --- |
 | MCP | 顯示設定、實際註冊工具及呼叫結果，獨立核對真實呼叫 | 真實 Kimi K3 搜尋、瀏覽器與電腦控制呼叫通過 |
 | Skills | 顯示專案實際發現的技能，模型載入並依指示完成工作 | 真實模型載入 skill 並用隨機標記完成表單，通過 |
+| Git / GitHub | 復用系統 Git 與官方 GitHub MCP，驗證本機版本控制、帳號連接與遠端操作 | 官方元件下載、校驗與註冊，以及真實模型提交並推送至本機 bare 儲存庫通過；GitHub 帳號授權與遠端寫入待驗收，見 [GitHub](GITHUB.zh-TW.md) |
 | 搜尋 | 成熟 MCP 查詢公開搜尋引擎、讀取頁面並附上可核對來源 | 真實模型搜尋並讀取 Electron 官方文件，通過 |
 | 瀏覽器 | Playwright MCP 執行導覽、表單操作與結果驗證 | 真實模型導覽、填寫與提交；独立 HTTP 服務核對結果，通過 |
 | 電腦控制 | 優先沿用使用者指定的 qwen_computer MCP，觀察並操作受控桌面視窗，核對實際結果 | 原生元件、受控模型及真實 Kimi K3 視窗輸入／點擊通過；發佈包與複雜任務待驗收 |
-| 自我迭代 | 真實模型修改原始碼副本，獨立測試與建置通過後自動切換版本、重新啟動並驗證；失敗保留舊版與診斷 | 完整受控自我迭代、原生視窗驗證及最終產物回退通過；真實模型待驗收 |
+| 自我迭代 | 真實模型修改原始碼副本，獨立測試與建置通過後自動切換版本、重新啟動並驗證；失敗保留舊版與診斷 | 真實 Kimi K3 實作、82 項測試、封裝、自動重啟至 0.1.6 及獨立原生視窗複驗通過；安裝版與跨日穩定性待驗收 |
 
 擴充與技能沿用 Harness 註冊表、`skills/list` 及 MCP 客戶端；不重寫傳輸或技能解析器。固定版本評估 [Playwright MCP](https://github.com/microsoft/playwright-mcp)（Apache-2.0）、[Windows-MCP](https://github.com/CursorTouch/Windows-MCP)（MIT）、[DuckDuckGo MCP](https://github.com/nickclyde/duckduckgo-mcp-server)（MIT），顯示依賴和真實可用狀態。
 

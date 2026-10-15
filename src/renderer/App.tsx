@@ -2,6 +2,7 @@ import { PRODUCT_NAME } from '../shared/branding';
 import { useEffect, useState } from 'react';
 import { ArrowUpRight, BookOpen, ChevronRight, Code2, Cpu, FileDiff, Folder, FolderOpen, LayoutDashboard, ListTodo, LoaderCircle, Minus, Plus, Puzzle, Search, ShieldCheck, Square, X, RefreshCw } from 'lucide-react';
 import { useWorkspace } from './features/use-workspace';
+import { useAppShortcuts } from './features/shortcuts';
 import { Models } from './features/Models';
 import { taskTitle } from './features/session-model';
 import { Composer } from './components/Composer';
@@ -49,10 +50,10 @@ export function App() {
       setMode(value);
     } catch (e) { data.setError((e as Error).message); }
   };
-  useEffect(() => {
-    const keydown = (event: KeyboardEvent) => { if (event.ctrlKey && event.key === 'n') { event.preventDefault(); data.setSessionId(''); setPage('workbench'); } };
-    window.addEventListener('keydown', keydown); return () => window.removeEventListener('keydown', keydown);
-  }, [data.setSessionId]);
+  useAppShortcuts({
+    'new-task': () => { data.setSessionId(''); setPage('workbench'); },
+    'self-iteration': () => setPage('iteration'),
+  });
   const tasks = data.tasks.filter(task => !task.blank && (!data.workspace || task.cwd === data.workspace.path || data.workspace.sessionIds.includes(task.sessionId)));
 
   const selectTask = (id: string) => { data.setSessionId(id); setPage('workbench'); };
@@ -63,7 +64,7 @@ export function App() {
       <div className="brand"><img src="./icon.png" alt={`${PRODUCT_NAME} 图标`} /><span>Kuade<span className="brand-dot">.</span><small className="brand-subtitle">HARNESS</small></span></div>
       <button className="new-task" onClick={() => { data.setSessionId(''); setPage('workbench'); setPrompt(''); }}><Plus size={17} />新任务<kbd>Ctrl N</kbd></button>
       <div className="nav-caption">工作空间</div>
-      <nav>{([{ id: 'workbench', icon: LayoutDashboard, label: '工作台' }, { id: 'tasks', icon: ListTodo, label: '任务记录' }, { id: 'changes', icon: FileDiff, label: '代码变更' }, { id: 'tools', icon: Puzzle, label: '工具与技能' }, { id: 'iteration', icon: RefreshCw, label: '自我迭代' }] as const).map(item => <button key={item.id} className={`nav-item ${page === item.id ? 'active' : ''}`} onClick={() => setPage(item.id)}><item.icon size={18} />{item.label}{item.id === 'tasks' && tasks.length > 0 && <span className="nav-count">{tasks.length}</span>}</button>)}</nav>
+      <nav>{([{ id: 'workbench', icon: LayoutDashboard, label: '工作台' }, { id: 'tasks', icon: ListTodo, label: '任务记录' }, { id: 'changes', icon: FileDiff, label: '代码变更' }, { id: 'tools', icon: Puzzle, label: '工具与技能' }, { id: 'iteration', icon: RefreshCw, label: '自我迭代' }] as const).map(item => <button key={item.id} className={`nav-item ${page === item.id ? 'active' : ''}`} onClick={() => setPage(item.id)}><item.icon size={18} />{item.label}{item.id === 'tasks' && tasks.length > 0 && <span className="nav-count">{tasks.length}</span>}{item.id === 'iteration' && <kbd>Ctrl Shift I</kbd>}</button>)}</nav>
       <div className="project-section"><div className="nav-caption">当前项目<button aria-label="打开项目" title="打开项目" onClick={() => void data.openProject()} disabled={!ready}><Plus size={15} /></button></div>
         {data.workspaces.length ? <label className="project-picker"><Folder size={17} /><select aria-label="当前项目" value={data.workspaceId} onChange={event => { data.setWorkspaceId(event.target.value); data.setSessionId(''); }}>{data.workspaces.map(workspace => <option key={workspace.workspaceId} value={workspace.workspaceId}>{workspace.title}</option>)}</select></label> : <button className="empty-project" disabled={!ready} onClick={() => void data.openProject()}><FolderOpen size={17} />打开本地文件夹</button>}
         {tasks.slice(0, 6).map(task => <button className={`recent-task ${data.sessionId === task.sessionId ? 'selected' : ''}`} key={task.sessionId} data-session-id={task.sessionId} onClick={() => selectTask(task.sessionId)}><span className={`task-dot ${task.running ? 'running' : ''}`} /><span>{taskTitle(task)}</span></button>)}

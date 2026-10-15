@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "localRemote": true,
+  "githubWrites": false,
+  "initialHead": "31b478f5d1a5b6e759379dda047889dda9bc4677",
+  "model": "kuade-ca49e51b::kimi-k3",
+  "sessionId": "session-52eb7e9c-e12c-457b-b3dd-4a3f14de9c2a",
+  "localHead": "8b7be44a94c29ece117fb734f2fb94ac46f42b4e",
+  "remoteHead": "8b7be44a94c29ece117fb734f2fb94ac46f42b4e",
+  "clean": true,
+  "credentialsUnchanged": true,
+  "date": "2026-10-15"
+}

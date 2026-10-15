@@ -68,6 +68,8 @@ MCP configuration uses the upstream client. Active tasks block a configuration r
 
 Upstream built-in web search requires credentials for DeepSeek's search service; configuring another model provider does not enable that service. Connect a suitable search MCP for other providers. Accounts, fees and availability depend on the chosen service.
 
+Shortcuts: Ctrl+N starts a new task; Ctrl+Shift+I opens the Self-iteration page. Shortcut resolution lives in `src/renderer/features/shortcuts.ts` with no Electron dependency.
+
 Upstream is pinned to `@deepseek-ai/dsh@0.2.0-rc.2`. Sources: [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), [Electron](https://www.electronjs.org/docs/latest/tutorial/security), [Playwright MCP](https://github.com/microsoft/playwright-mcp).
 
 See [Self-iteration](SELF_ITERATION.en.md) for modules, prerequisites and acceptance status.

@@ -8,10 +8,11 @@
 | --- | --- | --- |
 | MCP | Show configuration, actually registered tools and call results; independently verify real calls | Real Kimi K3 search, browser and computer tool calls passed |
 | Skills | Show skills discovered for the project; a model loads and follows a skill | Real model loaded the skill and submitted its random marker; passed |
+| Git / GitHub | Reuse system Git and official GitHub MCP; verify local version control, account connection and remote operations | Official download, verification and registration passed; real-model commit and push to a local bare repository passed. GitHub authorization and remote writes remain pending; see [GitHub](GITHUB.en.md) |
 | Search | An existing MCP searches the public web, reads pages and returns verifiable sources | Real model searched and fetched official Electron documentation; passed |
 | Browser | Playwright MCP navigates, interacts with a form and verifies results | Real model navigation, form filling and submission independently verified by HTTP server; passed |
 | Computer control | Prefer the user-selected qwen_computer MCP; observe and operate a controlled desktop window and check actual results | Native, controlled-provider and real Kimi K3 window input/click passed; packaged and complex-task acceptance pending |
-| Self-iteration | A real model changes a source copy; independent tests and build pass; the app switches versions, restarts and passes a health check; failures preserve the prior version and diagnostics | Complete controlled-provider iteration, native-window verification and final-artifact rollback passed; real-model acceptance pending |
+| Self-iteration | A real model changes a source copy; independent tests and build pass; the app switches versions, restarts and passes a health check; failures preserve the prior version and diagnostics | Real Kimi K3 implementation, 82 tests, packaging, automatic restart into 0.1.6 and independent native-window follow-up passed; installed-app updates and multi-day stability remain pending |
 
 Reuse Harness registries, `skills/list` and its MCP client. Product diagnostics do not implement another transport or skill parser. Evaluate pinned [Playwright MCP](https://github.com/microsoft/playwright-mcp) (Apache-2.0), [Windows-MCP](https://github.com/CursorTouch/Windows-MCP) (MIT), and [DuckDuckGo MCP](https://github.com/nickclyde/duckduckgo-mcp-server) (MIT). Display prerequisites and measured availability rather than treating configuration as readiness.
 

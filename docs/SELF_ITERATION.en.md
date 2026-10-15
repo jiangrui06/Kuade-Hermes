@@ -2,7 +2,7 @@
 
 [简体中文](SELF_ITERATION.zh-CN.md) · [繁體中文](SELF_ITERATION.zh-TW.md)
 
-Select the Kuade source matching the running version, enter a concrete improvement, and start with the workbench's selected model and reasoning level. The host creates a separate source copy, increments the patch version, and submits a standard Harness task. Failed verification preserves source, session and logs for further work and retry.
+Select the Kuade source matching the running version, enter a concrete improvement, and start with the workbench's selected model and reasoning level. The host creates a separate source copy, increments the patch version, and submits a standard Harness task. Failed verification preserves source, session and logs for further work and retry. Ctrl+Shift+I opens the Self-iteration page from anywhere; the Ctrl+N new-task shortcut is unchanged.
 
 ## Modules
 
@@ -31,4 +31,6 @@ The process environment variable `KUADE_BUILD_ROOT` selects a build directory on
 
 [Acceptance record](acceptance/self-iteration-2026-10-14.json).
 
-A subsequent real Kimi K3 run implemented the shortcut, three component tests and trilingual documentation in an isolated candidate. Both independent host verification attempts passed typechecking and 73 tests. Both packaging attempts failed: icon conversion reported `EINVAL`, and the second also recorded a Node/V8 process memory error. This candidate was neither activated nor released and does not count as a passing real-model self-iteration loop. This repository retains the 0.1.5 source; candidate changes are not merged. Packaging and restart acceptance remain pending.
+Historical attempt: real Kimi K3 implemented the shortcut, three component tests and trilingual documentation. Both host attempts passed typechecking and 73 tests, but packaging reported `EINVAL` and a Node/V8 memory error. That candidate was not activated or merged and did not pass the full loop.
+
+2026-10-15 update: a new real Kimi K3 run implemented the shortcuts and passed all six host gates, including 82 tests and packaging. The app automatically switched and restarted into 0.1.6. The initial acceptance script read the UI too early; its failed receipt is retained. Independent qwen_computer follow-up observations verified both Ctrl+Shift+I and Ctrl+N. Original source, credentials and system environment stayed unchanged during the update; the accepted feature was then integrated into this repository. See [real self-iteration evidence](acceptance/real-self-iteration-2026-10-15.json). Installed-app updates, macOS and multi-day stability remain unverified.

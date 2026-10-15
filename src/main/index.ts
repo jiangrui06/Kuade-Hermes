@@ -10,6 +10,7 @@ import { DefaultWorkspace } from './default-workspace';
 import { ModelCatalogService } from '../runtime/model-catalog';
 import { CapabilitiesService } from '../runtime/capabilities-service';
 import { computerExtension } from './computer-extension';
+import { GitHubExtension, githubInstaller } from './github-extension';
 import { IterationService } from '../iteration/service';
 import { bootHealth } from './boot-health';
 import { activeVersion } from './active-version';
@@ -67,6 +68,7 @@ else app.whenReady().then(async () => {
   const defaultWorkspace = new DefaultWorkspace(join(isolatedProfile ? app.getPath('userData') : join(app.getPath('documents'), 'Kuade'), '默认工作区'), (endpoint, args) => runtime.call(endpoint, args));
   const models = new ModelCatalogService((endpoint, args) => runtime.call(endpoint, args));
   const extensions = new ExtensionsStore(join(app.getPath('userData'), 'harness'));
+  const github = new GitHubExtension(join(app.getPath('userData'), 'tools'), process.platform, process.arch, githubInstaller((url, init) => net.fetch(url, init)));
   const capabilities = new CapabilitiesService((endpoint, args) => runtime.call(endpoint, args), () => extensions.read());
   iterations = new IterationService({
     userData: app.getPath('userData'), buildRoot: process.env.KUADE_BUILD_ROOT ? resolve(process.env.KUADE_BUILD_ROOT) : join(process.env.LOCALAPPDATA ?? app.getPath('temp'), 'Kuade-iterations'),
@@ -96,6 +98,7 @@ else app.whenReady().then(async () => {
     if (endpoint === 'models/prepare') return models.prepare(z.string().min(1).parse(args.provider), z.string().min(1).parse(args.model));
     if (endpoint === 'extensions/read') return extensions.read();
     if (endpoint === 'extensions/computer') return computerExtension(app.isPackaged ? process.resourcesPath : join(app.getAppPath(), 'resources'), process.platform, process.arch);
+    if (endpoint === 'extensions/github') return github.configure();
     if (endpoint === 'extensions/status') return capabilities.status();
     if (endpoint === 'extensions/skills') return capabilities.skills(z.string().min(1).parse(args.workspaceId), z.string().min(1).optional().parse(args.sessionId));
     if (endpoint === 'extensions/save') {

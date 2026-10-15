@@ -1,0 +1,138 @@
+{
+  "status": "passed",
+  "date": "2026-10-15",
+  "scope": "Windows x64 portable self-update with independent post-restart follow-up",
+  "realProvider": true,
+  "model": "kuade-ca49e51b::kimi-k3",
+  "sessionId": "session-a28eb04b-5f93-4da2-99af-21c81b9e7bea",
+  "iterationId": "82df1a6b-83b7-460a-b514-59a9c972c8c8",
+  "version": "0.1.6",
+  "oldPid": 12040,
+  "newPid": 14704,
+  "verification": [
+    {
+      "name": "dependencies",
+      "startedAt": 1792031339492,
+      "finishedAt": 1792031363036,
+      "exitCode": 0,
+      "log": "D:\\Kuade-acceptance\\iterations\\82df1a6b-83b7-460a-b514-59a9c972c8c8\\evidence\\01-dependencies.log"
+    },
+    {
+      "name": "typecheck",
+      "startedAt": 1792031363110,
+      "finishedAt": 1792031373647,
+      "exitCode": 0,
+      "log": "D:\\Kuade-acceptance\\iterations\\82df1a6b-83b7-460a-b514-59a9c972c8c8\\evidence\\02-typecheck.log"
+    },
+    {
+      "name": "baseline-tests",
+      "startedAt": 1792031373651,
+      "finishedAt": 1792031398866,
+      "exitCode": 0,
+      "log": "D:\\Kuade-acceptance\\iterations\\82df1a6b-83b7-460a-b514-59a9c972c8c8\\evidence\\03-baseline-tests.log"
+    },
+    {
+      "name": "desktop-build",
+      "startedAt": 1792031399219,
+      "finishedAt": 1792031407640,
+      "exitCode": 0,
+      "log": "D:\\Kuade-acceptance\\iterations\\82df1a6b-83b7-460a-b514-59a9c972c8c8\\evidence\\04-desktop-build.log"
+    },
+    {
+      "name": "electron-runtime",
+      "startedAt": 1792031407643,
+      "finishedAt": 1792031410650,
+      "exitCode": 0,
+      "log": "D:\\Kuade-acceptance\\iterations\\82df1a6b-83b7-460a-b514-59a9c972c8c8\\evidence\\05-electron-runtime.log"
+    },
+    {
+      "name": "package",
+      "startedAt": 1792031410654,
+      "finishedAt": 1792031714421,
+      "exitCode": 0,
+      "log": "D:\\Kuade-acceptance\\iterations\\82df1a6b-83b7-460a-b514-59a9c972c8c8\\evidence\\06-package.log"
+    }
+  ],
+  "testsPassed": 82,
+  "artifact": {
+    "executable": "D:\\Kuade-acceptance\\iterations\\82df1a6b-83b7-460a-b514-59a9c972c8c8\\source\\release\\win-unpacked\\Kuade.exe",
+    "version": "0.1.6",
+    "sha256": "471b2abb53e5098c2d8c7ea770344c46aec9a02b4ca6ed65952baeded11d150f",
+    "resourcesSha256": "126a3d1d2d7c9b7661434bcad16ebfb9763a628e6f3c9eaf454c3676d693e39a",
+    "changes": [
+      {
+        "path": "README.md",
+        "change": "modified"
+      },
+      {
+        "path": "docs/README.en.md",
+        "change": "modified"
+      },
+      {
+        "path": "docs/README.zh-TW.md",
+        "change": "modified"
+      },
+      {
+        "path": "docs/SELF_ITERATION.en.md",
+        "change": "modified"
+      },
+      {
+        "path": "docs/SELF_ITERATION.zh-CN.md",
+        "change": "modified"
+      },
+      {
+        "path": "docs/SELF_ITERATION.zh-TW.md",
+        "change": "modified"
+      },
+      {
+        "path": "package-lock.json",
+        "change": "modified"
+      },
+      {
+        "path": "package.json",
+        "change": "modified"
+      },
+      {
+        "path": "src/renderer/App.tsx",
+        "change": "modified"
+      },
+      {
+        "path": "src/renderer/features/shortcuts.ts",
+        "change": "added"
+      },
+      {
+        "path": "src/renderer/styles.css",
+        "change": "modified"
+      },
+      {
+        "path": "tests/shortcuts.test.tsx",
+        "change": "added"
+      }
+    ]
+  },
+  "sourceUnchangedDuringUpdate": true,
+  "credentialsUnchanged": true,
+  "userEnvironmentUnchanged": true,
+  "machineEnvironmentUnchanged": true,
+  "nativeChecks": [
+    {
+      "key": "ctrl+shift+i",
+      "observations": 1,
+      "passed": true
+    },
+    {
+      "key": "ctrl+n",
+      "observations": 1,
+      "passed": true
+    }
+  ],
+  "initialScriptResult": {
+    "status": "not-passed",
+    "error": {
+      "stage": "independent-verification",
+      "message": "The expression evaluated to a falsy value:\n\n  assert.ok(state.includes('自迭代需求') && state.includes('让 Kuade'))\n"
+    }
+  },
+  "followup": "qwen_computer observed both keyboard results after UI updates; original failed receipt retained",
+  "initialReceiptSha256": "fc69b8e13f1973d288018f84b35e9d308490b392da42d7f39938b2c099b69c31"
+}

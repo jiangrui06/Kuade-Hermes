@@ -66,4 +66,6 @@ npm run package:win
 
 上游鎖定 `@deepseek-ai/dsh@0.2.0-rc.2`。來源：[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)、[Electron](https://www.electronjs.org/docs/latest/tutorial/security)、[Playwright MCP](https://github.com/microsoft/playwright-mcp)。
 
+快捷鍵：Ctrl+N 新建工作，Ctrl+Shift+I 開啟「自我迭代」頁。快捷鍵解析集中在 `src/renderer/features/shortcuts.ts`，不依賴 Electron。
+
 自我迭代模組、前提與驗收狀態見 [自我迭代](SELF_ITERATION.zh-TW.md)。

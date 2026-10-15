@@ -16,4 +16,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 Dependency packages retain their own LICENSE and NOTICE files in the distributed runtime. Electron retains its Chromium notices. The supplied Kuade icon was provided by the project owner and is not an upstream brand asset.
 
+GitHub MCP / GitHub 扩展 / GitHub 擴充: downloaded on demand from the official https://github.com/github/github-mcp-server v2.0.2 release. MIT License, Copyright (c) 2025 GitHub. The full MIT permission and warranty terms above apply with this copyright notice. Its archive retains LICENSE and README.md beside the executable. Kuade is not an official GitHub product.
+
 Computer Use / 电脑控制 / 電腦控制: the independent qwen_computer MCP is reused from the project owner's CodeBuddy component, version 0.2.3-local.15, based on https://github.com/iFurySt/open-codex-computer-use at 24b7cae4d449a5a8ea58c583e5151096b26de03c. Source and its MIT license are retained in vendor/qwen-computer-use; the distributed component includes its LICENSE and build provenance. Copyright (c) 2026 Leo. The full MIT permission and warranty terms above also apply to this component with this copyright notice. macOS source availability does not imply Kuade macOS acceptance.

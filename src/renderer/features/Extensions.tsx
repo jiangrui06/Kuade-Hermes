@@ -14,10 +14,11 @@ export function Extensions({ ready, workspaceId, sessionId, onUseSkill }: { read
     try {
       const parsed = JSON.parse(config);
       if (parsed.mcpServers?.[name]) { setMessage('已有同名配置，已保留你的设置。'); return; }
-      const value = name === 'qwen_computer' ? await window.kuade.call('extensions/computer') : EXTENSION_PRESETS[name].config;
+      if (name === 'github') setMessage('正在准备 GitHub 官方组件，首次下载可能需要几分钟。');
+      const value = name === 'qwen_computer' ? await window.kuade.call('extensions/computer') : name === 'github' ? await window.kuade.call('extensions/github') : EXTENSION_PRESETS[name].config;
       parsed.mcpServers = { ...parsed.mcpServers, [name]: { ...value, disabled: false } };
       setConfig(JSON.stringify(parsed, null, 2));
-      setMessage(`${EXTENSION_PRESETS[name].title}配置已填入，保存后启动。${name === 'qwen_computer' ? '组件随应用提供，操作使用当前桌面。' : '首次使用会下载依赖，请稍候查看扩展运行状态。'}`);
+      setMessage(`${EXTENSION_PRESETS[name].title}配置已填入，保存后启动。${name === 'qwen_computer' ? '组件随应用提供，操作使用当前桌面。' : name === 'github' ? '首次调用时请在浏览器完成 GitHub 授权；工具已注册不代表已登录。' : '首次使用会下载依赖，请稍候查看扩展运行状态。'}`);
     } catch (error) { setMessage(error instanceof SyntaxError ? '请先修正 JSON 配置' : (error as Error).message); }
     finally { setBusy(false); }
   };
