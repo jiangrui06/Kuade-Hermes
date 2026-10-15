@@ -26,7 +26,7 @@
     "realMcp": true,
     "githubWrites": false,
     "expectedCommit": "002b715ec659ffa49b83df063679b4c1930cb0c4",
-    "model": "kuade-ca49e51b:kimi-k3",
+    "model": "kuade-ca49e51b::kimi-k3",
     "error": "README tool result missing"
   },
   "followup": "Verified complete UTF-8 README Git blob through the official MCP resource-read result; original failed receipt retained."
