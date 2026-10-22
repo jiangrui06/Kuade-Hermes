@@ -1,0 +1,199 @@
+{
+  "date": "2026-10-15",
+  "status": "passed",
+  "scope": "Real-provider self-iteration including independent packaged startup and native shortcut verification",
+  "receipt": {
+    "status": "passed",
+    "realProvider": true,
+    "source": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes",
+    "phases": [
+      {
+        "phase": "preparing",
+        "at": 1792038470030
+      },
+      {
+        "phase": "coding",
+        "at": 1792038474039
+      },
+      {
+        "phase": "testing",
+        "at": 1792038669165
+      },
+      {
+        "phase": "building",
+        "at": 1792038747520
+      },
+      {
+        "phase": "restarting",
+        "at": 1792039119144
+      }
+    ],
+    "oldPid": 40252,
+    "model": "kuade-ca49e51b::kimi-k3",
+    "requirement": "增加 Ctrl+Shift+M 打开“模型连接”页面的快捷键，并在该导航按钮显示快捷键提示；保留 Ctrl+N 新建任务和 Ctrl+Shift+I 自我迭代行为，普通 M、Ctrl+M 和 Alt 组合不应触发。保持现有 shortcuts 模块与调用方兼容，新增动作应允许现有调用方省略（原始测试也必须继续通过）。保持模块独立，不新增依赖。为新增快捷键及未提供回调的边界补充有意义的组件测试，并在简体、繁体和英文文档说明。先阅读现有代码，再自行实现；真实运行相关测试。只操作当前候选源码，不修改验收脚本、版本字段、基线或用户配置，不要自己启动安装器或重启应用。完成后由宿主独立测试、构建和自动更新。",
+    "featureAbsentBefore": true,
+    "result": {
+      "id": "aa04c433-5064-4a5f-9b35-a4a0e7e39a7c",
+      "status": "completed",
+      "at": 1792039132353,
+      "pid": 29800,
+      "version": "0.1.8"
+    },
+    "verification": [
+      {
+        "name": "dependencies",
+        "startedAt": 1792038667204,
+        "finishedAt": 1792038704919,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence\\01-dependencies.log"
+      },
+      {
+        "name": "typecheck",
+        "startedAt": 1792038705007,
+        "finishedAt": 1792038715185,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence\\02-typecheck.log"
+      },
+      {
+        "name": "baseline-tests",
+        "startedAt": 1792038715195,
+        "finishedAt": 1792038747371,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence\\03-baseline-tests.log"
+      },
+      {
+        "name": "desktop-build",
+        "startedAt": 1792038747399,
+        "finishedAt": 1792038758721,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence\\04-desktop-build.log"
+      },
+      {
+        "name": "electron-runtime",
+        "startedAt": 1792038758725,
+        "finishedAt": 1792038761940,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence\\05-electron-runtime.log"
+      },
+      {
+        "name": "package",
+        "startedAt": 1792038761945,
+        "finishedAt": 1792039089806,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence\\06-package.log"
+      },
+      {
+        "name": "packaged-startup",
+        "startedAt": 1792039089816,
+        "finishedAt": 1792039105761,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence\\07-packaged-startup.log"
+      }
+    ],
+    "sourceUnchanged": true,
+    "credentialsUnchanged": true,
+    "artifact": {
+      "executable": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\application\\win-unpacked\\Kuade.exe",
+      "version": "0.1.8",
+      "sha256": "4add5ca93512ce5df390c706170af1917ee09019b8c17aed99db0cbde0bb1f51",
+      "resourcesSha256": "ffb7af13132c03d7f7887f552dd98ce912dca6c5966725fa4c6537311b08109f",
+      "changes": [
+        {
+          "path": "README.md",
+          "change": "modified"
+        },
+        {
+          "path": "docs/README.en.md",
+          "change": "modified"
+        },
+        {
+          "path": "docs/README.zh-TW.md",
+          "change": "modified"
+        },
+        {
+          "path": "package-lock.json",
+          "change": "modified"
+        },
+        {
+          "path": "package.json",
+          "change": "modified"
+        },
+        {
+          "path": "src/renderer/App.tsx",
+          "change": "modified"
+        },
+        {
+          "path": "src/renderer/features/shortcuts.ts",
+          "change": "modified"
+        },
+        {
+          "path": "tests/shortcuts.test.tsx",
+          "change": "modified"
+        }
+      ]
+    },
+    "newShortcutVerified": true,
+    "existingShortcutVerified": true,
+    "temporaryCredentialsRemoved": true,
+    "candidate": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\source",
+    "evidence": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence"
+  },
+  "trace": {
+    "sessionId": "session-deb09e35-f6a5-4b75-888b-602207d2994a",
+    "sessionSha256": "4041fd42ab82da349a0a5b484cb1653c3d456a4cda5c5cdcfb688c17c2857b5b",
+    "recordCount": 141,
+    "toolCalls": 30,
+    "toolResults": 30,
+    "tools": {
+      "pwsh": 8,
+      "grep": 4,
+      "read": 6,
+      "write": 1,
+      "edit": 11
+    },
+    "endReason": {
+      "kind": "completed"
+    },
+    "argumentsAndMessageContentsOmitted": true
+  },
+  "startup": {
+    "status": "passed",
+    "executable": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\application\\win-unpacked\\Kuade.exe",
+    "expectedVersion": "0.1.8",
+    "credentialsCopied": false,
+    "profile": "D:\\Kuade-acceptance\\iterations-real-startup-gate\\aa04c433-5064-4a5f-9b35-a4a0e7e39a7c\\evidence\\startup-profile-3qonIO",
+    "application": {
+      "version": "0.1.8",
+      "packaged": true
+    },
+    "pid": 9572,
+    "closed": true
+  },
+  "baselineTests": 101,
+  "sourceIntegration": "Eight reviewed candidate files copied after original snapshot hash checks; subsequent navigation layout/accessibility fix validated separately",
+  "limitations": [
+    "This candidate is not a published 0.1.8 installer",
+    "Short single-iteration verification does not establish hours-long or multi-day operation"
+  ],
+  "evidenceRoot": "D:\\Kuade-acceptance\\real-iteration-1960d710-1042-4994-b18d-b5222a9f656f",
+  "integratedSourceValidation": {
+    "version": "0.1.8",
+    "typecheck": "passed",
+    "applicationTests": 95,
+    "githubEvidenceTests": 7,
+    "build": "passed",
+    "desktopTests": 5,
+    "desktopExitCode": 0,
+    "desktopCommand": "npx playwright test tests/e2e/default-models.spec.ts tests/e2e/desktop.spec.ts tests/e2e/edit-menu.spec.ts tests/e2e/goals.spec.ts tests/e2e/task-progress.spec.ts",
+    "desktopEvidence": [
+      ".cache/default-models-ecbfd624-25f9-4910-82cb-29e220021e20",
+      ".cache/e2e-7893ccd8-f158-4169-9925-061118ecf1c9",
+      ".cache/goals-077e3afc-fae5-4a09-9c59-44aca324f6cc",
+      ".cache/task-progress-1d5478e1-4121-4c15-be25-7de9580b2631"
+    ],
+    "navigationFix": "Removed redundant arrow; stable accessible name and aria-keyshortcuts; confirmed single-line hint in real Electron",
+    "appSourceSha256": "5ae4a0f0cbb3f076d9459ee665e20a8177237754acc335b17130657734a0ebb3",
+    "shortcutSourceSha256": "05f9c4f8e2931a67b8eb6343654e1466721415013b644611ac14df03aa7613db",
+    "delivery": "Source validated; final installer not generated in this run"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "status": "not-passed",
+  "date": "2026-10-16",
+  "version": "0.1.11",
+  "requestedDurationMs": 86400000,
+  "scope": "Real-model module development followed by paced independently validated long shell work and same-goal restart recovery; not continuous code generation",
+  "executable": "D:\\K011z-1015\\Kuade.exe",
+  "executableSha256": "1aedc98ead0e688e7f609f34ffd32e617fcff6a750c66f79437d7db252e672c9",
+  "runnerSha256": "9b4d2db19543ba6b52f589e34187de4e38c345c97231360cb918ba26178cb2cc",
+  "runnerSnapshot": "D:\\Kuade-acceptance\\host-7ab602ef-c3db-46d9-95ff-3d2e6245514a\\runner-source.mjs",
+  "hostDirectory": "D:\\Kuade-acceptance\\host-7ab602ef-c3db-46d9-95ff-3d2e6245514a",
+  "evidenceRoot": "D:\\Kuade-acceptance\\host-7ab602ef-c3db-46d9-95ff-3d2e6245514a\\real-goal-5ccd6dc2-45c4-4778-95c2-55624d3a9fb7",
+  "coordinatorPid": 2952,
+  "sessionId": "session-39f14e0e-8321-43fc-a07d-d85b6ad35a50",
+  "workloadPid": 41560,
+  "workloadStartedAt": 1792117971212,
+  "expectedWorkloadEnd": "not reached; original run terminated",
+  "lastObserved": {
+    "status": "running",
+    "startedAt": 1792117971212,
+    "pid": 41560,
+    "requestedDurationMs": 86400000,
+    "intervalMs": 60000,
+    "checks": 405,
+    "batches": 2025,
+    "checkedRows": 520425,
+    "elapsedMs": 24244329.7058,
+    "lastCheckedAt": 1792142215543,
+    "maxGapMs": 60180.91550000012
+  },
+  "initialHostTask": "Kuade-Acceptance-7ab602ef-c3db-46d9-95ff-3d2e6245514a",
+  "hostWarning": {
+    "outerHostPid": 5228,
+    "outerHostAbsent": true,
+    "schedulerLastTaskResult": 3221225786,
+    "cause": "unverified",
+    "coordinatorAndWorkloadRemainAlive": true,
+    "runRestarted": false
+  },
+  "exitObserverTask": "Kuade-Acceptance-Gui-b7337cb5-eee1-47d9-b2c6-4e4bcfbbfe78",
+  "exitObserver": {
+    "status": "exited",
+    "processId": 2952,
+    "observerPid": 38244,
+    "consoleWindow": false,
+    "executable": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+    "processStartedAt": "2026-10-16T02:32:03.916006+00:00",
+    "processCreationTicks": "134365915239160068",
+    "attachedAt": "2026-10-16T04:32:27.723542+00:00",
+    "exitCode": 1,
+    "finishedAt": "2026-10-16T09:17:08.863168+00:00"
+  },
+  "preflightReceipt": "real-goal-system-host-preflight-2026-10-16.json",
+  "priorUnsuccessfulRuns": [
+    "real-goal-24-hour-2026-10-15.json",
+    "real-goal-24-hour-0.1.9-2026-10-15.json"
+  ],
+  "limitations": [
+    "Running is not passed; complete duration, independent final results and restart recovery are required",
+    "Original outer PowerShell host ended; actual coordinator and workload remain live and a native identity-checked observer captures the coordinator exit code",
+    "No installer/uninstaller acceptance may run concurrently"
+  ],
+  "completionRequirements": [
+    "Actual workload elapsedMs >= 86400000 with independent checks and bounded heartbeat gaps",
+    "Raw acceptance.json status passed with same-goal restart recovery and independently verified CLI output",
+    "Exit observation status exited, matching coordinator identity, with observed process exitCode 0; observer task exit alone is insufficient",
+    "Temporary copied credentials removed and original credentials unchanged"
+  ],
+  "previousExitObserver": {
+    "attachedAt": "2026-10-16T10:38:56.369858+08:00",
+    "processStartedAt": "2026-10-16T02:32:03.9160068Z",
+    "observerPid": 20312,
+    "executable": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+    "status": "running",
+    "processId": 2952
+  },
+  "previousExitObserverWarning": {
+    "observerPid": 20312,
+    "processAbsent": true,
+    "schedulerLastTaskResult": 3221225786,
+    "cause": "unverified",
+    "discoveredAt": "2026-10-16T12:28:54+08:00"
+  },
+  "exitObserverFile": "D:\\Kuade-acceptance\\host-7ab602ef-c3db-46d9-95ff-3d2e6245514a\\exit-observation-gui.json",
+  "exitObserverKind": "console-free pythonw with native Windows process handle",
+  "temporaryTasksToRemoveAfterCompletion": [
+    "Kuade-Acceptance-7ab602ef-c3db-46d9-95ff-3d2e6245514a",
+    "Kuade-Acceptance-Gui-b7337cb5-eee1-47d9-b2c6-4e4bcfbbfe78"
+  ],
+  "sessionObservation": {
+    "observedAt": "2026-10-16T06:25:02.281Z",
+    "goalPhase": "active",
+    "startedTurns": 8,
+    "endedTurns": 7,
+    "observedJobIds": [
+      "pwsh-5"
+    ],
+    "latestWait": {
+      "seq": 310,
+      "job_id": "pwsh-5",
+      "wait": true,
+      "timeout_ms": 3597000
+    },
+    "processes": [
+      {
+        "ProcessId": 2952,
+        "ExecutablePath": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+        "CreationDate": "2026-10-16T02:32:03.916Z",
+        "WorkingSetSize": 20770816
+      },
+      {
+        "ProcessId": 41560,
+        "ExecutablePath": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+        "CreationDate": "2026-10-16T02:32:51.151Z",
+        "WorkingSetSize": 6725632
+      },
+      {
+        "ProcessId": 38244,
+        "ExecutablePath": "C:\\Users\\jiangrui\\AppData\\Local\\Programs\\Python\\Python312\\pythonw.exe",
+        "CreationDate": "2026-10-16T04:32:27.636Z",
+        "WorkingSetSize": 2031616
+      }
+    ],
+    "logSnapshotSha256": "7781324ee088cc1434f58a52c695e180d986fffff6334908f0f785c4f0680e5f",
+    "scope": "Intermediate observation; not final duration or recovery acceptance"
+  },
+  "liveProcessObservation": {
+    "observedAt": "2026-10-16T17:13:46.3688198+08:00",
+    "processes": [
+      {
+        "ProcessId": 2952,
+        "ExecutablePath": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+        "CreationDate": "2026-10-16T10:32:03.916006+08:00"
+      },
+      {
+        "ProcessId": 41560,
+        "ExecutablePath": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+        "CreationDate": "2026-10-16T10:32:51.151321+08:00"
+      },
+      {
+        "ProcessId": 38244,
+        "ExecutablePath": "C:\\Users\\jiangrui\\AppData\\Local\\Programs\\Python\\Python312\\pythonw.exe",
+        "CreationDate": "2026-10-16T12:32:27.636018+08:00"
+      }
+    ]
+  },
+  "rawAcceptance": "D:\\Kuade-acceptance\\host-7ab602ef-c3db-46d9-95ff-3d2e6245514a\\real-goal-5ccd6dc2-45c4-4778-95c2-55624d3a9fb7\\acceptance.json",
+  "failure": {
+    "stage": "checkpoint",
+    "message": "page.evaluate: Error: Error invoking remote method 'kuade:call': TypeError: fetch failed"
+  },
+  "failureAnalysis": {
+    "confirmed": "A single session/list observation threw fetch failed; the runner entered cleanup, closed the application and ended the workload.",
+    "transportCause": "unverified; no pre-cleanup engine process or transport-cause snapshot was captured",
+    "targetExitCode": 1,
+    "temporaryCredentialsRemoved": true,
+    "restartRecoveryCompleted": false,
+    "durationAcceptanceCompleted": false
+  }
+}

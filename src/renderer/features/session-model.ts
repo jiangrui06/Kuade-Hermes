@@ -1,13 +1,16 @@
 export interface TimelineItem { id: number; role: 'user' | 'assistant' | 'tool' | 'error'; text: string; title?: string; time: number }
-export interface SessionView { events: any[]; projections: Record<string, any>; hasMore: boolean; cursor: number; live?: { id: string; text: string; revision: number; nextIndex: number } }
+export interface SessionView { events: any[]; projections: Record<string, any>; hasMore: boolean; cursor: number; planAnchor?: { throughSeq: number; beforeSeq: number }; live?: { id: string; text: string; revision: number; nextIndex: number } }
 export const emptyView: SessionView = { events: [], projections: {}, hasMore: false, cursor: -1 };
 
 /** Reconnect replaces the baseline; duplicate sequence ids never append twice. */
 export function reduceSession(state: SessionView, frame: any): SessionView {
   if (frame?.type === 'snapshot') {
     const attempt = frame.assistantStream?.activeAttempt;
+    const records = frame.records ?? [];
+    const planAnchor = frame.hasMore && records.length && !records.some((r: any) => r.event?.type === 'todo/write')
+      ? { throughSeq: frame.cursor, beforeSeq: records[0].event.seq } : undefined;
     return { events: (frame.records ?? []).map((r: any) => r.event).filter(Boolean), projections: frame.projections?.values ?? {}, hasMore: !!frame.hasMore, cursor: frame.cursor,
-      live: attempt ? { id: attempt.attemptId, text: (attempt.stream ?? []).filter((record: any) => record.type === 'text-chunks').flatMap((record: any) => record.texts).join(''), revision: frame.assistantStream.revision, nextIndex: attempt.nextIndex } : undefined };
+      planAnchor, live: attempt ? { id: attempt.attemptId, text: (attempt.stream ?? []).filter((record: any) => record.type === 'text-chunks').flatMap((record: any) => record.texts).join(''), revision: frame.assistantStream.revision, nextIndex: attempt.nextIndex } : undefined };
   }
   if (frame?.type === 'assistant-stream') {
     const update = frame.frame;

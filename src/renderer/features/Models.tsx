@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowUpRight, Check, Cpu, KeyRound, Plus, Server, LoaderCircle } from 'lucide-react';
 import { ModelPicker } from './ModelPicker';
 
-export function Models({ onSaved }: { onSaved(): Promise<void> }) {
+export function Models({ onSaved, onDone }: { onSaved(): Promise<void>; onDone?(): void }) {
   const [namespaces, setNamespaces] = useState<any[]>([]);
   const [providerId, setProviderId] = useState('');
   const [name, setName] = useState('');
@@ -26,9 +26,9 @@ export function Models({ onSaved }: { onSaved(): Promise<void> }) {
     const profile = providers[id];
     setProviderId(id); setName(profile.displayName ?? id); setBaseURL(profile.baseURL ?? '');
     setApi(profile.api ?? 'openai-completions'); setModel(profile.models?.map((item: any) => item.id).join('\n') ?? '');
-    setContext(profile.defaultContextWindow ?? 128000); setKey(''); setMessage('');
+    setContext(profile.defaultContextWindow ?? 128000); setKey(''); setSuccess(false); setMessage('');
   };
-  const clear = () => { setProviderId(''); setName(''); setBaseURL(''); setModel(''); setKey(''); setMessage(''); };
+  const clear = () => { setProviderId(''); setName(''); setBaseURL(''); setModel(''); setKey(''); setApi('openai-completions'); setContext(128000); setSuccess(false); setMessage(''); };
   const save = async (event: React.FormEvent) => {
     event.preventDefault(); setBusy(true); setMessage(''); setSuccess(false);
     try {
@@ -50,19 +50,19 @@ export function Models({ onSaved }: { onSaved(): Promise<void> }) {
     finally { setBusy(false); }
   };
   return <section className="settings-page">
-    <div className="page-eyebrow">YOUR MODELS, YOUR CHOICE</div><h1>连接你的智能。</h1><p className="page-description">使用自己的 API，或连接本机模型服务。由你选择每一次思考的引擎。</p>
+    <h1>模型连接</h1><p className="page-description">连接你使用的 AI 服务。填好地址和密钥，自动获取列表后选择模型。</p>
     <div className="settings-grid"><aside className="provider-list"><div className="section-heading">模型连接 <span>{Object.keys(providers).length}</span></div>
       {Object.entries(providers).map(([id, value]: [string, any]) => <button className={`provider-item ${providerId === id ? 'selected' : ''}`} key={id} onClick={() => select(id)}><Cpu size={18} /><span>{value.displayName ?? id}<small>{value.models?.length ?? '多'} 个模型</small></span><ArrowUpRight size={14} /></button>)}
       <button className="add-provider" onClick={clear}><Plus size={16} /> 添加模型连接</button>
       <div className="quiet-card"><Server size={20} /><strong>模型也可以在本机</strong><p>填写本地服务地址，自动获取模型列表后选择即可。</p></div>
-    </aside><form className="settings-card model-form" onSubmit={save}><div className="card-heading"><div><h2>{providerId ? '编辑模型连接' : '新建模型连接'}</h2><p>密钥仅通过本地引擎保存，不会回显。</p></div><KeyRound size={22} /></div>
-      <label>连接名称<input required placeholder="例如：我的 DeepSeek / 本地 Qwen" value={name} onChange={e => setName(e.target.value)} /></label>
-      <label>接口协议<select value={api} onChange={e => setApi(e.target.value)}><option value="openai-completions">OpenAI 兼容 · Chat Completions</option><option value="openai-responses">OpenAI · Responses</option><option value="anthropic-messages">Anthropic · Messages</option></select></label>
+    </aside><form className="settings-card model-form" onSubmit={save}><div className="card-heading"><div><h2>{providerId ? '编辑连接' : '添加连接'}</h2><p>① 填写连接信息　② 选择模型　③ 保存并开始对话</p></div><KeyRound size={22} /></div>
+      <div className="form-row"><label>连接名称<input required placeholder="例如：我的 DeepSeek / 本地 Qwen" value={name} onChange={e => setName(e.target.value)} /></label>
+      <label>接口协议<select value={api} onChange={e => setApi(e.target.value)}><option value="openai-completions">OpenAI 兼容 · Chat Completions</option><option value="openai-responses">OpenAI · Responses</option><option value="anthropic-messages">Anthropic · Messages</option></select></label></div>
       <label>API 地址<input required type="url" placeholder="https://api.example.com/v1" value={baseURL} onChange={e => setBaseURL(e.target.value)} /></label>
       <label>API 密钥 <span className="label-note">本机免密服务可留空；编辑时留空保留已有密钥</span><input type="password" autoComplete="new-password" placeholder={providerId ? '已存储的密钥保持不变' : '输入 API Key'} value={key} onChange={e => setKey(e.target.value)} /></label>
       <ModelPicker key={providerId || 'new'} discovery={{ settingsNs: ns?.ns, provider: sameDestination ? providerId : undefined, baseURL: normalizedURL, api, apiKey: key, hasStoredKey: sameDestination && !!existingProfile.apiKeyEnv }} value={model} onChange={setModel} />
       <details className="model-advanced"><summary>高级设置</summary><label>上下文容量<input type="number" min="4096" max="2000000" step="1" required value={context} onChange={e => setContext(Number(e.target.value))} /><span className="label-note">按模型实际支持的 tokens 填写</span></label></details>
-      {message && <div className={`form-message ${success ? 'success' : 'failure'}`} role="status">{success && <Check size={16} />}{message}</div>}
+      {message && <div className={`form-message ${success ? 'success' : 'failure'}`} role="status">{success && <Check size={16} />}{message}{success && onDone && <button type="button" className="primary-button" onClick={onDone}>开始对话</button>}</div>}
       <div className="form-footer"><span>配置会用于下一次请求</span><button className="primary-button" type="submit" disabled={busy}>{busy && <LoaderCircle className="spin" size={15} />}保存连接 <ArrowUpRight size={15} /></button></div>
     </form></div>
   </section>;

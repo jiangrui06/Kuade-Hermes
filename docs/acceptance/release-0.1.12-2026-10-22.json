@@ -1,0 +1,96 @@
+{
+  "status": "passed",
+  "date": "2026-10-22",
+  "version": "0.1.12",
+  "scope": "Windows ZIP delivery, independent startup, goal/task lifecycle and preserved real-provider history display",
+  "packageExitCode": 0,
+  "packageLog": "D:/Kuade-acceptance/package-0.1.12-retry-20261022.log",
+  "packageLogSha256": "fcb9693a6ddd51aadedcaf6f45f9803e89b0578b310ab692370a889013243769",
+  "priorFailure": "package-0.1.12-initial-2026-10-22.json",
+  "artifacts": [
+    {
+      "path": "E:\\Kuade-Hermes\\release\\Kuade Harness Setup 0.1.12.exe",
+      "bytes": 222523415,
+      "sha256": "09183cc8a3137fe55493f9b9eb400f108d18f1e78f388a1cd79b44667966fd61"
+    },
+    {
+      "path": "E:\\Kuade-Hermes\\release\\Kuade Harness-0.1.12-win.zip",
+      "bytes": 299748064,
+      "sha256": "2199b48b3dec60cbed47e199eace03bfe4238cab1201090d42d144fda5cd19d6"
+    },
+    {
+      "path": "E:\\Kuade-Hermes\\release\\Kuade Harness Setup 0.1.12.exe.blockmap",
+      "bytes": 228630,
+      "sha256": "f961871b4a846f4dbeb3da1d7f362be3d6cd196e6d4ee6ad236c621d2ef4005e"
+    }
+  ],
+  "executable": "D:/K012z-1022/Kuade.exe",
+  "executableSha256": "7856061ee3cbc89a8b7c7cd7914f0d789c865aac05ab031f9b4b59e8474717d2",
+  "appArchiveSha256": "8d80f51ac0cb3cfafbc601a65ff5bd9d507e23ee9f9ccf0fe34c2776e65d9b3a",
+  "nativeSha256": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335",
+  "zipIntegrity": {
+    "exitCode": 0,
+    "files": 21549,
+    "folders": 2497,
+    "extractionExitCode": 0,
+    "keyFilesMatchBuild": true
+  },
+  "startup": {
+    "status": "passed",
+    "executable": "D:\\K012z-1022\\Kuade.exe",
+    "expectedVersion": "0.1.12",
+    "credentialsCopied": false,
+    "profile": "D:\\Kuade-acceptance\\startup-0.1.12-20261022\\startup-profile-IAjnas",
+    "savedVersion": "0.1.10",
+    "application": {
+      "version": "0.1.12",
+      "packaged": true
+    },
+    "olderPointerPreserved": true,
+    "manualUpgradeStayedOnNewVersion": true,
+    "pid": 31740,
+    "closed": true,
+    "receiptPath": "D:/Kuade-acceptance/startup-0.1.12-20261022/packaged-startup.json",
+    "exitCode": 0
+  },
+  "automaticTests": {
+    "application": 117,
+    "acceptance": 22,
+    "typecheckExitCode": 0,
+    "buildExitCode": 0
+  },
+  "packagedDesktop": {
+    "tests": 4,
+    "exitCode": 0,
+    "runs": [
+      {
+        "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\goals-4b630841-b67e-4c45-b46d-9cde90235364",
+        "status": "passed",
+        "receiptSha256": "3e3f42da5753829ee5fcddc6053e7138790436fdaa0523b96f7546a6b3a9d269"
+      },
+      {
+        "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\history-ui-interrupted-8f6ddf89-635a-401c-9409-f3d411c9b325",
+        "status": "passed",
+        "receiptSha256": "190123311570ad95ce35b968ccee7e89b7d76ca3f28af17e7db18a3694f21f19"
+      },
+      {
+        "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\history-ui-completed-a63f1646-ace7-49fb-81ac-03d1e9f4130f",
+        "status": "passed",
+        "receiptSha256": "d78ec8fcdc05f71e31e72ed62f9cee8a6bffea3be041c374bdba1a964d3399ff"
+      }
+    ],
+    "taskProgressRoot": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\task-progress-e0123ec4-86b3-4f55-a84f-11c4052c8cd9"
+  },
+  "icon": {
+    "sourcePngSha256": "fae7fa963c3605899623064564622b825da973ff1add04ff0ca67e394fc28081",
+    "icoSha256": "1cc0dd18a3f275746d8855b30dada6db3a4240a3ce20bdd27feeddf66e904298",
+    "origin": "ICO from 0.1.11 build; source PNG verified byte-identical against that package"
+  },
+  "limitations": [
+    "Unsigned Windows artifacts.",
+    "NSIS installer built but not executed in this acceptance; ZIP is the freshly tested distribution.",
+    "Goal lifecycle tests use a controlled provider; historical views replay actual retained real-provider logs without new model calls.",
+    "Real-provider self-iteration and Git/GitHub evidence remain separately versioned; tool/search/browser/Windows capabilities were freshly rerun on 0.1.12."
+  ],
+  "realCapabilitiesReceipt": "real-capabilities-packaged-0.1.12-2026-10-22.json"
+}

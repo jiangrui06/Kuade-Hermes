@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "date": "2026-10-22",
+  "version": "0.1.11",
+  "scope": "Delayed same-session recovery after a completed 24-hour soak and a failed acceptance history read; original run remains not-passed",
+  "evidenceRoot": "D:/Kuade-acceptance/host-503caebc-339b-4e8d-b982-744eca62159a/real-goal-de674e22-83e3-494e-88fe-c1145d7275dc/post-soak-recovery-9f016c80-8555-488a-9f51-9475d9d5b1d1",
+  "sourceRun": "D:\\Kuade-acceptance\\host-503caebc-339b-4e8d-b982-744eca62159a\\real-goal-de674e22-83e3-494e-88fe-c1145d7275dc",
+  "originalRunReceipt": "real-goal-24-hour-0.1.11-observer-retry-2026-10-16.json",
+  "rawReceiptSha256": "eb13bbeaafa3bce7e38a6fcc80c2ecd15de53dc6212179069886e2a8d12ee44d",
+  "runnerSha256": "f8a5d6ba252785b4c69fe4c46a59db6424c55241bca5fbb39438996d1aff40e7",
+  "historyHelperSha256": "7eb70f259b7d612159446de0807fc9a11800f020511f042c84c0503925078d5e",
+  "observedRunnerExitCode": 0,
+  "sessionId": "session-9c2535dc-3009-4d9a-b59e-f8c8097364b6",
+  "goalId": "goal-2ca2a9a6-4fc7-4fa5-9404-7881f5bf5fd7",
+  "roundsBefore": 2,
+  "roundsAfter": 3,
+  "goalAfter": "complete",
+  "soak": {
+    "status": "passed",
+    "startedAt": 1792143212745,
+    "pid": 12324,
+    "requestedDurationMs": 86400000,
+    "intervalMs": 60000,
+    "checks": 1441,
+    "batches": 7205,
+    "checkedRows": 1851685,
+    "elapsedMs": 86400011.8361,
+    "lastCheckedAt": 1792229614054,
+    "maxGapMs": 61543.89969999343,
+    "completedAt": 1792229614056
+  },
+  "history": {
+    "throughSeq": 800,
+    "tailRecords": 501,
+    "fullRecords": 801,
+    "planSeq": 50
+  },
+  "persistedPrefixUnchanged": true,
+  "sameSession": true,
+  "independentOutput": {
+    "count": 117,
+    "totalCents": 791682,
+    "byCategory": {
+      "运维": 263757,
+      "设计": 265557,
+      "开发": 262368
+    }
+  },
+  "inputRows": 137,
+  "gateRequests": 1,
+  "originalFilesUnchanged": true,
+  "originalCredentialsUnchanged": true,
+  "temporaryCredentialsRemoved": true,
+  "automatedValidation": {
+    "application": 110,
+    "acceptance": 22,
+    "exitCode": 0
+  },
+  "screenshots": {
+    "restored": "0de6fe3fbbf262afbdd940562a991c37b9f499300017cc59ab28c6643f173971",
+    "completed": "dae0f90e9e4ff04d753a78d95996c5f6cd7ff48fc8bb67cc3cd6fa934d9113fc"
+  },
+  "limitations": [
+    "Delayed recovery is separately verified; original 24-hour full-run receipt remains not-passed.",
+    "Workload validates a day-long shell job and recovery, not continuous day-long code generation.",
+    "Completed goal and incomplete model-authored checklist produce ambiguous status labels in 0.1.11; follow-up UI correction pending."
+  ]
+}

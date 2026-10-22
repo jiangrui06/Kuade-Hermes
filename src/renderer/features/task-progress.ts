@@ -1,4 +1,5 @@
 import type { SessionView } from './session-model';
+import type { PersistedPlan, PlanReadState } from './persisted-plan';
 
 export interface PlanItem { content: string; status: 'pending' | 'in_progress' | 'completed' }
 export interface TaskProgress {
@@ -7,17 +8,25 @@ export interface TaskProgress {
   todos: PlanItem[];
   completed: number;
   canContinue: boolean;
+  planSource: 'current' | 'history';
+  planReadState: PlanReadState;
 }
 
 /** Only engine facts establish state; a model's closing sentence is not a success signal. */
-export function taskProgress({ running = false, ready = true, waiting = '', events = [], projections = {} }: {
+export function taskProgress({ running = false, ready = true, waiting = '', events = [], projections = {}, persistedPlan, planReadState = 'loaded' }: {
   running?: boolean; ready?: boolean; waiting?: string;
   events?: SessionView['events']; projections?: SessionView['projections'];
+  persistedPlan?: PersistedPlan; planReadState?: PlanReadState;
 }): TaskProgress {
-  const todos: PlanItem[] = Array.isArray(projections.todos) ? projections.todos.filter((item: any) =>
+  const currentPlan = Array.isArray(projections.todos);
+  const recentPlan = events.findLast(event => event.type === 'todo/write');
+  const savedPlan = recentPlan && (!persistedPlan || recentPlan.seq > persistedPlan.seq) ? recentPlan.data?.todos : persistedPlan?.todos;
+  const rawTodos = currentPlan ? projections.todos : savedPlan;
+  const todos: PlanItem[] = Array.isArray(rawTodos) ? rawTodos.filter((item: any) =>
     typeof item?.content === 'string' && ['pending', 'in_progress', 'completed'].includes(item.status)) : [];
   const completed = todos.filter(item => item.status === 'completed').length;
-  const result = (label: string, detail: string, canContinue = false): TaskProgress => ({ label, detail, canContinue, todos, completed });
+  const result = (label: string, detail: string, canContinue = false): TaskProgress => ({ label, detail, canContinue, todos, completed,
+    planSource: currentPlan ? 'current' : 'history', planReadState: Array.isArray(rawTodos) ? 'loaded' : planReadState });
   if (!ready) return result('等待引擎恢复', '任务记录保留在本机；引擎就绪后可以继续。');
   if (waiting) return result(waiting, '请先处理下方的确认或问题。');
   if (running) return result('进行中', todos.find(item => item.status === 'in_progress')?.content ?? 'Agent 正在处理当前任务。');
@@ -28,7 +37,8 @@ export function taskProgress({ running = false, ready = true, waiting = '', even
   if (reason === 'error') return result('执行出错', '请查看对话中的错误，处理后可继续当前任务。', true);
   if (reason === 'max-tokens') return result('输出达到上限', '本轮触及输出长度上限，可继续剩余工作。', true);
   if (reason === 'blocked') return result('等待处理', '本轮遇到阻碍，请补充信息或处理后继续。', true);
-  if (todos.length && completed < todos.length) return result('待继续', '本轮已停下，计划还有未完成步骤。', true);
+  if (reason === 'completed' && todos.length && completed < todos.length) return result('本轮结束',
+    '计划仍有未勾选步骤，请核对实际结果；计划勾选不代表执行状态。', projections.goal?.goal?.phase !== 'complete');
   if (reason === 'completed') return result('本轮结束', '本轮回复已结束；计划勾选由 Agent 更新，请结合文件和测试结果验收。');
   return result('已保存', '会话记录已保存，可以输入新要求继续。');
 }

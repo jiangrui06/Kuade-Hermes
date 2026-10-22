@@ -1,0 +1,17 @@
+# Local project manager benchmark
+
+[简体中文](PROJECT_BENCHMARK.zh-CN.md) · [繁體中文](PROJECT_BENCHMARK.zh-TW.md)
+
+2026-10-15: Real Kimi K3 in the 0.1.8 ZIP completed three automatic development rounds, producing 13 files and 14 passing tests. Independent API, SQLite restart, browser create/edit/delete/filter and narrow-layout checks passed; see the [machine record](acceptance/real-project-manager-2026-10-15.json). Three original browser checks encountered missing Chromium; the subsequent run used installed Edge and passed. Those environment failures are retained, not classified as application defects. Original configuration is unchanged and temporary credentials were removed. Generated source is in `release/Kuade-generated-project-manager-2026-10-15.zip`; extract, enter workspace, then run `npm test` or `npm start`.
+
+![Actual browser screenshot of the generated application](images/project-manager-benchmark.png)
+
+The user selected projects, tasks, persistence, filters, tests and UI as the multi-module development benchmark. A real model in an isolated Kuade 0.1.8 profile builds the application from an empty workspace across goal rounds. The host supplies requirements and external verification, never the application implementation. Passing this bounded benchmark does not establish success on arbitrary large projects.
+
+The contract is in `scripts/acceptance/project-manager-spec.mjs`. It reuses Node 22.23.2 HTTP, SQLite and test modules, plus existing Playwright. SQLite remains experimental in this pinned Node version; an actual database/query preflight passed. No product dependency was added. References: [Node SQLite](https://nodejs.org/api/sqlite.html), [Playwright launch](https://playwright.dev/docs/api/class-browsertype#browser-type-launch). The benchmark uses a native browser UI; Kuade continues to use React/Electron.
+
+External checks exercise HTTP CRUD, validation, combined filtering, missing resources, the SQLite file format, persistence across process restarts, cascade deletion, and actual browser project/task creation, status updates, filtering, reload, text escaping and narrow layout. Generated tests must execute and be nonempty. Failures are returned to the same model session for repairs, with at most three verification attempts and all results retained. Reaching an observation deadline is recorded as incomplete, not a product defect.
+
+From the dependency-equipped build directory, set `KUADE_REAL_PROJECT=1`, `KUADE_MODEL_PROFILE` and `KUADE_ACCEPT_EXECUTABLE`, then run `node E:/Kuade-Hermes/scripts/accept-real-project.mjs`. Optional `KUADE_ACCEPT_ROOT` sets the evidence location. Isolated credentials are removed afterward and original configuration hashes checked. Source, databases, tests, screenshots and repair records remain in the evidence directory. It contains local data and model history and should not be uploaded wholesale.
+
+Use the final independent verification record. Running or model-reported completion is not a pass. The original `acceptance.json` retains the environment failures; the Edge rerun is recorded separately and summarized in the machine record above. The separate two-hour workload covers long commands and restart lifecycle; its duration is not counted as project development time. The runner now checks browser availability before starting model work and does not submit environment failures as application repairs. It defaults to Edge; `KUADE_ACCEPT_BROWSER_CHANNEL` can select another installed channel.

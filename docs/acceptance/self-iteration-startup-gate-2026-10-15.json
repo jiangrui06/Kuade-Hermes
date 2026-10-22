@@ -1,0 +1,124 @@
+{
+  "date": "2026-10-15",
+  "status": "passed",
+  "scope": "Controlled-provider self-iteration with standalone packaged-startup gate",
+  "model": "controlled local provider",
+  "iterationId": "6e17b438-edd2-4ffb-95c0-06a12939307c",
+  "targetVersion": "0.1.8",
+  "fullFlow": {
+    "nativeTarget": "window:40196:7802502",
+    "command": "KUADE_LIVE_ITERATION=1 KUADE_BUILD_ROOT=D:/Kuade-acceptance/iterations-startup-gate npx playwright test tests/e2e/iteration.spec.ts",
+    "verification": [
+      {
+        "name": "dependencies",
+        "startedAt": 1792037202753,
+        "finishedAt": 1792037231980,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\evidence\\01-dependencies.log"
+      },
+      {
+        "name": "typecheck",
+        "startedAt": 1792037232065,
+        "finishedAt": 1792037242488,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\evidence\\02-typecheck.log"
+      },
+      {
+        "name": "baseline-tests",
+        "startedAt": 1792037242495,
+        "finishedAt": 1792037271978,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\evidence\\03-baseline-tests.log"
+      },
+      {
+        "name": "desktop-build",
+        "startedAt": 1792037272238,
+        "finishedAt": 1792037281240,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\evidence\\04-desktop-build.log"
+      },
+      {
+        "name": "electron-runtime",
+        "startedAt": 1792037281244,
+        "finishedAt": 1792037715759,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\evidence\\05-electron-runtime.log"
+      },
+      {
+        "name": "package",
+        "startedAt": 1792037715764,
+        "finishedAt": 1792037990097,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\evidence\\06-package.log"
+      },
+      {
+        "name": "packaged-startup",
+        "startedAt": 1792037990107,
+        "finishedAt": 1792038004176,
+        "exitCode": 0,
+        "log": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\evidence\\07-packaged-startup.log"
+      }
+    ],
+    "feature": "Ctrl+Shift+U opens Self-iteration in the updated candidate",
+    "reportedDuration": "14.1m",
+    "result": {
+      "id": "6e17b438-edd2-4ffb-95c0-06a12939307c",
+      "status": "completed",
+      "at": 1792038028779,
+      "pid": 40196,
+      "version": "0.1.8"
+    },
+    "exitCode": 0,
+    "sourceUnchanged": true
+  },
+  "packagedStartup": {
+    "status": "passed",
+    "executable": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\application\\win-unpacked\\Kuade.exe",
+    "expectedVersion": "0.1.8",
+    "credentialsCopied": false,
+    "profile": "D:\\Kuade-acceptance\\iterations-startup-gate\\6e17b438-edd2-4ffb-95c0-06a12939307c\\evidence\\startup-profile-MSmaO6",
+    "application": {
+      "version": "0.1.8",
+      "packaged": true
+    },
+    "pid": 40052,
+    "closed": true
+  },
+  "positiveControl": {
+    "status": "passed",
+    "executable": "D:\\K017-r2\\win-unpacked\\Kuade.exe",
+    "expectedVersion": "0.1.7",
+    "credentialsCopied": false,
+    "profile": "D:\\Kuade-acceptance\\startup-gate-valid-20261015\\startup-profile-zzFLj8",
+    "application": {
+      "version": "0.1.7",
+      "packaged": true
+    },
+    "pid": 27964,
+    "closed": true
+  },
+  "negativeControl": {
+    "expected": "Reject the retained package missing required peer dependencies",
+    "receipt": {
+      "status": "not-passed",
+      "executable": "D:\\K017-2c7f7529\\Kuade.exe",
+      "expectedVersion": "0.1.7",
+      "credentialsCopied": false,
+      "profile": "D:\\Kuade-acceptance\\startup-gate-missing-peer-20261015\\startup-profile-XvczKq",
+      "error": "Candidate runtime did not start: 引擎启动失败 (1)：node:internal/modules/package_json_reader:331\r",
+      "closed": true
+    },
+    "matchedExpectation": true,
+    "exitCode": 1
+  },
+  "retainedAttempt": {
+    "evidence": ".cache/iteration-13e5c9be-c2ac-4820-9615-9301fcd16dfc",
+    "result": "Test locator failed before iteration began; repaired the outdated button selector and reran the complete test"
+  },
+  "limitations": [
+    "Controlled provider; does not establish external-model autonomous reasoning",
+    "Candidate 0.1.8 is a test artifact, not a newly delivered installer",
+    "Source changes do not update the delivered 0.1.7 binaries",
+    "Hours-long and multi-day soak tests remain pending"
+  ]
+}

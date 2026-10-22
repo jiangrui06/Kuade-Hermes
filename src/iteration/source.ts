@@ -5,6 +5,7 @@ import type { SourceEntry, SourceSnapshot } from '../shared/iteration';
 
 const ROOTS = ['src', 'assets', 'scripts', 'tests', 'docs', 'vendor', 'package.json', 'package-lock.json', 'tsconfig.json', 'vite.config.ts', 'vitest.config.ts', 'playwright.config.ts', 'electron-builder.yml', 'README.md', 'THIRD_PARTY_NOTICES.md'];
 const EXCLUDED = new Set(['node_modules', '.git', '.cache', '.kuade', 'release', 'dist', 'coverage', 'test-results', 'playwright-report']);
+export const BASELINE_FILES = ['scripts/build.mjs', 'scripts/build-computer.mjs', 'scripts/check-packaged-startup.mjs', 'scripts/installer.nsh', 'tsconfig.json', 'electron-builder.yml'];
 const hash = (data: Buffer) => createHash('sha256').update(data).digest('hex');
 export function isWithin(root: string, path: string): boolean {
   const value = relative(resolve(root), resolve(path));
@@ -51,7 +52,7 @@ export async function prepareSource(sourcePath: string, runRoot: string): Promis
     const target = join(candidate, file.path); await mkdir(dirname(target), { recursive: true });
     await copyFile(join(source, file.path), target);
     if (hash(await readFile(target)) !== file.sha256) throw new Error('复制期间源码发生变动，请重新开始本轮迭代');
-    if (file.path.startsWith('tests/') || ['scripts/build.mjs', 'scripts/build-computer.mjs', 'tsconfig.json', 'electron-builder.yml'].includes(file.path)) {
+    if (file.path.startsWith('tests/') || BASELINE_FILES.includes(file.path)) {
       const saved = join(baseline, file.path); await mkdir(dirname(saved), { recursive: true }); await copyFile(target, saved);
     }
   }

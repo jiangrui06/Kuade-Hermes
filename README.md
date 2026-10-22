@@ -1,5 +1,11 @@
 # Kuade Harness
 
+0.2.4 优化工具连接状态、操作示例、技能草稿保留和 MCP 执行记录。详见 [工具与技能使用流程](docs/CAPABILITY_JOURNEY.zh-CN.md)。
+
+0.2.3 根据真实 Kimi K3 用户流程补齐逐文件 Diff、新文件预览和返回任务入口。详见 [真实用户流程验收](docs/USER_JOURNEY.zh-CN.md)。
+
+0.2.0 重构全部六个页面和对话输出：首次使用引导、统一模型选择、常用工具一键启停、折叠执行过程与更清晰的代码审查。详见 [界面重构说明](docs/UI_REDESIGN.zh-CN.md)。
+
 [繁體中文](docs/README.zh-TW.md) · [English](docs/README.en.md)
 
 Kuade Harness 是本地编程工作台，第一版面向 Windows 桌面。用户自行连接模型，项目、会话和工具配置保存在本机；模型请求仍会发送到用户选择的服务商。
@@ -18,7 +24,7 @@ Kuade Harness 是本地编程工作台，第一版面向 Windows 桌面。用户
 
 停止、执行出错、输出达到上限或重启后发现中断时，可点击“继续任务”。应用在原会话中发送一条可见的继续请求，附带上轮计划，要求先核对文件和测试，再处理剩余工作；模型与执行模式沿用当前选择。等待审批、回答或引擎未就绪时不发起继续。
 
-“本轮结束”表示本轮模型回复结束；计划勾选是 Agent 报告的状态，不代表独立测试已经通过。新一轮开始时，上游清空旧计划，等待 Agent 更新；退出前正在执行的系统命令不会原地恢复。参考：[上游任务计划](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/todo/tool-todo/README.md)、[会话持久化](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/session/session-persistence/README.md)。
+“本轮结束”表示本轮模型回复结束；计划勾选是 Agent 报告的状态，不代表独立测试已经通过。新一轮开始时，上游重置本轮计划投影；Kuade 会读取并标注最近的历史计划，直到 Agent 更新或明确清空。目标完成但计划未勾完时，提示核对计划，不将其显示为正在执行；退出前正在执行的系统命令不会原地恢复。参考：[上游任务计划](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/todo/tool-todo/README.md)、[会话持久化](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/session/session-persistence/README.md)。
 
 ## 开发原则
 
@@ -29,7 +35,7 @@ Kuade Harness 是本地编程工作台，第一版面向 Windows 桌面。用户
 
 ## 运行
 
-Windows x64 用户可从 `release/Kuade Harness Setup 0.1.5.exe` 安装，或将 `release/Kuade Harness-0.1.5-win.zip` 完整解压后运行其中的 `Kuade.exe`。首次打开后进入「模型连接」，配置自己的服务商，即可在默认工作区选择模型并发送任务，也可另行打开本地项目。当前构建未签名。验收范围见 [验收记录](docs/ACCEPTANCE.zh-CN.md)。
+Windows x64 最新版 0.2.3：将 `release/Kuade Harness-0.2.3-win.zip` 完整解压到短路径，再运行 `Kuade.exe`。历史安装包仍为 0.1.12，本轮未重新生成安装器。首次打开后进入「模型连接」，配置自己的服务商，即可在默认工作区选择模型并发送任务。当前构建未签名。验收范围见 [真实用户流程记录](docs/USER_JOURNEY.zh-CN.md)。
 
 安装包自带 Electron 和 Agent 引擎。Git 操作需要 Git，PowerShell 工具需要 PowerShell 7；基于 `npx` 的 MCP（包括浏览器预设）还需要 Node.js/npm 和首次下载所需的网络。开发环境需要 Node.js 22.19+、npm、Git 和 PowerShell 7。
 
@@ -57,7 +63,7 @@ npm run package:win
 
 首次启动自动建立“文档/Kuade/默认工作区”，可直接发送任务；切换项目后会记住选择，新任务沿用当前工作区。文件、会话注册与持久化继续由上游管理。
 
-对话输入框分别选择服务商、模型和思考强度：模型菜单自动获取该连接的完整目录，不再混入未配置的 DeepSeek 默认模型。设置页保存的模型仍可作为离线目录使用；从完整列表首次选中其他模型时，自动注册到同一连接。刷新失败会提示并保留已保存模型，Key 不会回显。
+对话输入框用一个按服务分组的菜单选择模型，并按支持情况显示思考强度：模型菜单自动获取该连接的完整目录，不再混入未配置的 DeepSeek 默认模型。设置页保存的模型仍可作为离线目录使用；从完整列表首次选中其他模型时，自动注册到同一连接。刷新失败会提示并保留已保存模型，Key 不会回显。
 
 思考选项来自上游能力声明。Ollama Cloud 和标准本机 Ollama 的 OpenAI 兼容接口还会按需查询官方 `/api/show` 元数据；仅显示该模型支持的档位，缺少信息时使用“模型默认”。切换模型不会沿用另一模型的不兼容档位。协议传输、参数校验和会话模型选择均复用 Harness；依据：[Harness 模型配置](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md)、[Ollama 思考能力](https://docs.ollama.com/capabilities/thinking)。
 
@@ -92,8 +98,10 @@ npm run package:win
 
 上游仍处于预览阶段。升级须先通过接口契约和真实引擎回归，再调整锁定版本。
 
-快捷键：Ctrl+N 新建任务，Ctrl+Shift+I 打开「自我迭代」页。快捷键解析集中在 `src/renderer/features/shortcuts.ts`，不依赖 Electron。
+快捷键：Ctrl+N 新建任务，Ctrl+Shift+I 打开「自我迭代」页，Ctrl+Shift+M 打开「模型连接」页，Ctrl+Shift+H 打开「任务记录」页。快捷键解析集中在 `src/renderer/features/shortcuts.ts`，不依赖 Electron。
 
 自我迭代的模块、前提与验收状态见 [自我迭代](docs/SELF_ITERATION.zh-CN.md)。
 
 GitHub 官方 MCP 的添加、账号授权和验收边界见 [Git 与 GitHub](docs/GITHUB.zh-CN.md)。
+
+持续目标的自动续轮、暂停、重启恢复与验收范围见 [持续目标](docs/GOALS.zh-CN.md)。

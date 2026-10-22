@@ -13,9 +13,8 @@ test('自迭代：真实工具改源码、基线测试、打包、自动重启�
   test.skip(process.env.KUADE_LIVE_ITERATION !== '1'); test.setTimeout(1200000);
   const root = resolve('.cache/iteration-' + randomUUID()); await mkdir(root, { recursive: true });
   const profile = join(root, 'app');
-  const original = await readFile('src/renderer/App.tsx', 'utf8');
-  const replacement = "if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'i') { event.preventDefault(); setPage('iteration'); } if (event.ctrlKey && event.key === 'n')";
-  const improved = original.replace("if (event.ctrlKey && event.key === 'n')", replacement);
+  const original = await readFile('src/renderer/features/shortcuts.ts', 'utf8');
+  const improved = original.replace("key === 'i'", "key === 'i' || key === 'u'");
   expect(improved).not.toBe(original);
   const sourceHash = createHash('sha256').update(original).digest('hex');
   let toolResult = false;
@@ -29,7 +28,7 @@ test('自迭代：真实工具改源码、基线测试、打包、自动重启�
     const read = input.messages.some((row: any) => row.role === 'tool' && row.tool_call_id === 'iteration-read');
     toolReplies.push(...input.messages.filter((row: any) => row.role === 'tool' && row.tool_call_id === 'iteration-write'));
     if (result) toolResult = true;
-    const delta = tool && !read ? { tool_calls: [{ index: 0, id: 'iteration-read', type: 'function', function: { name: 'read', arguments: JSON.stringify({ file_path: 'src/renderer/App.tsx' }) } }] } : tool && !result ? { tool_calls: [{ index: 0, id: 'iteration-write', type: 'function', function: { name: 'write', arguments: JSON.stringify({ file_path: 'src/renderer/App.tsx', content: improved }) } }] } : { content: '增加了 Ctrl+Shift+I 打开自我迭代入口。由宿主独立验证。' };
+    const delta = tool && !read ? { tool_calls: [{ index: 0, id: 'iteration-read', type: 'function', function: { name: 'read', arguments: JSON.stringify({ file_path: 'src/renderer/features/shortcuts.ts' }) } }] } : tool && !result ? { tool_calls: [{ index: 0, id: 'iteration-write', type: 'function', function: { name: 'write', arguments: JSON.stringify({ file_path: 'src/renderer/features/shortcuts.ts', content: improved }) } }] } : { content: '增加了 Ctrl+Shift+U 打开自我迭代入口。由宿主独立验证。' };
     response.writeHead(200, { 'Content-Type': 'text/event-stream' });
     for (const item of [{ delta: { role: 'assistant' }, finish_reason: null }, { delta, finish_reason: null }, { delta: {}, finish_reason: 'tool_calls' in delta ? 'tool_calls' : 'stop' }]) response.write('data: ' + JSON.stringify({ id: 'iteration', object: 'chat.completion.chunk', created: 1, model: input.model, choices: [{ index: 0, ...item }] }) + '\n\n');
     response.end('data: [DONE]\n\n');
@@ -51,9 +50,9 @@ test('自迭代：真实工具改源码、基线测试、打包、自动重启�
     await page.getByRole('button', { name: '保存连接' }).click();
     await expect(page.getByRole('status').filter({ hasText: '模型配置已保存' })).toBeVisible();
     await app.evaluate(({ dialog }, source) => { dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [source] }); }, resolve('.'));
-    await page.getByRole('button', { name: '自我迭代', exact: true }).click();
+    await page.getByRole('button', { name: /^自我迭代/ }).click();
     await page.getByRole('button', { name: '选择源码' }).click();
-    await page.getByLabel('自迭代需求').fill('增加 Ctrl+Shift+I 打开自我迭代页面的快捷键。');
+    await page.getByLabel('自迭代需求').fill('增加 Ctrl+Shift+U 打开自我迭代页面的快捷键。');
     await page.getByRole('button', { name: '开始迭代并自动更新' }).click();
     const deadline = Date.now() + 1000000;
     while (Date.now() < deadline) {
@@ -71,9 +70,9 @@ test('自迭代：真实工具改源码、基线测试、打包、自动重启�
     launchedPid = result.pid; expect(launchedPid).not.toBe(oldPid);
     await expect.poll(() => app!.process().exitCode).not.toBeNull(); app = undefined;
     expect(toolResult).toBe(true);
-    expect(createHash('sha256').update(await readFile('src/renderer/App.tsx')).digest('hex')).toBe(sourceHash);
+    expect(createHash('sha256').update(await readFile('src/renderer/features/shortcuts.ts')).digest('hex')).toBe(sourceHash);
     const steps = JSON.parse(await readFile(join(journal.state.evidence, 'verification.json'), 'utf8'));
-    expect(steps.map((row: any) => row.name)).toEqual(['dependencies', 'typecheck', 'baseline-tests', 'desktop-build', 'electron-runtime', 'package']);
+    expect(steps.map((row: any) => row.name)).toEqual(['dependencies', 'typecheck', 'baseline-tests', 'desktop-build', 'electron-runtime', 'package', 'packaged-startup']);
     expect(steps.every((row: any) => row.exitCode === 0)).toBe(true);
     const transport = new StdioClientTransport({ command: resolve('resources/computer/qwen-computer-use.exe'), args: ['--foreground-input', 'mcp'], stderr: 'pipe' });
     const client = new Client({ name: 'kuade-iteration-acceptance', version: '1.0.0' });
@@ -85,7 +84,7 @@ test('自迭代：真实工具改源码、基线测试、打包、自动重启�
       const text = (observe.content as any[]).filter(row => row.type === 'text').map(row => row.text).join('\n');
       const target = /Observed target: (window:\d+:\d+)\./.exec(text)?.[1]; expect(target).toBeTruthy();
       expect((observe.structuredContent as any)?.desktop_observation?.pid).toBe(launchedPid);
-      const pressed = await client.callTool({ name: 'press_key', arguments: { app: target, key: 'ctrl+shift+i' } }, undefined, { timeout: 60000 });
+      const pressed = await client.callTool({ name: 'press_key', arguments: { app: target, key: 'ctrl+shift+u' } }, undefined, { timeout: 60000 });
       expect(pressed.isError).not.toBe(true);
       const after = (pressed.content as any[]).filter(row => row.type === 'text').map(row => row.text).join('\n');
       await writeFile(join(root, 'native-state.txt'), after);

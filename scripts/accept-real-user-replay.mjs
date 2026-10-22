@@ -1,0 +1,77 @@
+// Recheck presentation against a persisted real-model task without another paid development run.
+import { createRequire } from 'node:module';
+import { mkdir, readFile, writeFile, copyFile, rm, access } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
+import { randomUUID, createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import assert from 'node:assert/strict';
+import { startProjectServer } from './acceptance/project-manager-verify.mjs';
+const { _electron: electron, chromium, expect } = createRequire(resolve('package.json'))('@playwright/test');
+if (process.env.KUADE_REAL_REPLAY !== '1' || !process.env.KUADE_REPLAY_ROOT || !process.env.KUADE_MODEL_PROFILE || !process.env.KUADE_ACCEPT_EXECUTABLE) throw new Error('Explicit replay opt-in, source evidence, model profile and executable required');
+const original = JSON.parse(await readFile(join(process.env.KUADE_REPLAY_ROOT, 'acceptance.json'), 'utf8'));
+assert.equal(original.status, 'passed'); assert.equal(original.realProvider, true);
+const profile = join(process.env.KUADE_REPLAY_ROOT, 'app');
+assert.notEqual(resolve(profile).toLowerCase(), resolve(process.env.KUADE_MODEL_PROFILE).toLowerCase());
+const root = join('D:/Kuade-acceptance', 'real-user-replay-' + randomUUID()); await mkdir(root, { recursive: true });
+const files = ['harness/.credentials.yaml', 'harness/profiles/web/cordis.patch.yml'];
+for (const file of files) await access(join(profile, file)).then(() => { throw new Error('Replay profile still contains provider files'); }, () => {});
+const hash = async file => createHash('sha256').update(await readFile(file)).digest('hex');
+const originalHashes = await Promise.all(files.map(file => hash(join(process.env.KUADE_MODEL_PROFILE, file))));
+const receipt = { status: 'running', root, realModelEvidence: process.env.KUADE_REPLAY_ROOT, model: original.model, freshDevelopmentPrompts: 0, checks: [], startedAt: new Date().toISOString() };
+let app, page, browser, server;
+const env = { ...process.env, KUADE_USER_DATA: profile }; delete env.ELECTRON_RUN_AS_NODE;
+const launch = async () => { app = await electron.launch({ executablePath: process.env.KUADE_ACCEPT_EXECUTABLE, args: [], cwd: original.project, env }); page = await app.firstWindow(); await expect(page.getByText('本机运行', { exact: true })).toBeVisible({ timeout: 130000 }); };
+const capture = async name => { await app.evaluate(({ BrowserWindow }) => { const w = BrowserWindow.getAllWindows()[0]; w.restore(); w.show(); w.focus(); }); await page.bringToFront(); await page.screenshot({ path: join(root, name + '.png'), timeout: 15000 }); };
+try {
+  for (const file of files) await copyFile(join(process.env.KUADE_MODEL_PROFILE, file), join(profile, file));
+  await launch();
+  receipt.application = await page.evaluate(() => window.kuade.call('app/info'));
+  receipt.executable = process.env.KUADE_ACCEPT_EXECUTABLE;
+  receipt.executableSha256 = await hash(receipt.executable); receipt.appArchiveSha256 = await hash(resolve(receipt.executable, '../resources/app.asar'));
+  await page.getByRole('button', { name: '任务记录', exact: true }).click();
+  await page.getByLabel('搜索任务').fill('优惠与重置');
+  await page.locator(`.task-row[data-session-id="${original.sessionId}"]`).click();
+  await expect(page.getByLabel('当前模型')).toHaveValue(original.model, { timeout: 60000 });
+  const reply = page.locator('.message.assistant').last();
+  await expect(reply).toContainText('12 pass');
+  // This exact persisted real response contained a bare URL adjacent to Chinese text and punctuation.
+  const previewLink = reply.getByRole('link', { name: 'http://127.0.0.1:5178', exact: true });
+  await expect(previewLink).toHaveAttribute('href', 'http://127.0.0.1:5178/');
+  await app.evaluate(({ shell }) => { globalThis.replayedLinks = []; shell.openExternal = async url => { globalThis.replayedLinks.push(url); }; });
+  await previewLink.click(); assert.deepEqual(await app.evaluate(() => globalThis.replayedLinks), ['http://127.0.0.1:5178/']);
+  await capture('01-real-reply-links'); receipt.checks.push('Persisted real Kimi reply: Chinese-adjacent URL clicks through main process; OS opener stubbed');
+  await page.getByRole('button', { name: '查看修改', exact: true }).click();
+  await page.getByRole('button', { name: '查看 README.md', exact: true }).click();
+  await expect(page.locator('.new-file-preview')).toContainText('npm start'); await capture('02-new-file');
+  await page.getByRole('button', { name: '查看 pricing.js', exact: true }).click();
+  await expect(page.locator('.diff-view')).toContainText('discount'); await capture('03-file-diff');
+  await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setSize(1000, 760));
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); await capture('04-narrow-review');
+  await page.getByRole('button', { name: '回到任务继续修改', exact: true }).click();
+  await page.getByLabel('任务需求').fill('继续修改'); await expect(page.getByLabel('发送任务', { exact: true })).toBeEnabled(); await page.getByLabel('任务需求').fill('');
+  receipt.checks.push('New-file preview, per-file Diff, narrow layout and return to ready composer');
+  const tests = execFileSync(process.execPath, ['--test'], { cwd: original.project, encoding: 'utf8', timeout: 60000, windowsHide: true });
+  await writeFile(join(root, 'generated-tests.txt'), tests); receipt.generatedTests = Number(tests.match(/# tests (\d+)/)?.[1]); assert.ok(receipt.generatedTests > 0);
+  server = await startProjectServer(original.project, join(root, 'unused.sqlite'), join(root, 'preview-server.log'));
+  browser = await chromium.launch({ channel: 'msedge', headless: true }); const preview = await browser.newPage(); await preview.goto(server.url);
+  await preview.getByLabel('单价', { exact: true }).fill('19.99'); await preview.getByLabel('数量', { exact: true }).fill('3'); await preview.getByLabel('优惠比例', { exact: true }).fill('10');
+  await preview.getByRole('button', { name: '计算报价', exact: true }).click(); await expect(preview.getByLabel('合计', { exact: true })).toHaveText('53.97'); await preview.screenshot({ path: join(root, '05-result.png') });
+  await preview.getByRole('button', { name: '重置', exact: true }).click(); await expect(preview.getByLabel('合计', { exact: true })).toHaveText('100.00');
+  receipt.checks.push('Same real-model-generated project tests and live Edge discount/reset verification');
+  await app.close(); app = undefined; await launch();
+  await page.locator(`.recent-task[data-session-id="${original.sessionId}"]`).click();
+  await expect(page.getByLabel('当前模型')).toHaveValue(original.model, { timeout: 60000 });
+  await expect(page.locator('.message.assistant').last().getByRole('link', { name: 'http://127.0.0.1:5178', exact: true })).toBeVisible();
+  await capture('06-restarted'); receipt.checks.push('Restart retains real task and corrected link presentation'); receipt.status = 'passed';
+} catch (error) {
+  receipt.status = 'not-passed'; receipt.error = String(error.message).slice(0, 2000); if (page && !page.isClosed()) await capture('failure').catch(() => {});
+} finally {
+  const closed = await Promise.allSettled([browser?.close(), server?.stop(), app?.close()]);
+  receipt.teardownErrors = closed.filter(result => result.status === 'rejected').map(result => String(result.reason?.message ?? result.reason).slice(0, 500));
+  const removed = await Promise.allSettled(files.map(file => rm(join(profile, file), { force: true })));
+  receipt.temporaryCredentialsRemoved = removed.every(result => result.status === 'fulfilled');
+  receipt.originalSettingsUnchanged = JSON.stringify(originalHashes) === JSON.stringify(await Promise.all(files.map(file => hash(join(process.env.KUADE_MODEL_PROFILE, file)))));
+  if (receipt.teardownErrors.length || !receipt.temporaryCredentialsRemoved || !receipt.originalSettingsUnchanged) receipt.status = 'not-passed';
+  receipt.finishedAt = new Date().toISOString(); await writeFile(join(root, 'acceptance.json'), JSON.stringify(receipt, null, 2));
+  console.log(JSON.stringify(receipt)); if (receipt.status !== 'passed') process.exitCode = 1;
+}

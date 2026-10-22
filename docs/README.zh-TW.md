@@ -1,5 +1,11 @@
 # Kuade Harness
 
+0.2.4 改善工具連線狀態、操作範例、技能草稿保留與 MCP 執行紀錄。詳見 [工具與技能使用流程](CAPABILITY_JOURNEY.zh-TW.md)。
+
+0.2.3 根據真實 Kimi K3 使用流程加入逐檔 Diff、新檔預覽與返回工作入口。詳見 [真實使用者流程驗收](USER_JOURNEY.zh-TW.md)。
+
+0.2.0 重構全部六個頁面與對話輸出：首次使用引導、統一模型選擇、常用工具一鍵啟停、收合執行過程及更清楚的程式碼審查。詳見 [介面重構說明](UI_REDESIGN.zh-TW.md)。
+
 原始碼位於 exFAT 或小檔案讀寫較慢的磁碟時，可用 `node scripts/windows.mjs install` 安裝開發相依套件，再用 `node scripts/windows.mjs dev` 啟動。輔助程式會將原始碼同步至 `%LOCALAPPDATA%/Kuade-development/專案目錄名稱` 執行；請持續編輯原始工作目錄，系統 PATH 保持原值。也支援 `typecheck`、`test`、`build`、`test:e2e` 與 `package:win` 參數。
 
 [简体中文](../README.md) · [English](README.en.md)
@@ -20,11 +26,11 @@ Kuade Harness 是本機程式開發工作臺，第一版提供 Windows 桌面應
 
 停止、執行出錯、輸出達到上限或重啟後發現中斷時，可按「继续任务」。應用程式在原對話中傳送一則可見的繼續請求，附上前一輪計畫，要求先核對檔案與測試，再處理剩餘工作；模型與執行模式沿用目前選擇。等待核准、回答或引擎尚未就緒時不發起繼續。
 
-「本轮结束」只表示本輪模型回覆結束；計畫勾選由 Agent 回報，不代表獨立測試已通過。新一輪開始時上游清空舊計畫，等待 Agent 更新；結束前執行中的系統命令不會原地恢復。參考：[上游工作計畫](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/todo/tool-todo/README.md)、[對話持久化](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/session/session-persistence/README.md)。
+「本轮结束」只表示本輪模型回覆結束；計畫勾選由 Agent 回報，不代表獨立測試已通過。新一輪開始時上游重置本輪計畫投影；Kuade 會讀取並標註最近的歷史計畫，直到 Agent 更新或明確清空。目標完成但計畫未勾完時，提示核對計畫，不將其顯示為正在執行；結束前執行中的系統命令不會原地恢復。參考：[上游工作計畫](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/todo/tool-todo/README.md)、[對話持久化](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/session/session-persistence/README.md)。
 
 ## 開發與執行
 
-Windows x64 使用者可安裝 `release/Kuade Harness Setup 0.1.5.exe`，或完整解壓縮 `release/Kuade Harness-0.1.5-win.zip` 後執行其中的 `Kuade.exe`。首次開啟後進入「模型連接」，設定服務商，即可在預設工作區選擇模型並傳送工作，也可另行開啟本機專案。目前建置未簽章。詳見 [驗收紀錄](ACCEPTANCE.zh-TW.md)。
+Windows x64 最新版 0.2.3：完整解壓 `release/Kuade Harness-0.2.3-win.zip` 至短路徑，再執行 `Kuade.exe`。歷史安裝包仍為 0.1.12，本輪未重新產生安裝程式。首次開啟後進入「模型連接」設定服務商，即可在預設工作區選擇模型並傳送工作。目前建置未簽章。詳見 [真實使用者流程記錄](USER_JOURNEY.zh-TW.md)。
 
 填寫名稱、協定、API 位址和金鑰後自動取得模型清單，搜尋並勾選即可儲存。編輯既有連接會沿用已儲存的金鑰查詢，也可按「重新整理清單」。本機免密服務可留空金鑰；服務商未提供清單介面時，可展開手動填寫。查詢沿用上游 `llm/discoverModels`，支援 OpenAI 相容及 Anthropic 協定。清單代表服務商回傳的目錄，各模型的對話與工具呼叫權限仍由服務商決定。
 
@@ -46,7 +52,7 @@ npm run package:win
 
 首次啟動自動建立「文件/Kuade/默认工作区」，可直接傳送工作。切換專案後記住選擇，新工作沿用目前工作區。檔案與會話註冊仍由上游管理。
 
-對話輸入框分別選擇服務商、模型與思考強度，模型選單取得該連接完整目錄，不混入未設定的 DeepSeek 預設模型。設定頁儲存的模型作為離線備用目錄；首次選擇其他模型時自動註冊至同一連接。重新整理失敗會顯示提示並保留已儲存模型。
+對話輸入框使用依服務商分組的模型選單，並依支援情況顯示思考強度，模型選單取得該連接完整目錄，不混入未設定的 DeepSeek 預設模型。設定頁儲存的模型作為離線備用目錄；首次選擇其他模型時自動註冊至同一連接。重新整理失敗會顯示提示並保留已儲存模型。
 
 思考選項沿用上游能力聲明。Ollama Cloud 與標準本機 Ollama 的 OpenAI 相容介面另按需查詢 `/api/show`，只顯示模型支援的檔位；缺少資訊時使用模型預設。切換模型不沿用不相容檔位。依據：[Harness 模型設定](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md)、[Ollama 思考能力](https://docs.ollama.com/capabilities/thinking)。
 
@@ -66,6 +72,8 @@ npm run package:win
 
 上游鎖定 `@deepseek-ai/dsh@0.2.0-rc.2`。來源：[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)、[Electron](https://www.electronjs.org/docs/latest/tutorial/security)、[Playwright MCP](https://github.com/microsoft/playwright-mcp)。
 
-快捷鍵：Ctrl+N 新建工作，Ctrl+Shift+I 開啟「自我迭代」頁。快捷鍵解析集中在 `src/renderer/features/shortcuts.ts`，不依賴 Electron。
+快捷鍵：Ctrl+N 新建工作，Ctrl+Shift+I 開啟「自我迭代」頁，Ctrl+Shift+M 開啟「模型連線」頁，Ctrl+Shift+H 開啟「工作記錄」頁。快捷鍵解析集中在 `src/renderer/features/shortcuts.ts`，不依賴 Electron。
 
 自我迭代模組、前提與驗收狀態見 [自我迭代](SELF_ITERATION.zh-TW.md)。
+
+持續目標的自動續輪、暫停、重啟恢復與驗收範圍見 [持續目標](GOALS.zh-TW.md)。

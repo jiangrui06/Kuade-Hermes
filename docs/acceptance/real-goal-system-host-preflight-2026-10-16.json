@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "application": {
+    "version": "0.1.11",
+    "packaged": true
+  },
+  "model": "kuade-ca49e51b::kimi-k3",
+  "sessionId": "session-4bffd23a-9231-4b3e-8227-cf67a2c4b390",
+  "soak": {
+    "status": "passed",
+    "startedAt": 1792117766666,
+    "pid": 460,
+    "requestedDurationMs": 60000,
+    "intervalMs": 60000,
+    "checks": 2,
+    "batches": 10,
+    "checkedRows": 2570,
+    "elapsedMs": 60014.6854,
+    "lastCheckedAt": 1792117826681,
+    "maxGapMs": 60013.225399999996,
+    "completedAt": 1792117826682
+  },
+  "sameSession": true,
+  "originalModuleUnchanged": true,
+  "originalCredentialsUnchanged": true,
+  "requestsAfter": 1,
+  "inputRows": 137,
+  "expected": {
+    "count": 117,
+    "totalCents": 791682,
+    "byCategory": {
+      "运维": 263757,
+      "设计": 265557,
+      "开发": 262368
+    }
+  },
+  "date": "2026-10-16",
+  "scope": "One-minute OS-owned real-model restart-recovery preflight; not hours or 24-hour acceptance",
+  "host": {
+    "scriptSha256": "9b4d2db19543ba6b52f589e34187de4e38c345c97231360cb918ba26178cb2cc",
+    "hostPid": 14752,
+    "finishedAt": "2026-10-16T10:31:08.2441390+08:00",
+    "kind": "recovery",
+    "startedAt": "2026-10-16T10:28:45.5554009+08:00",
+    "executableSha256": "1aedc98ead0e688e7f609f34ffd32e617fcff6a750c66f79437d7db252e672c9",
+    "taskName": "Kuade-Acceptance-dcc9629c-b307-4d71-b6c1-9a709adf52c0",
+    "childPid": 16500,
+    "exitCode": 0,
+    "status": "passed"
+  },
+  "evidenceRoot": "D:\\Kuade-acceptance\\host-dcc9629c-b307-4d71-b6c1-9a709adf52c0\\real-goal-f9d6b565-d09f-4c5e-9bf8-d79b05d0bf4d",
+  "temporaryCredentialsRemoved": true,
+  "goal": {
+    "goalBeforeRestart": {
+      "id": "goal-cd2abcea-cc5a-4d2e-902f-41338272c238",
+      "phase": "active",
+      "activation": "armed",
+      "roundsStarted": 2
+    },
+    "goalAfterRestart": {
+      "id": "goal-cd2abcea-cc5a-4d2e-902f-41338272c238",
+      "phase": "active",
+      "activation": "disarmed",
+      "roundsStarted": 2
+    },
+    "completedGoal": {
+      "id": "goal-cd2abcea-cc5a-4d2e-902f-41338272c238",
+      "phase": "complete",
+      "activation": "disarmed",
+      "roundsStarted": 3
+    }
+  },
+  "priorAttempt": {
+    "status": "not-passed",
+    "evidence": "D:\\Kuade-acceptance\\host-6cf710e9-936b-4d0d-8f22-cc99193b115c",
+    "finding": "Model completed its goal without rerunning the unfinished gate after restart",
+    "change": "Clarified persisted task requirement: data-soak passed is distinct from gate success; passed.json must exist and only the original gate can create it",
+    "assertionsWeakened": false
+  }
+}

@@ -24,4 +24,10 @@ describe('持久化会话投影', () => {
     expect(timelineOf([{ type: 'user/message', data: { source: { kind: 'skills' }, content: [{ type: 'text', text: 'Injected skill catalog' }] }, seq: 3 }])).toEqual([]);
     expect(timelineOf([{ type: 'assistant/message', data: { content: [{ type: 'text', text: '测试失败' }] }, seq: 2, time: 1 }])[0].text).toBe('测试失败');
   });
+  it('历史查找锚点只在快照建立，实时消息不会触发全量重读', () => {
+    const state = reduceSession(emptyView, { type: 'snapshot', cursor: 300, records: [{ event: { seq: 200, type: 'assistant/message' } }], hasMore: true });
+    expect(state.planAnchor).toEqual({ throughSeq: 300, beforeSeq: 200 });
+    expect(reduceSession(state, { type: 'event', event: { seq: 301, type: 'turn/start' } }).planAnchor).toBe(state.planAnchor);
+    expect(reduceSession(state, { type: 'snapshot', cursor: 2, records: [{ event: { seq: 2, type: 'todo/write', data: { todos: [] } } }], hasMore: true }).planAnchor).toBeUndefined();
+  });
 });

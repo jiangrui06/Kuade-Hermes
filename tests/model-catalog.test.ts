@@ -32,6 +32,7 @@ describe('完整连接目录与能力', () => {
     const service = new ModelCatalogService(f.call, request);
     const [a, b] = await Promise.all([service.prepare('mine', 'discovered'), service.prepare('mine', 'discovered')]);
     expect(a).toEqual(b); expect(a.reasoning.efforts.map((e: any) => e.id)).toEqual(['off', 'low', 'high', 'max']);
+    expect(a.inputModalities).toBeUndefined();
     expect(f.profile().models[0]).toEqual({ id: 'saved', contextWindow: 32000 });
     expect(f.profile().models[1].reasoningEfforts).toEqual({ off: 'none', low: 'low', high: 'high', max: 'max' });
     expect(f.profile().apiKeyEnv).toBe('STORED_KEY');
@@ -53,11 +54,13 @@ describe('完整连接目录与能力', () => {
     f.profile().models[0].reasoningEfforts = { low: 'low' };
     const request = vi.fn(async () => new Response(JSON.stringify({ capabilities: ['completion', 'vision'], thinking: { values: ['high'] } }))) as any;
     const service = new ModelCatalogService(f.call, request);
-    await service.prepare('mine', 'saved');
+    const vision = await service.prepare('mine', 'saved');
+    expect(vision.inputModalities).toEqual(['text', 'image']);
     expect(f.profile().models[0].input).toEqual(['text', 'image']);
     expect(f.profile().models[0].reasoningEfforts).toEqual({ low: 'low' });
     f.profile().models[0].input = ['text'];
-    await service.prepare('mine', 'saved');
+    const textOnly = await service.prepare('mine', 'saved');
+    expect(textOnly.inputModalities).toEqual(['text']);
     expect(f.profile().models[0].input).toEqual(['text']);
     expect(request).toHaveBeenCalledTimes(1);
     expect(ollamaInput({ capabilities: ['completion'] })).toEqual(['text']);

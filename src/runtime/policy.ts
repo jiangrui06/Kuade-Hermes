@@ -2,6 +2,7 @@
 export const CALL_ENDPOINTS = new Set([
   'session/list', 'session/create', 'session/rename', 'session/prompt', 'session/cancel',
   'session/selectModel', 'session/modelCatalog', 'session/projections', 'session/page',
+  'goals/get', 'goals/create', 'goals/pause', 'goals/resume',
   'workspace/create', 'workspace/rename', 'workspace/initializeDefault', 'workspace/archiveSession',
   'settings/describe', 'settings/update', 'settings/mutate', 'credentials/set', 'credentials/list',
   'llm/discoverModels',

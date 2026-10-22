@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "version": "0.1.9",
+  "scope": "Real Windows per-user silent installer lifecycle and running-process preservation",
+  "previousFailureEvidence": "D:/Kuade-acceptance/installer-0.1.8-20261015/process-isolation.json",
+  "automatedTests": {
+    "application": 96,
+    "acceptanceHarness": 13,
+    "exitCode": 0
+  },
+  "typecheckExitCode": 0,
+  "buildExitCode": 0,
+  "limitations": [
+    "Interactive wizard and administrator installation not yet tested",
+    "24-hour acceptance must be restarted separately"
+  ],
+  "evidence": "D:\\Kuade-acceptance\\installer-0.1.9-bd2192c3-9294-46b5-889c-09a213901cbf",
+  "steps": [
+    {
+      "name": "blocked-install",
+      "exitCode": 2,
+      "registryExists": false,
+      "targetExecutableExists": false,
+      "witnessAlive": true
+    },
+    {
+      "name": "install-and-hashes",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "exitCode": 0,
+      "name": "installed-startup"
+    },
+    {
+      "name": "blocked-uninstall",
+      "exitCode": 2,
+      "registryExists": true,
+      "targetExecutableExists": true,
+      "witnessAlive": true
+    },
+    {
+      "name": "uninstall",
+      "status": "passed",
+      "exitCode": 0
+    }
+  ],
+  "installerSha256": "b6a66e1cb331ce38e07d470c6542d4e795307520d198998dc5503197c7c070a2",
+  "userConfigurationUnchanged": true,
+  "startup": {
+    "status": "passed",
+    "executable": "D:\\KI-bd2192c3\\Kuade.exe",
+    "expectedVersion": "0.1.9",
+    "credentialsCopied": false,
+    "profile": "D:\\Kuade-acceptance\\installer-0.1.9-bd2192c3-9294-46b5-889c-09a213901cbf\\startup\\startup-profile-84Sdb9",
+    "application": {
+      "version": "0.1.9",
+      "packaged": true
+    },
+    "pid": 40464,
+    "closed": true
+  },
+  "startedAt": "2026-10-15T19:45:37.8267180+08:00",
+  "finishedAt": "2026-10-15T19:50:23.5090622+08:00",
+  "processExitCode": 0
+}

@@ -1,0 +1,172 @@
+{
+  "status": "passed",
+  "date": "2026-10-15",
+  "scope": "Real Kuade creates a bounded local project manager from an empty workspace; independent API, SQLite, browser and test acceptance",
+  "realProvider": true,
+  "model": "kuade-ca49e51b::kimi-k3",
+  "application": {
+    "version": "0.1.8",
+    "packaged": true
+  },
+  "executableSha256": "10604896285c476ac9aa23940c8ae2dd9727f0d89721ab9c8e17f011216d7a03",
+  "appArchiveSha256": "a340f8a98d7efeaf668e808bf8a45e216be4be8188b9bd36b8f4cd0ea7563376",
+  "sessionId": "session-c73af42b-b19c-4802-8a3e-17c240c3cce7",
+  "goal": {
+    "id": "goal-30c17ff5-57a9-419b-adf7-a5467980a22d",
+    "roundsStarted": 3,
+    "phase": "complete"
+  },
+  "generatedTestsPassed": 14,
+  "verification": {
+    "status": "passed",
+    "checks": [
+      "generated npm test exits zero with nonempty tests",
+      "three language README files",
+      "project create, list and partial update",
+      "project validation and malformed JSON",
+      "task create, partial update and validation",
+      "combined filters and missing resource errors",
+      "real SQLite and persistence across independent process restart",
+      "real browser project/task creation, status update, filter, reload, text escaping and narrow layout",
+      "task deletion and project cascade preserves other project"
+    ],
+    "startedAt": "2026-10-15T09:25:13.277Z",
+    "database": "D:\\Kuade-acceptance\\real-project-23cfcada-acc6-488d-bb9c-b76ab2cbbecd\\verification-browser-environment-fixed\\independent-7cf4dff0-88b2-468a-bcfc-40571e7ae16c.sqlite",
+    "serverPid": 13880,
+    "finishedAt": "2026-10-15T09:25:17.432Z"
+  },
+  "additionalBrowserVerification": {
+    "status": "passed",
+    "checks": [
+      "empty state",
+      "project rename",
+      "task edit",
+      "cancel deletion preserves task",
+      "task delete",
+      "UI project deletion cascades and returns to empty state"
+    ],
+    "evidence": "D:\\Kuade-acceptance\\real-project-23cfcada-acc6-488d-bb9c-b76ab2cbbecd\\ui-extra-8f312372-a86c-48d7-bccb-642d635d5fb5"
+  },
+  "sourceFiles": [
+    {
+      "bytes": 4557,
+      "file": "app.mjs",
+      "sha256": "5cb6774001a50952a56e092d11640f2f935d9557f089b4d7c842aafbfe642602"
+    },
+    {
+      "bytes": 1204,
+      "file": "db.mjs",
+      "sha256": "7e06564301e03ebe93bbc0562762af39ff751cca17511120efd3fa0cdc2d6ac5"
+    },
+    {
+      "bytes": 283,
+      "file": "package.json",
+      "sha256": "03ad7922a6c70f88b416d7ada69b7a42e828ad195c97e113a2040fb04cfc9efe"
+    },
+    {
+      "bytes": 10418,
+      "file": "public\\app.js",
+      "sha256": "30b2418f8f3909708eea1bdaae52d47fb8a608e59c78bdc4e72c3fadb843073a"
+    },
+    {
+      "bytes": 3123,
+      "file": "public\\index.html",
+      "sha256": "139a11b585a71cf4ec9378ba18b0e923f90a9aad59ae07fbb8b1a3ea6e8611b9"
+    },
+    {
+      "bytes": 4267,
+      "file": "public\\styles.css",
+      "sha256": "724345af22edd8b923a7555689ef6563df8501dd25d62076400bf1bf2f911f64"
+    },
+    {
+      "bytes": 2435,
+      "file": "README.en.md",
+      "sha256": "4a6f87fb72986c83e904d14b952bbe703a048545223e677f173b450af01d49ab"
+    },
+    {
+      "bytes": 2411,
+      "file": "README.md",
+      "sha256": "1c09ccc55aefd76d4c6052875591dc97b0e1e30907e60ef50e76d889c0631161"
+    },
+    {
+      "bytes": 2286,
+      "file": "README.zh-TW.md",
+      "sha256": "55db814af0369bf1aa8f6b76c9e42bb02ef697f1d79e6f6fb1cb7373fcf672dc"
+    },
+    {
+      "bytes": 1074,
+      "file": "server.mjs",
+      "sha256": "3f88ebd732a26396ebbe2393994afc3f1ec15660417e8dcf2773c079081c5c51"
+    },
+    {
+      "bytes": 7579,
+      "file": "store.mjs",
+      "sha256": "f30996cf498b1a47678f4d357e1f03f3df9b65ab79e0db9a773bd67b8e9a4a20"
+    },
+    {
+      "bytes": 5783,
+      "file": "test\\http.test.mjs",
+      "sha256": "37fe248303d28358370909a4fc3ed77e6f9849d0dd45a76c2c8076390279e7f3"
+    },
+    {
+      "bytes": 6148,
+      "file": "test\\store.test.mjs",
+      "sha256": "09cd8312e19e8acf85564bfe9800c7eb07f594588beb7426b852b8d89b5b4b64"
+    }
+  ],
+  "observedToolCalls": [
+    {
+      "tool": "edit",
+      "count": 2
+    },
+    {
+      "tool": "get_goal",
+      "count": 1
+    },
+    {
+      "tool": "pwsh",
+      "count": 10
+    },
+    {
+      "tool": "read",
+      "count": 1
+    },
+    {
+      "tool": "todo_write",
+      "count": 5
+    },
+    {
+      "tool": "update_goal",
+      "count": 1
+    },
+    {
+      "tool": "write",
+      "count": 14
+    }
+  ],
+  "toolCallCountScope": "Retained history page; not claimed to be full-session total",
+  "originalSettingsUnchanged": true,
+  "temporaryCredentialsRemoved": true,
+  "archive": {
+    "sha256": "e03215b3d9eb3bc10bee2719dc4507e52a2041eaac5784e747e4556ac1a6348a",
+    "path": "E:\\Kuade-Hermes\\release\\Kuade-generated-project-manager-2026-10-15.zip"
+  },
+  "evidence": "D:\\Kuade-acceptance\\real-project-23cfcada-acc6-488d-bb9c-b76ab2cbbecd",
+  "priorAttempts": {
+    "launchSelector": "D:\\Kuade-acceptance\\real-project-7a7d4602-0161-4fa3-b52d-2dbcbfd59e35\\acceptance.json",
+    "browserEnvironment": "Three failed verifier attempts due to missing bundled Chromium; model feedback retained, followed by independent rerun on installed Edge. Original receipts not overwritten.",
+    "optionalElectronScreenshot": "Timed out in original runner; retained; actual browser screenshots and functional checks passed."
+  },
+  "limitations": [
+    "Bounded multi-module project, not proof of arbitrary large-project success",
+    "Project completion duration is separate from two-hour soak",
+    "Cross-day acceptance still pending"
+  ],
+  "sourceArchiveVerified": true,
+  "hostVerificationTests": {
+    "acceptanceTests": 13,
+    "command": "node scripts/windows.mjs test",
+    "exitCode": 0,
+    "appTests": 95
+  }
+}

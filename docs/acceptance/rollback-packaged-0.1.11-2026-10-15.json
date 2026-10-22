@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "date": "2026-10-15",
+  "version": "0.1.11",
+  "scope": "Source handoff orchestrator rejects a deliberately mismatched candidate version, then starts the independent packaged 0.1.11 recovery application; not a fresh real-model iteration",
+  "processExitCode": 0,
+  "typecheckExitCode": 0,
+  "candidateRequestedVersion": "999.0.0",
+  "candidatePid": 38644,
+  "result": {
+    "id": "dacff140-5d0f-4d40-9f3c-69ec39ce92af",
+    "status": "rolled-back",
+    "at": 1792070465175,
+    "pid": 38300,
+    "version": "0.1.11",
+    "reason": "candidate 启动健康检查超时"
+  },
+  "nativeObservations": 2,
+  "nativeChecks": [
+    "Returned observation PID equals recovery process PID",
+    "Runtime ready label and version visible in native accessibility tree",
+    "Screenshot retained"
+  ],
+  "evidence": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\iteration-rollback-7b864321-e23b-4dda-a43c-daf39e508a1c",
+  "initialAttempt": {
+    "status": "not-passed",
+    "processExitCode": 1,
+    "evidence": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\iteration-rollback-28d7ab45-d292-46fa-b570-a982164930df",
+    "finding": "Recovery ready receipt and screenshot were present, but initial Chromium accessibility snapshot lacked UI text",
+    "change": "Bounded polling of the same PID for runtime and version labels; no product change"
+  },
+  "credentialsCopied": false,
+  "testProcessesClosed": true
+}

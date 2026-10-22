@@ -1,0 +1,152 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "phase": "all",
+  "steps": [
+    {
+      "name": "web-skill",
+      "sessionId": "session-a58d1230-5555-471a-a9ed-3b9763fda717",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__search__search",
+          "at": 1792069159924,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__search__fetch_content",
+          "at": 1792069164431,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_navigate",
+          "at": 1792069167470,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_snapshot",
+          "at": 1792069181642,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_fill_form",
+          "at": 1792069177346,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_click",
+          "at": 1792069180052,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "verified": true
+    },
+    {
+      "name": "computer",
+      "sessionId": "session-09facc0e-4555-48e5-b769-16c9297dc091",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__qwen_computer__list_apps",
+          "at": 1792069192788,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__get_app_state",
+          "at": 1792069196489,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__set_value",
+          "at": 1792069200383,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__click",
+          "at": 1792069203954,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "verified": true,
+      "fixturePid": 36180
+    }
+  ],
+  "before": {
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "process": "802c43bc4408332a95fc82ffcb0cc698d35475b031b99e0a79978dbd00174331"
+  },
+  "executablePath": "D:\\K011z-1015\\Kuade.exe",
+  "executableSha256": "1aedc98ead0e688e7f609f34ffd32e617fcff6a750c66f79437d7db252e672c9",
+  "version": "0.1.11",
+  "packaged": true,
+  "appArchiveSha256": "938fc9def1d8f8f314a57de9a6820a095319c4bf1dc0ad2efe29ce8f2b655bed",
+  "nativeCommand": "D:\\K011z-1015\\resources\\computer\\qwen-computer-use.exe",
+  "nativeSha256": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335",
+  "workspaceId": "cca847cd-14aa-4174-9b75-9e5f5dac950a",
+  "model": "kuade-ca49e51b::kimi-k3",
+  "submissions": [
+    {
+      "marker": "Kuade 技能验收 574e1896-24f1-4fc6-8d63-410e7db27a06",
+      "url": "https://www.electronjs.org/docs/latest/api/app",
+      "at": 1792069179469
+    }
+  ],
+  "extensionsRestored": true,
+  "credentialsUnchanged": true,
+  "temporaryCredentialsRemoved": true,
+  "after": {
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "process": "802c43bc4408332a95fc82ffcb0cc698d35475b031b99e0a79978dbd00174331"
+  },
+  "environmentUnchanged": true,
+  "date": "2026-10-15",
+  "evidenceRoot": "D:\\Kuade-acceptance\\real-capabilities-37583926-96dd-4032-8a40-bc37d8fd02d1",
+  "processExitCode": 0,
+  "scope": "Real Kimi model in extracted 0.1.11 package: skill loading, live search/fetch, browser form submission and dedicated Windows native input/button actions"
+}

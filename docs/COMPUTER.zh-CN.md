@@ -1,6 +1,10 @@
 # Computer Use 集成
 
+2026-10-22：独立 0.1.12 ZIP 的真实 Kimi K3 联动验收通过。模型加载项目技能后，实际调用搜索与网页读取 MCP，在浏览器填入随机标记及官方文档链接并提交；宿主核对收到的表单。随后模型通过包内 qwen_computer 观察专用 Windows 窗口、输入中文并点击按钮，宿主独立核对结果文件。原凭据及环境指纹保持一致，临时凭据已移除。见 [本轮证据](acceptance/real-capabilities-packaged-0.1.12-2026-10-22.json)。这是 Windows 专用窗口和浏览器流程的验证，不涵盖所有应用或 macOS。
+
 [繁體中文](COMPUTER.zh-TW.md) · [English](COMPUTER.en.md)
+
+2026-10-15：修复运行时 peer 依赖打包遗漏后，0.1.7 已在独立发行目录通过真实 Kimi K3 的 Skills、搜索、网页读取、浏览器表单提交和 qwen_computer 输入／按钮操作。回执绑定应用归档与原生组件哈希；见 [发行包真实模型验收](acceptance/real-capabilities-packaged-0.1.7-2026-10-15.json)。原配置与环境指纹未变，临时凭据已删除。下面保留 2026-10-14 的开发版历史证据。
 
 最新真实 Kimi K3 对专用 Windows 窗口的输入与点击验收通过，详情及边界见 [真实模型能力验收](REAL_CAPABILITIES.zh-CN.md)。
 

@@ -1,5 +1,7 @@
 # Third-party notices / 第三方声明 / 第三方聲明
 
+Markdown presentation / 消息排版 / 訊息排版: react-markdown 10.1.0 (https://github.com/remarkjs/react-markdown), Copyright (c) Espen Hovlandsdal; remark-gfm 4.0.1 (https://github.com/remarkjs/remark-gfm), Copyright (c) Titus Wormer <tituswormer@gmail.com>. Both use MIT licenses; the full MIT permission and warranty terms below apply with their respective copyright notices. Their licenses and dependency licenses remain in the distributed runtime.
+
 Kuade Harness is an independent product built on DeepSeek Harness. It is not an official DeepSeek product. Kuade Harness 是基于 DeepSeek Harness 的独立产品；Kuade Harness 是基於 DeepSeek Harness 的獨立產品。
 
 DeepSeek Harness: https://github.com/deepseek-ai/deepseek-harness
@@ -19,3 +21,6 @@ Dependency packages retain their own LICENSE and NOTICE files in the distributed
 GitHub MCP / GitHub 扩展 / GitHub 擴充: downloaded on demand from the official https://github.com/github/github-mcp-server v2.0.2 release. MIT License, Copyright (c) 2025 GitHub. The full MIT permission and warranty terms above apply with this copyright notice. Its archive retains LICENSE and README.md beside the executable. Kuade is not an official GitHub product.
 
 Computer Use / 电脑控制 / 電腦控制: the independent qwen_computer MCP is reused from the project owner's CodeBuddy component, version 0.2.3-local.15, based on https://github.com/iFurySt/open-codex-computer-use at 24b7cae4d449a5a8ea58c583e5151096b26de03c. Source and its MIT license are retained in vendor/qwen-computer-use; the distributed component includes its LICENSE and build provenance. Copyright (c) 2026 Leo. The full MIT permission and warranty terms above also apply to this component with this copyright notice. macOS source availability does not imply Kuade macOS acceptance.
+# URL recognition
+
+`linkify-it` 6.1.0 (MIT), https://github.com/markdown-it/linkify-it, is used to recognize HTTP/HTTPS links in model replies, including addresses adjacent to Chinese text. Its license is included with the packaged dependency.

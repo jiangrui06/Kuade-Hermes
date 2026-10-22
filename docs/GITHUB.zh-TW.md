@@ -1,19 +1,24 @@
 # Git 與 GitHub
 
-最新驗收（2026-10-15）：82 項測試與型別檢查通過。真實 Kimi K3 已在獨立儲存庫完成檢查、修改、提交及推送；宿主驗證本機 bare 儲存庫與工作區提交一致、工作區乾淨。見 [Git 驗收記錄](acceptance/real-git-2026-10-15.json)。這項記錄未涉及 GitHub 帳號授權或遠端寫入。
-
 [简体中文](GITHUB.zh-CN.md) · [English](GITHUB.en.md)
 
-本機版本控制繼續使用系統 Git：Agent 透過 Harness 終端工具執行 Git，修改頁面提供未暫存 Diff 與單一檔案還原。連接 GitHub 不會自動提交、推送或建立分支；這些操作應由使用者的具體任務決定。
+本機版本控制沿用系統 Git：Agent 透過 Harness 終端執行 Git，變更頁面提供未暫存 Diff 與單檔還原。GitHub 連接沿用官方 MCP，不另寫 GitHub API 或 OAuth。操作範圍由使用者任務及帳號權限決定。
 
-在「工具与技能」點擊「添加GitHub」，等待官方元件下載與 SHA-256 驗證，再點擊「保存并重新加载」。有任務執行時先等待完成。首次要求 Agent 查詢 GitHub 帳號或儲存庫時，官方 MCP 會引導你在瀏覽器登入授權。Kuade 不實作自己的 OAuth，也不將權杖寫入擴充設定。
+在「工具与技能」點選「添加GitHub」，等待下載及 SHA-256 校驗，再點選「保存并重新加载」。有任務執行時先等待完成。首次要求 Agent 查詢帳號或儲存庫時，在瀏覽器完成官方授權。GitHub MCP 操作遠端儲存庫，本機提交及推送仍使用 Git。
 
-目前固定使用 GitHub 官方 MCP v2.0.2 的 Windows x64 版本（MIT），啟用儲存庫、Git 物件、Issue、Pull Request 與使用者工具，授權範圍為 `repo,read:org`。實際可操作的儲存庫與操作取決於登入帳號權限。GitHub 儲存庫工具操作的是遠端儲存庫，本機工作區的提交與推送仍使用 Git。
+目前固定 GitHub MCP v2.0.2、Windows x64、MIT，開啟 context、repos、issues、pull_requests、users、git 工具集，授權範圍為 repo,read:org。權杖僅由官方元件保留在程序記憶體中，重啟可能需要重新授權；Kuade 不將權杖寫入擴充設定。快取位於使用者資料目錄 tools/github-mcp-2.0.2，校驗失敗的檔案不會啟動。
 
-OAuth 權杖由官方 MCP 保留在程序記憶體中；引擎重新啟動後可能需要重新授權。工具已註冊只證明元件可用，帳號連接需要透過實際 `get_me` 等呼叫驗證。快取位於 Kuade 使用者資料目錄的 `tools/github-mcp-2.0.2`；快取驗證失敗時不會啟動該檔案。
+## 已驗收範圍（2026-10-15）
 
-2026-10-15：型別檢查、建置及 75 項單元／元件測試通過，涵蓋下載與解壓驗證、快取竄改、並行安裝和介面失敗處理。真實桌面下載與註冊、瀏覽器授權、真實模型的 Git/GitHub 操作分別驗收；目前帳號授權與遠端寫入仍待驗收。
+- [元件註冊](acceptance/github-registration-2026-10-15.json)：實際下載、校驗、設定儲存、引擎重載及工具註冊。
+- [本機 Git](acceptance/real-git-2026-10-15.json)：真實 Kimi K3 檢查、修改、提交並推送至本機 bare 儲存庫；宿主核對提交一致及工作區乾淨。
+- [GitHub 讀取](acceptance/real-github-read-2026-10-15.json)：使用者完成 OAuth，真實模型呼叫帳號、提交及檔案／資源讀取；獨立核對帳號 ID、提交 SHA 及 README 完整 Git blob。初版腳本漏判資源讀取路徑，原失敗回執保留，持久化事件複驗通過。
+- [GitHub 寫入](acceptance/real-github-write-2026-10-15.json)：真實模型在批准的 main 分支寫入一個驗收檔案。首次轉錄少一個冒號；第二個真實模型任務修正後，宿主核對全文、blob、父提交、提交訊息及唯一變更路徑全部正確。首次失敗保留；臨時模型憑據已刪除。
 
-參考：[官方 MCP](https://github.com/github/github-mcp-server/tree/v2.0.2)、[官方 OAuth 文件](https://github.com/github/github-mcp-server/blob/v2.0.2/docs/oauth-login.md)、[發行檔案與校驗值](https://github.com/github/github-mcp-server/releases/tag/v2.0.2)。
+以上證明具體帳號及批准的單檔讀寫路徑，不代表所有 Issue、Pull Request、組織或分支保護情境均已驗收。註冊狀態本身不代表登入成功。
 
-真實桌面下載、設定儲存、引擎重新載入與官方工具註冊已通過（含 `get_me`）。下載改用 Electron 系統代理網路堆疊；新增網路錯誤測試通過。證據：[GitHub 註冊驗收](acceptance/github-registration-2026-10-15.json)。本次未呼叫帳號授權或遠端寫入。
+## 複驗
+
+標準 npm test 包含 87 項應用測試及 7 項驗收檢查測試。scripts/accept-real-github.mjs 預設唯讀：從已建置開發目錄設定 KUADE_REAL_GITHUB=1 與 KUADE_MODEL_PROFILE（已儲存模型連接的 Kuade 使用者資料目錄）後執行。使用獨立實例，退出時刪除臨時憑據，OAuth 由使用者完成。寫入模式僅針對本次明確批准的固定記錄；已有檔案拒絕重複新增，修復模式只接受已知的冒號轉錄偏差，並非通用發佈命令。
+
+參考：[官方 MCP](https://github.com/github/github-mcp-server/tree/v2.0.2)、[OAuth](https://github.com/github/github-mcp-server/blob/v2.0.2/docs/oauth-login.md)、[發佈與校驗](https://github.com/github/github-mcp-server/releases/tag/v2.0.2)。

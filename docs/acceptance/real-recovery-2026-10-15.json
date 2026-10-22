@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "durationScope": "interruption/restart recovery, not an hours-long soak",
+  "marker": "4ecf6f48-b772-4f91-9572-9b0a8b07b5ee",
+  "initialPid": 36584,
+  "model": "kuade-ca49e51b::kimi-k3",
+  "checkpoint": {
+    "sessionId": "session-4c088d94-1d22-4a26-9a1f-7f6776b607e3",
+    "sourceHash": "fb2c7fcbdd03a24b670ab809323eb15ac77ded449997fb1abd7155f19b8de4c3",
+    "taskPid": 33216,
+    "requestsBefore": 1
+  },
+  "restartedPid": 35304,
+  "sessionId": "session-4c088d94-1d22-4a26-9a1f-7f6776b607e3",
+  "sameSession": true,
+  "originalModuleUnchanged": true,
+  "originalCredentialsUnchanged": true,
+  "requestsAfter": 1,
+  "inputRows": 137,
+  "expected": {
+    "count": 117,
+    "totalCents": 791682,
+    "byCategory": {
+      "运维": 263757,
+      "设计": 265557,
+      "开发": 262368
+    }
+  },
+  "date": "2026-10-15"
+}

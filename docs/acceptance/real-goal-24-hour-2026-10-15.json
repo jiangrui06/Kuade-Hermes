@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-15",
+  "status": "not-passed",
+  "requestedDurationMs": 86400000,
+  "scope": "Real model development, paced independent data validation over 24 hours, automatic continuation and restart recovery",
+  "executable": "D:/K018z-1015/Kuade.exe",
+  "evidenceRoot": "D:\\Kuade-acceptance\\real-goal-d4ac6594-8e2c-4d24-9a11-2abbd4b8117e",
+  "startedBy": "scripts/accept-real-recovery.mjs",
+  "processSession": 36425,
+  "sessionId": "session-426cc10a-8acb-48ab-b0c1-a14139836904",
+  "workloadPid": 40692,
+  "workloadStartedAt": 1792058263283,
+  "expectedWorkloadEnd": "2026-10-16T17:57:43.283+08:00",
+  "preflight": "real-goal-soak-preflight-2026-10-15.json",
+  "lastObserved": {
+    "at": "2026-10-15T11:01:45.527Z",
+    "processAlive": true,
+    "workload": {
+      "status": "running",
+      "startedAt": 1792058263283,
+      "pid": 40692,
+      "requestedDurationMs": 86400000,
+      "intervalMs": 60000,
+      "checks": 65,
+      "batches": 325,
+      "checkedRows": 83525,
+      "elapsedMs": 3840620.2128,
+      "lastCheckedAt": 1792062103904,
+      "maxGapMs": 60017.6045
+    }
+  },
+  "limitations": [
+    "Not passed: application closed after approximately 73 minutes",
+    "Same-name process termination reproduced separately and fixed in 0.1.9; original failed run retained",
+    "Previous two-hour acceptance remains a separate completed result"
+  ],
+  "goalObservation": {
+    "source": "Read-only snapshot of isolated upstream session log; complete compressed frames decoded",
+    "observedAt": "2026-10-15T11:01:45.528Z",
+    "lastSeq": 144,
+    "phase": "active",
+    "lastTurnBoundary": {
+      "type": "turn/start",
+      "at": 1792061284643
+    },
+    "lastTool": {
+      "name": "job_output",
+      "turn": 3,
+      "at": 1792061939839,
+      "arguments": {
+        "job_id": "pwsh-9",
+        "wait": true,
+        "timeout_ms": 3600000
+      }
+    }
+  },
+  "error": {
+    "stage": "checkpoint",
+    "message": "page.evaluate: Target page, context or browser has been closed"
+  },
+  "processExitCode": 1,
+  "interruptionContext": "The window closed during concurrent 0.1.8 installer acceptance. Independent reproduction confirmed that installer terminated a same-name process outside its installation directory. Version 0.1.9 installer preservation checks passed; a separate full rerun was started. The original run remains unsuccessful.",
+  "rerun": "real-goal-24-hour-0.1.9-2026-10-15.json"
+}

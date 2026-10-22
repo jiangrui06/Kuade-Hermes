@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-15",
+  "status": "passed",
+  "requestedDurationMs": 7200000,
+  "scope": "real-model module development followed by a paced, independently checked long shell workload and restart recovery; not hours of continuous code generation",
+  "realProvider": true,
+  "model": "kuade-ca49e51b::kimi-k3",
+  "application": {
+    "version": "0.1.8",
+    "packaged": true
+  },
+  "executable": "D:\\K018z-1015\\Kuade.exe",
+  "executableSha256": "10604896285c476ac9aa23940c8ae2dd9727f0d89721ab9c8e17f011216d7a03",
+  "appArchiveSha256": "a340f8a98d7efeaf668e808bf8a45e216be4be8188b9bd36b8f4cd0ea7563376",
+  "evidenceRoot": "D:\\Kuade-acceptance\\real-goal-b4e6d86d-cef2-42e0-933d-267fa5f77986",
+  "startedBy": "scripts/accept-real-recovery.mjs",
+  "processSession": 92780,
+  "processExitCode": 0,
+  "sessionId": "session-e6c82fbc-d008-4be4-a8c0-9abb357ee853",
+  "initialPid": 38932,
+  "restartedPid": 38036,
+  "soak": {
+    "status": "passed",
+    "startedAt": 1792052356760,
+    "pid": 20848,
+    "requestedDurationMs": 7200000,
+    "intervalMs": 60000,
+    "checks": 121,
+    "batches": 605,
+    "checkedRows": 155485,
+    "elapsedMs": 7200005.629899999,
+    "lastCheckedAt": 1792059556767,
+    "maxGapMs": 60017.466000000015,
+    "completedAt": 1792059556768
+  },
+  "hostObservation": {
+    "observedSoakStartedAt": 1792052384319,
+    "observations": 236,
+    "checkedAt": 1792059556984
+  },
+  "checkpoint": {
+    "sessionId": "session-e6c82fbc-d008-4be4-a8c0-9abb357ee853",
+    "sourceHash": "cdc2f1e5112bc3fefa8cf61c1cce9a5e82bd18d77de8caa4d347325a35c13fbe",
+    "taskPid": 20848,
+    "requestsBefore": 1
+  },
+  "beforeRestart": {
+    "id": "goal-2e13ee16-681c-4017-ae9f-364ca03fb19b",
+    "phase": "active",
+    "activation": "armed",
+    "roundsStarted": 4
+  },
+  "afterRestart": {
+    "id": "goal-2e13ee16-681c-4017-ae9f-364ca03fb19b",
+    "phase": "active",
+    "activation": "disarmed",
+    "roundsStarted": 4
+  },
+  "completedGoal": {
+    "id": "goal-2e13ee16-681c-4017-ae9f-364ca03fb19b",
+    "phase": "complete",
+    "activation": "disarmed",
+    "roundsStarted": 5
+  },
+  "sameSession": true,
+  "originalModuleUnchanged": true,
+  "originalCredentialsUnchanged": true,
+  "temporaryCredentialsRemoved": true,
+  "inputRows": 137,
+  "independentExpected": {
+    "count": 117,
+    "totalCents": 791682,
+    "byCategory": {
+      "运维": 263757,
+      "设计": 265557,
+      "开发": 262368
+    }
+  },
+  "preflight": "real-goal-soak-preflight-2026-10-15.json",
+  "limitations": [
+    "Long command and goal lifecycle; not continuous code generation for two hours",
+    "24-hour cross-day run is separate and still pending",
+    "Normal application close/restart, not system crash or power loss"
+  ]
+}

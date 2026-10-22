@@ -1,0 +1,87 @@
+{
+  "status": "not-passed",
+  "date": "2026-10-16",
+  "version": "0.1.11",
+  "scope": "Real-model module development followed by paced independently validated long shell work and same-goal restart recovery; not continuous code generation",
+  "requestedDurationMs": 86400000,
+  "executable": "D:\\K011z-1015\\Kuade.exe",
+  "executableSha256": "1aedc98ead0e688e7f609f34ffd32e617fcff6a750c66f79437d7db252e672c9",
+  "runnerSha256": "69c213fa269a7f44703b49e3a14b4c87968f9c95c50b182e3a39a47d1ef5b71c",
+  "runnerSnapshot": "D:\\Kuade-acceptance\\host-503caebc-339b-4e8d-b982-744eca62159a\\runner-source.mjs",
+  "observationHelperSha256": "bc9fbb52d2fe9cebe7332054474085a8a8c0c245b806cda9c028d5ef0db7ec00",
+  "hostDirectory": "D:\\Kuade-acceptance\\host-503caebc-339b-4e8d-b982-744eca62159a",
+  "evidenceRoot": "D:\\Kuade-acceptance\\host-503caebc-339b-4e8d-b982-744eca62159a\\real-goal-de674e22-83e3-494e-88fe-c1145d7275dc",
+  "coordinatorPid": 52968,
+  "sessionId": "session-9c2535dc-3009-4d9a-b59e-f8c8097364b6",
+  "workloadPid": 12324,
+  "workloadStartedAt": 1792143212745,
+  "expectedWorkloadEnd": "2026-10-17T17:33:32.745000+08:00",
+  "lastObserved": {
+    "status": "passed",
+    "startedAt": 1792143212745,
+    "pid": 12324,
+    "requestedDurationMs": 86400000,
+    "intervalMs": 60000,
+    "checks": 1441,
+    "batches": 7205,
+    "checkedRows": 1851685,
+    "elapsedMs": 86400011.8361,
+    "lastCheckedAt": 1792229614054,
+    "maxGapMs": 61543.89969999343,
+    "completedAt": 1792229614056
+  },
+  "initialHostTask": "Kuade-Acceptance-503caebc-339b-4e8d-b982-744eca62159a",
+  "exitObserverTask": "Kuade-Acceptance-Gui-c906a5bb-a7d7-4157-b285-78eae17096fe",
+  "exitObserver": {
+    "status": "exited",
+    "processId": 52968,
+    "observerPid": 48396,
+    "consoleWindow": false,
+    "executable": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+    "processStartedAt": "2026-10-16T09:32:54.449858+00:00",
+    "processCreationTicks": "134366167744498589",
+    "attachedAt": "2026-10-16T09:33:23.622626+00:00",
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T09:33:41.253224+00:00"
+  },
+  "exitObserverFile": "D:\\Kuade-acceptance\\host-503caebc-339b-4e8d-b982-744eca62159a\\exit-observation-gui.json",
+  "preflightReceipt": "real-goal-observation-preflight-2026-10-16.json",
+  "priorUnsuccessfulRuns": [
+    "real-goal-24-hour-2026-10-15.json",
+    "real-goal-24-hour-0.1.9-2026-10-15.json",
+    "real-goal-24-hour-0.1.11-2026-10-16.json"
+  ],
+  "completionRequirements": [
+    "Actual workload elapsedMs >= 86400000 with independent checks and bounded heartbeat gaps",
+    "Raw acceptance.json status passed with same-goal restart recovery and independently verified CLI output",
+    "Exit observation status exited, matching coordinator identity, with observed process exitCode 0; observer task exit alone is insufficient",
+    "Temporary copied credentials removed and original credentials unchanged"
+  ],
+  "limitations": [
+    "24-hour data validation passed; the original full-run acceptance failed before restart recovery.",
+    "Delayed same-session recovery passed on 2026-10-22 with its own receipt; the original failed receipt is unchanged.",
+    "This workload does not prove continuous day-long code generation."
+  ],
+  "temporaryTasksToRemoveAfterCompletion": [
+    "Kuade-Acceptance-503caebc-339b-4e8d-b982-744eca62159a",
+    "Kuade-Acceptance-Gui-c906a5bb-a7d7-4157-b285-78eae17096fe"
+  ],
+  "finalObservedAt": "2026-10-22T02:14:39.070Z",
+  "error": {
+    "stage": "checkpoint",
+    "message": "No persisted model-authored plan found"
+  },
+  "soakObservation": {
+    "observedSoakStartedAt": 1792143213484,
+    "observations": 2838,
+    "checkedAt": 1792229615149
+  },
+  "failureAnalysis": {
+    "confirmedCause": "The last-100-message page omitted persisted todo/write events at seq 27 and 50. Full retained compressed log contains 798 rows and both plans.",
+    "scope": "Acceptance history pagination failure; the raw full-run receipt remains not-passed.",
+    "fix": "Read all backwards pages at one fixed throughSeq; reject gaps, repeats and premature truncation.",
+    "regression": "110 application tests and 22 acceptance tests passed on 2026-10-22, including four history-pagination cases."
+  },
+  "delayedRecoveryReceipt": "real-goal-post-soak-recovery-2026-10-22.json",
+  "temporarySystemTasksRemoved": true
+}

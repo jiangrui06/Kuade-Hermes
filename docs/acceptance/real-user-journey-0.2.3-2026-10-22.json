@@ -1,0 +1,144 @@
+{
+  "version": "0.2.3",
+  "date": "2026-10-22",
+  "status": "passed",
+  "model": "kimi-k3",
+  "realProvider": true,
+  "scope": [
+    "new task",
+    "real model code modification",
+    "independent generated-code assertions",
+    "new-file preview",
+    "per-file diff",
+    "history rename and search",
+    "follow-up code edit",
+    "generated app in Edge",
+    "restart persistence",
+    "clickable preview URLs"
+  ],
+  "automated": {
+    "typecheck": "passed",
+    "total": 164,
+    "productionBuild": "passed",
+    "acceptanceScriptTests": 22,
+    "applicationTests": 142,
+    "status": "passed"
+  },
+  "developmentDesktop": {
+    "review": "ui-redesign-9f0411dd-fea9-44cb-b272-d0e0e511cf09",
+    "status": "passed",
+    "markdown": "message-markdown-7f5df86e-471d-42d2-966c-e0f3548726bc",
+    "provider": "controlled local SSE",
+    "versions": {
+      "review": "0.2.1",
+      "markdown": "0.2.3"
+    }
+  },
+  "baseline": {
+    "turns": 2,
+    "version": "0.2.0",
+    "root": "D:\\Kuade-acceptance\\real-user-journey-e7dfcce7-d555-4f3f-abd3-0a9a4a4383a2",
+    "originalSettingsUnchanged": true,
+    "status": "passed",
+    "generatedTests": 12,
+    "observations": [
+      {
+        "newReadmeInList": 1,
+        "readmeReviewButtons": 0
+      }
+    ]
+  },
+  "reviewStage": {
+    "followupFinding": "Model emitted preview URL as inline code; fixed in 0.2.2",
+    "generatedTests": 10,
+    "turns": 2,
+    "status": "passed",
+    "root": "D:\\Kuade-acceptance\\real-user-journey-b34b6dce-9d92-47f4-a5fa-7038c67e5c03",
+    "originalSettingsUnchanged": true,
+    "observations": [
+      {
+        "newReadmeInList": 1,
+        "readmeReviewButtons": 1
+      }
+    ],
+    "version": "0.2.1"
+  },
+  "limitations": [
+    "Bounded two-turn quote-calculator benchmark per run, not an arbitrary-project or overnight guarantee",
+    "Folder-picker path is supplied by test; project and task handlers remain real",
+    "Preview URL IPC dispatch uses a stubbed OS opener; generated application is independently exercised in Edge",
+    "No new native computer-control, MCP, self-update, installer or macOS acceptance in this run"
+  ],
+  "executionStage": {
+    "checks": [
+      "Open project and new task using configured model through UI",
+      "New-file preview, per-file Diff, narrow-window review and return to task",
+      "Review actual modified files in Changes",
+      "Rename, search, reopen same task and real-model follow-up",
+      "Preview address in real model reply dispatches through main process; OS opener stubbed",
+      "Independent decimal, default, full-discount and eight invalid-input assertions; rerun generated Node tests",
+      "Generated application in real Edge: discounted total and reset",
+      "Application restart preserves task title and conversation"
+    ],
+    "root": "D:\\Kuade-acceptance\\real-user-journey-73dc7d4d-bc03-486b-b012-d21ca24f8642",
+    "followupFinding": "GFM consumed Chinese punctuation into a bare URL. The final presentation patch reuses linkify-it.",
+    "version": "0.2.2",
+    "model": "kuade-ca49e51b::kimi-k3",
+    "generatedTests": 12,
+    "originalSettingsUnchanged": true,
+    "turns": 2,
+    "status": "passed",
+    "temporaryCredentialsRemoved": true
+  },
+  "finalReplay": {
+    "status": "passed",
+    "root": "D:\\Kuade-acceptance\\real-user-replay-53a44ddc-eefd-4bf1-a6ba-59c090b84f3d",
+    "realModelEvidence": "D:\\Kuade-acceptance\\real-user-journey-73dc7d4d-bc03-486b-b012-d21ca24f8642",
+    "model": "kuade-ca49e51b::kimi-k3",
+    "freshDevelopmentPrompts": 0,
+    "checks": [
+      "Persisted real Kimi reply: Chinese-adjacent URL clicks through main process; OS opener stubbed",
+      "New-file preview, per-file Diff, narrow layout and return to ready composer",
+      "Same real-model-generated project tests and live Edge discount/reset verification",
+      "Restart retains real task and corrected link presentation"
+    ],
+    "startedAt": "2026-10-22T04:25:23.513Z",
+    "application": {
+      "version": "0.2.3",
+      "packaged": true
+    },
+    "executable": "D:\\K023-release-1022\\win-unpacked\\Kuade.exe",
+    "executableSha256": "1e51af95a97702d9861a02ce61d7377b6476b608a033b8daa4825f8767aa1df2",
+    "appArchiveSha256": "2c3d0a0b13b2580ee32dd1e26dc3de5e70592e6e60bd43dff9d68598b27a9f24",
+    "generatedTests": 12,
+    "teardownErrors": [],
+    "temporaryCredentialsRemoved": true,
+    "originalSettingsUnchanged": true,
+    "finishedAt": "2026-10-22T04:25:43.893Z"
+  },
+  "release": {
+    "archive": "E:\\Kuade-Hermes\\release\\Kuade Harness-0.2.3-win.zip",
+    "version": "0.2.3",
+    "zipIntegrity": "passed",
+    "sha256": "0A9E9916DF76145E7414281CD82132C41145BD6666E260425C5068FC6681C123",
+    "newInstaller": false,
+    "linkifyLicensePresent": true,
+    "extractedExeAndAsarMatchTestedPackage": true,
+    "copyHashMatches": true,
+    "bytes": 300795482,
+    "extractedExecutable": "D:\\K023z-1022\\Kuade.exe",
+    "signature": "NotSigned"
+  },
+  "credentialScan": {
+    "checkedFiles": 8,
+    "potentialCredentialMatches": 0
+  },
+  "finishedAt": "2026-10-22T04:29:22.8688323Z",
+  "desktopOpened": {
+    "pid": 48468,
+    "path": "D:\\K023z-1022\\Kuade.exe",
+    "title": "Kuade Harness",
+    "responding": true,
+    "windowVisible": true
+  }
+}

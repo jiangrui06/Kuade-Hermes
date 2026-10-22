@@ -10,9 +10,34 @@ const ended = (kind: string) => [{ seq: 20, type: 'turn/end', data: { reason: { 
 describe('任务进度由 Harness 记录派生', () => {
   it('本轮结束不等于计划完成；模型文本不建立成功状态', () => {
     const progress = taskProgress({ events: ended('completed'), projections: { todos } });
-    expect(progress).toMatchObject({ label: '待继续', completed: 1, canContinue: true });
+    expect(progress).toMatchObject({ label: '本轮结束', completed: 1, canContinue: true });
     expect(taskProgress({ events: [{ type: 'assistant/message', data: { content: '所有测试通过' } }] }).label).toBe('已保存');
     expect(taskProgress({ events: ended('completed'), projections: { todos: todos.map(item => ({ ...item, status: 'completed' })) } })).toMatchObject({ label: '本轮结束', canContinue: false });
+  });
+  it('目标完成但计划未勾完时保留分歧，不暗示目标仍在执行或需要续跑', () => {
+    const progress = taskProgress({ events: ended('completed'), projections: { todos, goal: { goal: { phase: 'complete' } } } });
+    expect(progress).toMatchObject({ label: '本轮结束', completed: 1, canContinue: false });
+    render(<TaskProgress progress={progress} disabled={false} onContinue={vi.fn()} />);
+    expect(screen.getByText(/计划仍有未勾选步骤/)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '继续任务' })).not.toBeInTheDocument();
+    expect(taskProgress({ events: ended('error'), projections: { goal: { goal: { phase: 'complete' } } } }).label).toBe('执行出错');
+  });
+  it('跨轮投影重置后保留历史计划，新的计划和明确清空优先', () => {
+    const saved = { seq: 5, todos };
+    const progress = taskProgress({ events: ended('interrupted'), projections: { todos: null }, persistedPlan: saved });
+    expect(progress).toMatchObject({ todos, planSource: 'history', completed: 1 });
+    render(<TaskProgress progress={progress} disabled={false} onContinue={vi.fn()} />);
+    expect(screen.getByText('历史计划 1 / 3')).toBeInTheDocument();
+    expect(taskProgress({ events: [{ seq: 30, type: 'todo/write', data: { todos: [] } }], persistedPlan: saved }).todos).toEqual([]);
+    expect(taskProgress({ projections: { todos: [] }, persistedPlan: saved }).todos).toEqual([]);
+    expect(taskProgress({ events: [{ seq: 30, type: 'todo/write', data: { todos } }] }).todos).toEqual(todos);
+  });
+  it('历史计划未读完或读取失败不宣称没有计划', () => {
+    const view = render(<TaskProgress progress={taskProgress({ planReadState: 'loading' })} disabled onContinue={vi.fn()} />);
+    expect(screen.getByText('正在读取历史计划')).toBeInTheDocument();
+    view.rerender(<TaskProgress progress={taskProgress({ planReadState: 'error' })} disabled onContinue={vi.fn()} />);
+    expect(screen.getByText(/历史计划读取失败/)).toBeInTheDocument();
+    expect(screen.queryByText('尚无步骤计划')).not.toBeInTheDocument();
   });
   it.each([['aborted', '已停止'], ['interrupted', '已中断'], ['error', '执行出错'], ['max-tokens', '输出达到上限'], ['blocked', '等待处理']])('%s 保留真实原因并允许手动继续', (kind, label) => {
     expect(taskProgress({ events: ended(kind) })).toMatchObject({ label, canContinue: true });

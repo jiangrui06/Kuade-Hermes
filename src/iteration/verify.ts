@@ -1,11 +1,12 @@
 import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { join, relative } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import type { SourceSnapshot, VerificationStep } from '../shared/iteration';
-import { sourceChanges } from './source';
+import { BASELINE_FILES, sourceChanges } from './source';
 import { buildEnvironment, runStep, type ProcessSpec } from './process';
 import { executableHash, writeJson } from './handoff';
 import { resourcesHash } from './artifact';
+import { assertIndependentPackageDirectory } from './package-location';
 
 export interface VerificationOptions {
   node: string;
@@ -23,10 +24,14 @@ export async function verifyCandidate(snapshot: SourceSnapshot, options: Verific
   if (!changes.some(file => /^(src|tests|docs|vendor)\//.test(file.path))) throw new Error('模型没有产生功能、测试或文档变更，本轮不更新');
   const pkg = JSON.parse(await readFile(join(candidate, 'package.json'), 'utf8'));
   if (pkg.name !== 'kuade-desktop' || pkg.main !== 'dist/main/index.js' || pkg.version !== snapshot.targetVersion) throw new Error('候选版本身份发生变动，请检查 package.json');
-  for (const file of snapshot.files.filter(file => file.path.startsWith('tests/') || ['scripts/build.mjs', 'scripts/build-computer.mjs', 'tsconfig.json', 'electron-builder.yml'].includes(file.path))) {
+  for (const file of snapshot.files.filter(file => file.path.startsWith('tests/') || BASELINE_FILES.includes(file.path))) {
     if (sha256(await readFile(join(baseline, file.path))) !== file.sha256) throw new Error('基线验证文件发生变动，本轮停止：' + file.path);
   }
   await mkdir(options.evidence, { recursive: true });
+  // Keep the artifact beside source/, never underneath its node_modules ancestry.
+  const output = join(dirname(candidate), 'application');
+  await mkdir(output, { recursive: true });
+  await assertIndependentPackageDirectory(output);
   await writeJson(join(options.evidence, 'changes.json'), changes);
   const receipts: VerificationStep[] = [];
   const run = options.run ?? runStep;
@@ -70,9 +75,15 @@ export async function verifyCandidate(snapshot: SourceSnapshot, options: Verific
   const config = relative(candidate, join(baseline, 'electron-builder.yml'));
   // The official installer verifies the pinned distribution. Use builder's
   // supported electronDist option instead of downloading the same runtime again.
-  await node('package', [join(candidate, 'node_modules/electron-builder/out/cli/cli.js'), '--win', '--x64', '--dir', '--publish', 'never', '--config', config, '--config.electronDist=node_modules/electron/dist']);
-  const executable = join(candidate, 'release/win-unpacked/Kuade.exe');
-  const artifact = { executable, version: snapshot.targetVersion, sha256: await executableHash(executable), resourcesSha256: await resourcesHash(join(candidate, 'release/win-unpacked/resources')), changes, steps: receipts };
+  const installerConfig = snapshot.files.some(file => file.path === 'scripts/installer.nsh')
+    ? ['--config.nsis.include=' + join(baseline, 'scripts/installer.nsh')] : [];
+  await node('package', [join(candidate, 'node_modules/electron-builder/out/cli/cli.js'), '--win', '--x64', '--dir', '--publish', 'never', '--config', config, ...installerConfig, '--config.electronDist=node_modules/electron/dist', '--config.directories.output=' + output]);
+  const executable = join(output, 'win-unpacked/Kuade.exe');
+  await options.onStep?.('building', '在独立用户目录验证候选界面与引擎启动');
+  const smoke = join(candidate, prefix + '-startup.mjs');
+  await cp(join(baseline, 'scripts/check-packaged-startup.mjs'), smoke);
+  await node('packaged-startup', [smoke, executable, snapshot.targetVersion, options.evidence]);
+  const artifact = { executable, version: snapshot.targetVersion, sha256: await executableHash(executable), resourcesSha256: await resourcesHash(join(output, 'win-unpacked/resources')), changes, steps: receipts };
   await writeJson(join(options.evidence, 'artifact.json'), artifact);
   return artifact;
 }

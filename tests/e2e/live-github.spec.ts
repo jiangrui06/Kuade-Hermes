@@ -23,6 +23,7 @@ test('官方 GitHub MCP：实际下载、桌面添加、保存及工具注册', 
       if (/失败|未完成|Error/.test(status)) throw new Error(status);
       return status;
     }, { timeout: 240000 }).toContain('工具已注册不代表已登录');
+    await page.getByText('高级配置 · 自定义 MCP', { exact: true }).click();
     const config = JSON.parse(await page.getByLabel('MCP 配置').inputValue());
     expect(config.mcpServers.github.command).toContain('github-mcp-2.0.2');
     expect(config.mcpServers.github).not.toHaveProperty('env');

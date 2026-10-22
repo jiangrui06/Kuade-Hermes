@@ -18,7 +18,7 @@ export function Skills({ ready, workspaceId, sessionId, onUse }: { ready: boolea
     return () => { current = false; };
   }, [ready, workspaceId, sessionId, revision]);
   return <section className="settings-card" aria-label="项目技能">
-    <div className="card-heading"><div><h2>项目技能</h2><p>读取当前项目实际发现的 Skills。项目技能可放入 .agents/skills/技能名称/SKILL.md。</p></div><button className="secondary-button" disabled={!ready || !workspaceId || loading} onClick={() => setRevision(value => value + 1)}>刷新技能</button></div>
-    {error ? <p role="alert">技能读取失败：{error}</p> : !ready ? <p>等待引擎就绪…</p> : loading ? <p>正在读取技能…</p> : !skills.length ? <p>当前项目尚未发现技能。添加 SKILL.md 后刷新。</p> : <div className="discovered-skills">{skills.map(skill => <article key={skill.name}><div><h3>{skill.name}</h3><p>{skill.description}</p>{skill.path && <small>{skill.path}</small>}</div><button className="secondary-button" onClick={() => onUse(skill.name)}>用于任务</button></article>)}</div>}
+    <div className="card-heading"><div><h2>项目技能</h2><p>技能是可复用的工作方法。选择一个技能，带着它开始任务。</p></div><button className="secondary-button" disabled={!ready || !workspaceId || loading} onClick={() => setRevision(value => value + 1)}>刷新技能</button></div>
+    {error ? <p role="alert">技能读取失败：{error}</p> : !ready ? <p>等待引擎就绪…</p> : loading ? <p>正在读取技能…</p> : !skills.length ? <p>此项目还没有技能。将技能放入 .agents/skills/技能名称/SKILL.md 后，点击刷新。</p> : <div className="discovered-skills">{skills.map(skill => <article key={skill.name}><div><h3>{skill.name}</h3><p>{skill.description}</p>{skill.path && <small>{skill.path}</small>}</div><button className="secondary-button" onClick={() => onUse(skill.name)}>用于任务</button></article>)}</div>}
   </section>;
 }

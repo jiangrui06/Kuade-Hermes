@@ -66,7 +66,12 @@ test('真实桌面：模型配置、写文件、恢复、审批终端、MCP 调�
     await capture('01-workbench.png');
     await app.evaluate(({ dialog }, path) => { dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [path] }); }, project);
     await page.getByRole('button', { name: '打开项目', exact: true }).click();
-    await expect(page.locator('.project-picker')).toContainText('中文项目');
+    await expect(page.getByLabel('当前项目')).toContainText('中文项目');
+    await page.keyboard.press('Control+Shift+M');
+    await expect(page.getByLabel('连接名称', { exact: true })).toBeVisible();
+    const modelNavigation = page.getByRole('button', { name: '模型连接', exact: true });
+    await expect(modelNavigation).toHaveAttribute('aria-keyshortcuts', 'Control+Shift+M');
+    await expect(modelNavigation).toHaveAttribute('title', '模型连接 · Ctrl+Shift+M');
     await page.getByRole('button', { name: '模型连接', exact: true }).click();
     await page.getByLabel('连接名称', { exact: true }).fill('本地验收模型');
     await page.locator('input[type=password]').fill('wrong-fixture-key');
@@ -124,10 +129,12 @@ test('真实桌面：模型配置、写文件、恢复、审批终端、MCP 调�
     scenario = 'mcp';
     const marker = resolve(root, 'mcp-invoked.txt');
     await page.getByRole('button', { name: '工具与技能' }).click();
+    await page.getByText('高级配置 · 自定义 MCP', { exact: true }).click();
     await page.getByLabel('MCP 配置').fill(JSON.stringify({ mcpServers: { fixture: { command: process.execPath, args: [resolve('tests/fixtures/mcp.mjs'), marker] } } }));
     await page.getByRole('button', { name: '保存并重新加载' }).click();
     await expect(page.getByRole('status').filter({ hasText: '配置已保存' })).toBeVisible();
     await expect(page.getByText('本机运行', { exact: true })).toBeVisible();
+    await page.getByText('查看连接状态', { exact: true }).click();
     await expect(page.getByRole('region', { name: '扩展运行状态' })).toContainText('1 个工具已注册');
     await page.getByRole('button', { name: '新任务' }).click();
     await page.getByLabel('执行模式').selectOption('auto');
@@ -137,6 +144,7 @@ test('真实桌面：模型配置、写文件、恢复、审批终端、MCP 调�
     expect(await readFile(marker, 'utf8')).toBe('Kuade MCP acceptance');
     await capture('05-mcp.png');
     await page.getByRole('button', { name: '工具与技能' }).click();
+    await page.getByText('查看连接状态', { exact: true }).click();
     await page.getByText('fixture', { exact: true }).click();
     await expect(page.getByRole('region', { name: '扩展运行状态' })).toContainText('工具返回成功');
     await expect(page.getByRole('region', { name: '项目技能' })).toContainText('acceptance-skill');

@@ -33,15 +33,16 @@ export function Iteration({ ready, model, effort, onTask }: { ready: boolean; mo
     finally { setBusy(false); }
   };
   return <section className="settings-page iteration-page">
-    <div className="page-eyebrow">IMPROVE YOUR WORKSPACE</div><h1>让 Kuade，继续进步。</h1>
+    <h1>自我迭代</h1>
     <p className="page-description">给自己的开发搭档一项改进需求。它会在源码副本中实现，经过独立测试和构建后自动更新并重启；新版本启动失败时尝试恢复旧版本。</p>
+    <div className="iteration-steps"><div><b>1</b>选择源码与改进需求</div><div><b>2</b>自动修改并独立测试</div><div><b>3</b>验证通过后更新重启</div></div>
     <form className="settings-card iteration-form" onSubmit={event => {
       event.preventDefault(); const [provider, ...parts] = model.split('::');
       void action('iteration/start', { source, requirement, provider, model: parts.join('::'), ...(effort ? { effort } : {}) });
     }}>
       <label>Kuade 源码目录<div className="iteration-source"><input value={source} readOnly placeholder="选择当前版本的源码目录" /><button type="button" className="secondary-button" disabled={busy || active} onClick={() => void window.kuade.chooseDirectory().then(path => { if (path) setSource(path); }).catch(value => setError(value.message))}>选择源码</button></div></label>
       <label>改进需求<textarea aria-label="自迭代需求" value={requirement} disabled={busy || active} onChange={event => setRequirement(event.target.value)} placeholder="例如：增加一个可切换的深色主题，并验证切换后重启仍保留选择。" /></label>
-      <p className="page-description">使用工作台选中的模型：{model || '请先连接并选择模型'}。原源码、旧版本和模型连接保留；构建需要 npm，修改原生电脑控制组件时还需要 Go。</p>
+      <p className="page-description">使用工作台选中的模型：{model.split('::').slice(1).join('::') || model || '请先连接并选择模型'}。原源码、旧版本和模型连接保留；构建需要 npm，修改原生电脑控制组件时还需要 Go。</p>
       <div className="form-footer"><span>当前支持 Windows x64；至少预留 3 GiB 构建空间</span><button className="primary-button" disabled={busy || active || !ready || !source || !requirement.trim() || !model}>开始迭代并自动更新</button></div>
     </form>
     {error && <p className="form-message failure" role="alert">{error}</p>}

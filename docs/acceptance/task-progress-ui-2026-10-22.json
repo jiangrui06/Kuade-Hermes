@@ -1,0 +1,49 @@
+{
+  "status": "passed",
+  "date": "2026-10-22",
+  "scope": "Development Electron task state and historical-plan display; package acceptance recorded separately",
+  "automated": {
+    "application": 117,
+    "acceptance": 22,
+    "typecheckExitCode": 0,
+    "buildExitCode": 0
+  },
+  "desktop": {
+    "tests": 4,
+    "exitCode": 0,
+    "runs": [
+      {
+        "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\goals-beff83d4-13d4-4cde-9b6a-ea7dae727d01",
+        "status": "passed",
+        "receiptSha256": "8fa9cde1e1f588de69cf761ce45464c8cac409c10054c9cd29b46bf9304e076e",
+        "scope": "Controlled-provider goal lifecycle in real Electron"
+      },
+      {
+        "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\history-ui-interrupted-3f9de6ab-3e9d-4ae8-b61f-7e96fc9b5663",
+        "status": "passed",
+        "receiptSha256": "190123311570ad95ce35b968ccee7e89b7d76ca3f28af17e7db18a3694f21f19",
+        "scope": "Real-provider saved history, displayed without new model execution"
+      },
+      {
+        "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\history-ui-completed-960a23c9-d77e-4ade-a40e-6b3a2e24ed4b",
+        "status": "passed",
+        "receiptSha256": "d78ec8fcdc05f71e31e72ed62f9cee8a6bffea3be041c374bdba1a964d3399ff",
+        "scope": "Real-provider saved history, displayed without new model execution"
+      }
+    ],
+    "stopRestartResumeRoot": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\task-progress-450bb885-346d-4b64-835f-006ca22ddf39"
+  },
+  "sourceHashes": {
+    "src/renderer/features/persisted-plan.ts": "e857428f12f128df61ef1e8252b99170baf55253461ba7cc175d44ace3920b79",
+    "src/renderer/features/use-persisted-plan.ts": "d5fab62655a1df56727be8f40da7240261f5b1cba1228cb1e4854e10eb540a07",
+    "src/renderer/features/session-model.ts": "bb92c5776bafaa602a0952a92ac7a0ff31af7bce42a5ff0d104fd71975661941",
+    "src/renderer/features/use-workspace.ts": "23e75ceb1f2edcc93e7cd8b58609bbf6bb28c1e33071245d86cbf900d315dbbe",
+    "src/renderer/features/task-progress.ts": "af48240623e7ad4ad1ad1d969dd7e4ea82f2cb1bd77b187b64c8159a8f84843d",
+    "src/renderer/components/TaskProgress.tsx": "5eb6ed4c7e589499e873a5125a105ac93fa1b85744bc5604c7e9993a7c8b08ad",
+    "src/renderer/App.tsx": "9839c9789cad91c97e11a0d1efc52974fd937c9b5ab61ff182b2ab1a4516d453"
+  },
+  "limitations": [
+    "Historical replay did not make new real-provider calls.",
+    "Previously failed duration-run receipts remain unchanged."
+  ]
+}

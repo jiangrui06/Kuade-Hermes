@@ -1,0 +1,150 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "phase": "all",
+  "steps": [
+    {
+      "name": "web-skill",
+      "sessionId": "session-3909cc3e-b8ad-4e93-9dd7-914d75a146f1",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__search__search",
+          "at": 1792036404253,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__search__fetch_content",
+          "at": 1792036407916,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_navigate",
+          "at": 1792036411058,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_snapshot",
+          "at": 1792036420873,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_fill_form",
+          "at": 1792036416185,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_click",
+          "at": 1792036418860,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "verified": true
+    },
+    {
+      "name": "computer",
+      "sessionId": "session-35fadd26-db25-4dc6-8c5e-987bb84d9ae0",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__qwen_computer__list_apps",
+          "at": 1792036433785,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__get_app_state",
+          "at": 1792036437099,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__set_value",
+          "at": 1792036441837,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__perform_secondary_action",
+          "at": 1792036445912,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "verified": true,
+      "fixturePid": 39540
+    }
+  ],
+  "before": {
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "process": "d4e554e056c8ec448b6794d9379817bb9dd2ed10990da0e248cfcd600159c912"
+  },
+  "executablePath": "D:\\K017-r2\\win-unpacked\\Kuade.exe",
+  "executableSha256": "9b8eb6bd276ab986247e970c9138eb29dc88fbc6e538881fa9a1ce34717599f6",
+  "version": "0.1.7",
+  "packaged": true,
+  "appArchiveSha256": "f4ca288700aa37201c05ddd0ad0592924e063ac7f1a97f3d994fec7b3cefe93b",
+  "nativeCommand": "D:\\K017-r2\\win-unpacked\\resources\\computer\\qwen-computer-use.exe",
+  "nativeSha256": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335",
+  "workspaceId": "63a43b2d-ef92-4f32-8ec0-260b1ad07658",
+  "model": "kuade-ca49e51b::kimi-k3",
+  "submissions": [
+    {
+      "marker": "Kuade 技能验收 f3c20dbf-1855-4a64-b7c3-9ae4155bc284",
+      "url": "https://www.electronjs.org/docs/latest/api/app",
+      "at": 1792036418273
+    }
+  ],
+  "extensionsRestored": true,
+  "credentialsUnchanged": true,
+  "temporaryCredentialsRemoved": true,
+  "after": {
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "process": "d4e554e056c8ec448b6794d9379817bb9dd2ed10990da0e248cfcd600159c912"
+  },
+  "environmentUnchanged": true,
+  "standaloneAcceptance": true,
+  "acceptedDate": "2026-10-15"
+}

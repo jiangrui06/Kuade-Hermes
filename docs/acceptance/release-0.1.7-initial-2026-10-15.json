@@ -1,0 +1,70 @@
+{
+  "version": "0.1.7",
+  "date": "2026-10-15",
+  "status": "not-passed",
+  "platform": "Windows x64",
+  "electron": "44.7.0",
+  "harness": "0.2.0-rc.2",
+  "build": {
+    "incorrectShortOption": "Rejected before build; rerun used --config.electronDist",
+    "firstAttempt": "Cancelled while waiting for remote Electron resources",
+    "electronDist": "node_modules/electron/dist",
+    "exitCode": 0
+  },
+  "native": {
+    "reusedBuildGatesDate": "2026-10-14",
+    "sourcesVerified": 26,
+    "sha256": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335",
+    "freshNativeBuild": false
+  },
+  "desktopRegression": {
+    "tests": [
+      "default workspace/models/reasoning/restart",
+      "files/terminal approval/MCP/questions",
+      "native editing menu",
+      "ongoing goals/pause/restart/resume/keyboard scrolling",
+      "qwen_computer screenshot/input/click",
+      "task plan/stop/interruption/recovery"
+    ],
+    "passed": 6,
+    "controlledProvider": true,
+    "evidence": [
+      "default-models-ab823a29-5be5-460c-b352-783f4111ac33",
+      "e2e-caa2c1d1-953a-4326-8744-4bf822522a94",
+      "goals-56f7fc5d-746b-4d89-b7a4-3b52c6b1263d",
+      "live-computer-b78dc7c7-607f-4271-8140-1d38f39e6b21",
+      "task-progress-c4ab6bb9-f1bb-4293-ad08-a282cd7b41ff"
+    ],
+    "exitCode": 0
+  },
+  "realCapabilities": "real-capabilities-packaged-0.1.7-2026-10-15.json",
+  "executableSha256": "1cab59e00d1918ca2ce6991e6d2851f0bf9e8c864a33077fa18d42bdfb956dbe",
+  "appArchiveSha256": "04c61166f7700c21a0138ea2fb71b37210647ecff7db892fb7205e5f28e25b83",
+  "artifacts": [
+    {
+      "sha256": "af62d14e706118a2ad69f6fa671eef3d8ca1c01def670980799fb63a7e9124d8",
+      "file": "Kuade Harness Setup 0.1.7.exe"
+    },
+    {
+      "sha256": "683b67b0abb6de49bdd8e45167f717c45f333a8bef1d599978b295b3e38f3341",
+      "file": "Kuade Harness-0.1.7-win.zip"
+    }
+  ],
+  "deliveryCopiesMatch": true,
+  "zip": {
+    "shortPathExtractionPassed": true,
+    "entries": 23783,
+    "crcPassed": true,
+    "extractionPath": "D:\\K017-2c7f7529",
+    "longestEntryLength": 194,
+    "longPathAttempt": "Python extraction failed above Windows legacy path length; original partial directory retained"
+  },
+  "signature": "NotSigned",
+  "pending": [
+    "installer wizard/uninstall",
+    "multi-hour/multi-day sustained tasks",
+    "complex desktop applications",
+    "macOS"
+  ],
+  "independentStartupFailure": "Missing required peer @deepseek-ai/cordis-plugin-group; in-build-directory tests inherited dependencies from ancestor node_modules. Outputs moved to release/rejected-0.1.7-missing-peers."
+}

@@ -1,0 +1,190 @@
+{
+  "status": "completed-with-recorded-limitations",
+  "date": "2026-10-22",
+  "version": "0.1.12",
+  "scope": "Agreed Windows milestone; independent current ZIP delivery plus explicitly versioned real-model acceptance evidence",
+  "currentRun": {
+    "realModelCapabilities": "passed",
+    "model": "Kimi K3",
+    "receipt": "real-capabilities-packaged-0.1.12-2026-10-22.json",
+    "evidenceRoot": "D:/Kuade-acceptance/real-capabilities-360141ab-d4be-4c40-8532-0f9b2f3918b8",
+    "processExitCode": 0
+  },
+  "requirements": [
+    {
+      "id": "self-iteration",
+      "status": "passed-historical-revalidated",
+      "receipt": "real-self-iteration-packaged-2026-10-15.json",
+      "version": "0.1.9 -> 0.1.10",
+      "freshVerification": [
+        "retained candidate EXE SHA-256",
+        "complete resources SHA-256 using original artifact algorithm",
+        "seven original gate logs",
+        "111 passing baseline/candidate tests",
+        "packaged-startup receipt"
+      ],
+      "resourceAudit": {
+        "checkedAt": "2026-10-22T02:48:44.120Z",
+        "scope": "Revalidate the retained self-iteration candidate using the original whole-resources algorithm",
+        "candidateVersion": "0.1.10",
+        "expected": "e69e483574a028e94c25365af3d547f051dff616068e7b56fe03e9c934ab7fcf",
+        "actual": "e69e483574a028e94c25365af3d547f051dff616068e7b56fe03e9c934ab7fcf",
+        "matches": true
+      }
+    },
+    {
+      "id": "mcp-skills-search-web-browser-windows",
+      "status": "passed-fresh",
+      "receipt": "real-capabilities-packaged-0.1.12-2026-10-22.json",
+      "version": "0.1.12",
+      "checks": [
+        "real model invoked skill and search/read MCP",
+        "independent HTTP submission matched marker and documentation URL",
+        "real model invoked packaged qwen desktop observation, text input and click",
+        "independent native output matched",
+        "original credentials and environment unchanged",
+        "temporary credentials removed"
+      ]
+    },
+    {
+      "id": "git",
+      "status": "passed-historical-revalidated",
+      "receipt": "real-git-2026-10-15.json",
+      "localAndBareRemoteHead": "8b7be44a94c29ece117fb734f2fb94ac46f42b4e",
+      "worktreeClean": true
+    },
+    {
+      "id": "github",
+      "status": "passed-historical-revalidated",
+      "receipt": "real-github-write-2026-10-15.json",
+      "freshCheck": "Read-only GitHub API verified retained commit, parent, sole changed file and blob; no new remote mutation",
+      "commit": "51a2237adc4a63f38a7e1aefc31bb94450401673",
+      "parent": "988536475188dd1238b1abfc20912139aab3d2f6",
+      "file": "docs/acceptance/real-github-read-2026-10-15.json",
+      "blob": "478cf53730f5d2f41e4d46516f4f816fc75afd0b"
+    },
+    {
+      "id": "selected-project-manager",
+      "status": "passed-historical-revalidated",
+      "receipt": "real-project-manager-2026-10-15.json",
+      "version": "0.1.8",
+      "generatedTests": 14,
+      "files": 13,
+      "automaticRounds": 3,
+      "archive": "release/Kuade-generated-project-manager-2026-10-15.zip",
+      "archiveSha256": "e03215b3d9eb3bc10bee2719dc4507e52a2041eaac5784e747e4556ac1a6348a",
+      "freshVerification": [
+        "archive SHA-256 matches",
+        "original generated-test log: 14 passed, 0 failed",
+        "independent API/SQLite-restart/browser receipt passed",
+        "independent database and screenshots retained"
+      ]
+    },
+    {
+      "id": "two-hour-operation",
+      "status": "passed-historical",
+      "receipt": "real-goal-two-hour-2026-10-15.json"
+    },
+    {
+      "id": "cross-day-operation-and-recovery",
+      "status": "passed-in-two-stages",
+      "receipts": [
+        "real-goal-24-hour-0.1.11-observer-retry-2026-10-16.json",
+        "real-goal-post-soak-recovery-2026-10-22.json"
+      ],
+      "version": "0.1.11",
+      "soak": {
+        "elapsedMs": 86400011.8361,
+        "checks": 1441,
+        "rowsChecked": 1851685
+      },
+      "recoveryDate": "2026-10-22",
+      "sameSession": true,
+      "independentCliPassed": true,
+      "originalOverallRunPassed": false,
+      "explanation": "Actual 24-hour workload passed; observer then missed the plan because it read only the last 100 messages. Original failed receipt preserved. Fixed pagination and delayed recovery of the same session passed. Not one uninterrupted overall pass."
+    },
+    {
+      "id": "current-release",
+      "status": "passed",
+      "receipt": "release-0.1.12-2026-10-22.json",
+      "applicationTests": 117,
+      "acceptanceToolTests": 22,
+      "packagedDesktopTests": 4,
+      "independentStartup": true,
+      "zipIntegrity": true
+    }
+  ],
+  "limitations": [
+    "Self-iteration, project generation, Git/GitHub and duration evidence retain their original versions; not all are fresh 0.1.12 executions.",
+    "Cross-day evidence is a sustained data/shell workload followed by delayed same-session real-model recovery, not 24 hours of continuous code generation.",
+    "Desktop coverage is the exercised dedicated Windows window and browser flows; macOS and arbitrary applications are outside this milestone.",
+    "Artifacts are unsigned. Current NSIS installer was built but not executed; freshly tested distribution is ZIP.",
+    "Verified self-update uses independent version directories; no claim of in-place installed-directory replacement.",
+    "The selected bounded project benchmark is not a guarantee for arbitrary large projects."
+  ],
+  "preservedFailures": [
+    "real-goal-24-hour-0.1.11-observer-retry-2026-10-16.json",
+    "package-0.1.12-initial-2026-10-22.json",
+    "real-goal-24-hour-2026-10-15.json",
+    "real-goal-24-hour-0.1.9-2026-10-15.json",
+    "real-goal-24-hour-0.1.11-2026-10-16.json"
+  ],
+  "receipts": [
+    {
+      "file": "real-self-iteration-packaged-2026-10-15.json",
+      "status": "passed",
+      "sha256": "8db084693418842dae3057d7ef2f43ffafe19a19a098989c76033894b532cc2b"
+    },
+    {
+      "file": "real-capabilities-packaged-0.1.12-2026-10-22.json",
+      "status": "passed",
+      "sha256": "5723f1190d355dac5f0140f09045943fc4cdb9d03cc8ad6fc39284d93f80a440"
+    },
+    {
+      "file": "real-git-2026-10-15.json",
+      "status": "passed",
+      "sha256": "240029ec8ebc26db22e8be664e1853ef505405b319fbd7542366f332b2b238c8"
+    },
+    {
+      "file": "real-github-write-2026-10-15.json",
+      "status": "passed",
+      "sha256": "526c1346e9db4197dc0380c6aaa0224b61bdc5afb6a4a90ff19ee327f01050c9"
+    },
+    {
+      "file": "real-project-manager-2026-10-15.json",
+      "status": "passed",
+      "sha256": "51c9c0563c2ba6eb0b897e18ddfc90e15caaee8588f7dcacb622fe7b327d1bb4"
+    },
+    {
+      "file": "real-goal-two-hour-2026-10-15.json",
+      "status": "passed",
+      "sha256": "a9bfc4a741df7c2f551bbe34e37c571b4340202d57869c3c0bdf6a19dad42bda"
+    },
+    {
+      "file": "real-goal-24-hour-0.1.11-observer-retry-2026-10-16.json",
+      "status": "not-passed",
+      "sha256": "318bada7501eb8db40970a57bf8d4f1f77964f8a34e4673c0db651e09713a7ca"
+    },
+    {
+      "file": "real-goal-post-soak-recovery-2026-10-22.json",
+      "status": "passed",
+      "sha256": "323e8545e6b444fb2cda978d7d7f7fb1983eefb4fe19dc74a3ff531386cc4dfb"
+    },
+    {
+      "file": "release-0.1.12-2026-10-22.json",
+      "status": "passed",
+      "sha256": "ef1fa6cccc5ed20a8c7c0b7673fd6b7a6eca9b8226cb6412781a38bbd5fcd328"
+    },
+    {
+      "file": "package-0.1.12-initial-2026-10-22.json",
+      "status": "not-passed",
+      "sha256": "0f46184309dd76b6ea653687f8681eb14c37a13a703dc95d7943ae5cb05640ec"
+    }
+  ],
+  "reports": [
+    "docs/MILESTONE.zh-CN.md",
+    "docs/MILESTONE.zh-TW.md",
+    "docs/MILESTONE.en.md"
+  ]
+}

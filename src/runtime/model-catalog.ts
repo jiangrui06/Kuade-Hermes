@@ -86,8 +86,11 @@ export class ModelCatalogService {
       const updated = await this.call('session/modelCatalog');
       const model = updated.groups.find((group: any) => group.id === provider)?.models.find((model: any) => model.id === id);
       if (!model) throw new Error('引擎尚未接纳此模型，请刷新后重试');
-      Object.assign(candidate, model);
-      return model;
+      // Upstream's selector catalog omits input modalities. Expose only the
+      // explicit configuration/provider metadata already used to prepare it.
+      const prepared = { ...model, ...(Array.isArray(next.input) ? { inputModalities: [...next.input] } : {}) };
+      Object.assign(candidate, prepared);
+      return prepared;
     }
   }
 }

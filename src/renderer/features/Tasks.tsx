@@ -37,7 +37,7 @@ export function Tasks({ tasks, ready, onSelect, onBack, onRename }: Props) {
     finally { saving.current = false; setBusy(false); }
   };
   return <section className="tasks-page">
-    <div className="page-eyebrow">PICK UP WHERE YOU LEFT OFF</div><h1>每一步，都有记录。</h1>
+    <h1>任务记录</h1>
     <p className="page-description">给任务一个清晰的名字，随时找到下一步。</p>
     <div className="tasks-toolbar"><div className="task-search"><Search size={17} /><input aria-label="搜索任务" placeholder="搜索名称或项目目录…" value={search} onChange={event => setSearch(event.target.value)} /></div>
       <select aria-label="筛选任务" value={filter} onChange={event => setFilter(event.target.value as Filter)}><option value="all">全部任务</option><option value="running">进行中</option><option value="unfinished">有未完成计划</option></select><span>{rows.length} 个任务</span>

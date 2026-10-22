@@ -1,0 +1,93 @@
+{
+  "version": "0.1.8",
+  "date": "2026-10-15",
+  "status": "passed",
+  "scope": "Independent package startup, extracted ZIP startup and five desktop regression scenarios",
+  "platform": "Windows x64",
+  "electron": "44.7.0",
+  "harness": "0.2.0-rc.2",
+  "build": {
+    "directoryBuildHandleLostAfterInterruption": true,
+    "directoryBuildLog": "D:\\K018-release-20261015\\build-directory.log",
+    "archiveCommand": "electron-builder --win --x64 --publish never --prepackaged=D:/K018-release-20261015/win-unpacked --config.directories.output=D:/K018-release-20261015",
+    "archiveExitCode": 0
+  },
+  "startup": {
+    "status": "passed",
+    "executable": "D:\\K018-release-20261015\\win-unpacked\\Kuade.exe",
+    "expectedVersion": "0.1.8",
+    "credentialsCopied": false,
+    "profile": "D:\\K018-release-20261015\\startup-check\\startup-profile-iFsX5S",
+    "application": {
+      "version": "0.1.8",
+      "packaged": true
+    },
+    "pid": 29484,
+    "closed": true
+  },
+  "zipStartup": {
+    "status": "passed",
+    "executable": "D:\\K018z-1015\\Kuade.exe",
+    "expectedVersion": "0.1.8",
+    "credentialsCopied": false,
+    "profile": "D:\\K018-release-20261015\\zip-startup-check\\startup-profile-0gx3kp",
+    "application": {
+      "version": "0.1.8",
+      "packaged": true
+    },
+    "pid": 6176,
+    "closed": true
+  },
+  "zip": {
+    "crc": "passed",
+    "entries": 24049,
+    "extracted": "D:\\K018z-1015",
+    "archiveSha256": "48bf3972eaf3942a44dd0653635d6501947d2d209258199080b90da68dc5a9a4",
+    "Kuade.exe": "10604896285c476ac9aa23940c8ae2dd9727f0d89721ab9c8e17f011216d7a03",
+    "resources/app.asar": "a340f8a98d7efeaf668e808bf8a45e216be4be8188b9bd36b8f4cd0ea7563376"
+  },
+  "artifacts": [
+    {
+      "file": "Kuade Harness Setup 0.1.8.exe",
+      "sha256": "9dab49bf1be8d2942c7ba9124b4527f727e9e8a42f929792e7c79ae654155e00"
+    },
+    {
+      "file": "Kuade Harness-0.1.8-win.zip",
+      "sha256": "48bf3972eaf3942a44dd0653635d6501947d2d209258199080b90da68dc5a9a4"
+    }
+  ],
+  "deliveryCopiesMatch": true,
+  "signature": "NotSigned",
+  "desktopRegression": {
+    "exitCode": 0,
+    "evidence": [
+      "default-models-ba842347-0614-48c2-8cc3-66e176f9dc68",
+      "e2e-77a47206-688d-439a-86d9-418165df6d7f",
+      "goals-58cf4fbd-875f-4c7e-b565-dfa3ff65bf06",
+      "task-progress-b2d7623b-ba46-48dc-a2dc-544c489b87ef"
+    ],
+    "executable": "D:/K018-release-20261015/win-unpacked/Kuade.exe",
+    "passed": 5,
+    "controlledProvider": true
+  },
+  "realSelfIteration": "real-self-iteration-startup-gate-2026-10-15.json",
+  "reusedRealCapabilities": "real-capabilities-packaged-0.1.7-2026-10-15.json",
+  "pending": [
+    "Installer wizard and uninstall",
+    "24-hour cross-day acceptance",
+    "Arbitrary large-project capability is not established by the bounded project-manager benchmark"
+  ],
+  "sourceNote": "Later changes to soak acceptance scripts and npm test command are not runtime changes and are outside this frozen package",
+  "extractedZipRealGoalPreflight": "real-goal-soak-preflight-2026-10-15.json",
+  "freshRealCapabilities": "real-capabilities-packaged-0.1.8-2026-10-15.json",
+  "realProjectManager": "real-project-manager-2026-10-15.json",
+  "twoHourGoalAcceptance": "real-goal-two-hour-2026-10-15.json",
+  "crossDayGoalAcceptance": "real-goal-24-hour-2026-10-15.json",
+  "subsequentInstallerFinding": {
+    "status": "not-passed",
+    "issue": "Installer terminated an unrelated same-name process outside its installation directory",
+    "evidence": "D:\\Kuade-acceptance\\installer-0.1.8-20261015\\process-isolation.json",
+    "fixedRelease": "0.1.9",
+    "fixAcceptance": "installer-0.1.9-2026-10-15.json"
+  }
+}

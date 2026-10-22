@@ -1,0 +1,146 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "phase": "all",
+  "steps": [
+    {
+      "name": "web-skill",
+      "sessionId": "session-d5a5005d-a254-4e97-81b6-990814000975",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__search__search",
+          "at": 1792035681215,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__search__fetch_content",
+          "at": 1792035686603,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_navigate",
+          "at": 1792035689580,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_snapshot",
+          "at": 1792035697803,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_fill_form",
+          "at": 1792035693620,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_click",
+          "at": 1792035696304,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "verified": true
+    },
+    {
+      "name": "computer",
+      "sessionId": "session-747669e7-a6c2-4e61-8c53-9eedcb19c828",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__qwen_computer__get_app_state",
+          "at": 1792035712709,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__set_value",
+          "at": 1792035716798,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__click",
+          "at": 1792035720633,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "verified": true,
+      "fixturePid": 10596
+    }
+  ],
+  "before": {
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "process": "c21ed3547ec7677b70307565df66584f3e60af4e21511b07e0a52c36d0d2f1a2"
+  },
+  "executablePath": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\release\\win-unpacked\\Kuade.exe",
+  "executableSha256": "1cab59e00d1918ca2ce6991e6d2851f0bf9e8c864a33077fa18d42bdfb956dbe",
+  "version": "0.1.7",
+  "packaged": true,
+  "appArchiveSha256": "04c61166f7700c21a0138ea2fb71b37210647ecff7db892fb7205e5f28e25b83",
+  "nativeCommand": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\release\\win-unpacked\\resources\\computer\\qwen-computer-use.exe",
+  "nativeSha256": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335",
+  "workspaceId": "3e99f5c1-24ee-4aa1-a049-0e7c47c44778",
+  "model": "kuade-ca49e51b::kimi-k3",
+  "submissions": [
+    {
+      "marker": "Kuade 技能验收 8d9f2937-4465-4440-8618-8d8b42229913",
+      "url": "https://www.electronjs.org/docs/latest/api/app",
+      "at": 1792035695727
+    }
+  ],
+  "extensionsRestored": true,
+  "credentialsUnchanged": true,
+  "temporaryCredentialsRemoved": true,
+  "after": {
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "process": "c21ed3547ec7677b70307565df66584f3e60af4e21511b07e0a52c36d0d2f1a2"
+  },
+  "environmentUnchanged": true,
+  "acceptedDate": "2026-10-15",
+  "standaloneAcceptance": false,
+  "limitation": "Passed tool workflow inside build directory, which could inherit missing runtime peers. Superseded by independent-directory rerun."
+}

@@ -1,0 +1,164 @@
+{
+  "status": "passed",
+  "date": "2026-10-22",
+  "version": "0.1.13",
+  "scope": "Assistant Markdown presentation, code clipboard actions, web-link protocol boundary and persisted/live reply integration",
+  "dependencies": {
+    "react-markdown": {
+      "version": "10.1.0",
+      "license": "MIT",
+      "source": "https://github.com/remarkjs/react-markdown"
+    },
+    "remark-gfm": {
+      "version": "4.0.1",
+      "license": "MIT",
+      "source": "https://github.com/remarkjs/remark-gfm"
+    }
+  },
+  "tests": {
+    "application": 125,
+    "acceptanceTools": 22,
+    "newComponentTests": 8,
+    "typecheckExitCode": 0,
+    "buildExitCode": 0,
+    "developmentElectronExitCode": 0,
+    "packagedElectronExitCode": 0
+  },
+  "runs": [
+    {
+      "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-7e9b92ef-b8d8-4869-95d9-3ccb45973caa",
+      "receiptSha256": "d9156fdf06a496df20434a7b4b4b8275be76b46302074d973a9164054d8ab7bb",
+      "status": "passed",
+      "provider": "controlled local SSE; real Electron, Harness, persistence and clipboard",
+      "application": {
+        "version": "0.1.13",
+        "packaged": false
+      },
+      "sessionId": "session-d2319adc-3901-4c40-8586-6a3ec4434fd1",
+      "primaryModelRequests": 1,
+      "checks": [
+        "unfinished streamed code",
+        "GFM table and task list",
+        "native clipboard exact code text",
+        "web-link IPC dispatch with stubbed OS opener",
+        "main-process rejects file protocol",
+        "HTML inert and no image fetch",
+        "user text preserved",
+        "narrow layout",
+        "same persisted reply after relaunch without another model request"
+      ],
+      "screenshots": [
+        {
+          "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-7e9b92ef-b8d8-4869-95d9-3ccb45973caa\\streaming.png",
+          "sha256": "aa2e78e22a1e5bc6fb417982dca4a34716e9babd6e40bf7ea1c32dda7592af43"
+        },
+        {
+          "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-7e9b92ef-b8d8-4869-95d9-3ccb45973caa\\completed.png",
+          "sha256": "83bce93b205edd725e23da8f9341c8f36e1242483b43dfa5d61759bad1e5a313"
+        },
+        {
+          "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-7e9b92ef-b8d8-4869-95d9-3ccb45973caa\\narrow.png",
+          "sha256": "b3fc7968695358ce09a01164ffba6c435c44262b79d6034d04dd5c113c0e3703"
+        },
+        {
+          "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-7e9b92ef-b8d8-4869-95d9-3ccb45973caa\\restored.png",
+          "sha256": "2817766535a0e442f14fd0de41422a1b1f6af8ba8284028f09d21960aee69f22"
+        }
+      ]
+    },
+    {
+      "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-75352830-e594-4ebf-9380-c5306f27b576",
+      "receiptSha256": "a53696a33a62e170bff1436e98db1a448b2920bc7bdba7c0ea3c275dfbceb5b5",
+      "status": "passed",
+      "provider": "controlled local SSE; real Electron, Harness, persistence and clipboard",
+      "application": {
+        "version": "0.1.13",
+        "packaged": true
+      },
+      "sessionId": "session-7b3b760d-e23e-4494-a5b8-819ace72c8cf",
+      "primaryModelRequests": 1,
+      "checks": [
+        "unfinished streamed code",
+        "GFM table and task list",
+        "native clipboard exact code text",
+        "web-link IPC dispatch with stubbed OS opener",
+        "main-process rejects file protocol",
+        "HTML inert and no image fetch",
+        "user text preserved",
+        "narrow layout",
+        "same persisted reply after relaunch without another model request"
+      ],
+      "screenshots": [
+        {
+          "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-75352830-e594-4ebf-9380-c5306f27b576\\streaming.png",
+          "sha256": "ae0d29ad9cdc9f87707de2bbc634040479015ef6cda2ad7946e2e8283bf86c27"
+        },
+        {
+          "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-75352830-e594-4ebf-9380-c5306f27b576\\completed.png",
+          "sha256": "1ec1e8e8452739373f1f7647b2f0d801df49aa0dcd93c212f96468e02158f8ec"
+        },
+        {
+          "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-75352830-e594-4ebf-9380-c5306f27b576\\narrow.png",
+          "sha256": "0b52bf553f19d42fdd90f2f1bcc39f8c0527d35b3ae4ac4a13c3cf73cf79c0db"
+        },
+        {
+          "path": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-75352830-e594-4ebf-9380-c5306f27b576\\restored.png",
+          "sha256": "35d616c41a4bac932a62fccdb51cdf0defd48a185b2855455a57e95e8d25eb7d"
+        }
+      ]
+    }
+  ],
+  "packaging": {
+    "exitCode": 0,
+    "log": "D:/Kuade-acceptance/package-0.1.13-20261022.log",
+    "logSha256": "c757a99c8bc78b044a320409f14166719470884e0eee144e9cfe2f347c526962",
+    "zipIntegrityExitCode": 0,
+    "extractionExitCode": 0,
+    "zipFiles": 22406,
+    "zipFolders": 2697,
+    "zipIntegrityLog": "D:/Kuade-acceptance/zip-0.1.13-integrity.log",
+    "zipExtractionLog": "D:/Kuade-acceptance/zip-0.1.13-extraction.log",
+    "extractedRoot": "D:/K013z-1022",
+    "ancestorNodeModulesAbsent": true,
+    "keyFilesMatchBuild": true
+  },
+  "artifact": {
+    "path": "E:/Kuade-Hermes/release/Kuade Harness-0.1.13-win.zip",
+    "bytes": 300743640,
+    "sha256": "60053d5857b863d9613188d56aa21fa85527777760be47063ac7bb8ca43c2db1",
+    "copyMatchesBuiltArchive": true
+  },
+  "executableSha256": "e185843a7d67511df1dd598cb054d90fe3f9c02c186b074ca5aef3595453c320",
+  "appArchiveSha256": "0734528b2582bc53b23cbd7edefd007fb387b0f59ce72f69a5251d88646ac46f",
+  "nativeSha256": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335",
+  "changedSources": [
+    {
+      "file": "src/renderer/components/MessageMarkdown.tsx",
+      "sha256": "87f41db78dcb9b9c1c47a7c3bb801e06fcb4338c1064f941baead07f8a7d8d1f"
+    },
+    {
+      "file": "src/renderer/components/message-markdown.css",
+      "sha256": "d756118de5a0688b55872ddfc1d399a1dda9c3c4fb768a9c02768f7e7d0d41a0"
+    },
+    {
+      "file": "src/renderer/components/Timeline.tsx",
+      "sha256": "0dafed1982a17156523d1f794b85a7b880f6cf9d278cd284ca9565512309187d"
+    },
+    {
+      "file": "src/shared/message-url.ts",
+      "sha256": "cb3409b171750b75995f25613073370175855923a3c273ebbab06917cc71e1b0"
+    },
+    {
+      "file": "src/main/index.ts",
+      "sha256": "5d2aec5de82cedec26d74d963389803dec04096ab19aa1e88cf6e77732db60cb"
+    }
+  ],
+  "limitations": [
+    "Controlled local SSE provider; no new paid-model capability claim.",
+    "OS web opener stubbed during Electron acceptance; IPC dispatch and protocol rejection verified, not a real external browser launch.",
+    "Code language labels provided; syntax highlighting and local-file navigation not implemented.",
+    "Model-provided remote images render as alternative text, not automatic network requests.",
+    "Unsigned Windows ZIP. No new NSIS installer generated or installed this turn.",
+    "No new self-iteration, GitHub mutation or long-duration run; earlier evidence retains its original versions."
+  ]
+}

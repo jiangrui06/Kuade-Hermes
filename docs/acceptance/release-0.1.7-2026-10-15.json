@@ -1,0 +1,79 @@
+{
+  "version": "0.1.7",
+  "date": "2026-10-15",
+  "status": "passed",
+  "platform": "Windows x64",
+  "electron": "44.7.0",
+  "harness": "0.2.0-rc.2",
+  "build": {
+    "archiveCommand": "electron-builder --win --x64 --prepackaged=D:/K017-r2/win-unpacked --config.directories.output=D:/K017-r2",
+    "requiredPeerDependenciesPinned": 27,
+    "electronDist": "node_modules/electron/dist",
+    "applicationOutput": "D:\\K017-r2\\win-unpacked",
+    "exitCode": 0
+  },
+  "native": {
+    "reusedBuildGatesDate": "2026-10-14",
+    "sourcesVerified": 26,
+    "sha256": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335",
+    "freshNativeBuild": false
+  },
+  "desktopRegression": {
+    "tests": [
+      "default workspace/models/reasoning/restart",
+      "files/terminal approval/MCP/questions",
+      "native editing menu",
+      "ongoing goals/pause/restart/resume/keyboard scrolling",
+      "qwen_computer screenshot/input/click",
+      "task plan/stop/interruption/recovery"
+    ],
+    "passed": 6,
+    "controlledProvider": true,
+    "evidence": [
+      "default-models-73903726-e51d-400f-8902-602f49d88986",
+      "e2e-4931d8dc-9187-4efd-8cab-94e05d230bd3",
+      "goals-f29bbd44-8fe8-44a2-a9b0-af86743db814",
+      "live-computer-c51630c4-1999-43d0-a6be-170b15b372af",
+      "task-progress-dde98a95-30fb-4b5e-ac09-f38e1918aeb1"
+    ],
+    "exitCode": 0
+  },
+  "realCapabilities": "real-capabilities-packaged-0.1.7-2026-10-15.json",
+  "executableSha256": "9b8eb6bd276ab986247e970c9138eb29dc88fbc6e538881fa9a1ce34717599f6",
+  "appArchiveSha256": "f4ca288700aa37201c05ddd0ad0592924e063ac7f1a97f3d994fec7b3cefe93b",
+  "artifacts": [
+    {
+      "sha256": "89d310ce2af132cfe2645280904fb2beff655a674144764c27df47d00a2acdd9",
+      "file": "Kuade Harness Setup 0.1.7.exe"
+    },
+    {
+      "sha256": "6ff91b7b46fe0a8c96d2e3ee5f08e4be9c4fa1bd659302ac6a3f7dfed3ae54c7",
+      "file": "Kuade Harness-0.1.7-win.zip"
+    }
+  ],
+  "deliveryCopiesMatch": true,
+  "zip": {
+    "shortPathExtractionPassed": true,
+    "entries": 24049,
+    "crcPassed": true,
+    "extractionPath": "D:\\K017z-ee350f8a",
+    "longestEntryLength": 194,
+    "longPathAttempt": "Python extraction failed above Windows legacy path length; original partial directory retained"
+  },
+  "signature": "NotSigned",
+  "pending": [
+    "installer wizard/uninstall",
+    "multi-hour/multi-day sustained tasks",
+    "complex desktop applications",
+    "macOS"
+  ],
+  "initialFailureReceipt": "release-0.1.7-initial-2026-10-15.json",
+  "standaloneAcceptance": true,
+  "testGates": {
+    "typecheckExitCode": 0,
+    "acceptanceVerifierTests": 7,
+    "existingApplicationTests": 87,
+    "newPackagePeerCheck": 1
+  },
+  "extractedZipRealGoal": "real-goal-packaged-0.1.7-2026-10-15.json"
+}

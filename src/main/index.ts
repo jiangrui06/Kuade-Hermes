@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu, powerSaveBlocker, protocol, net } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, Menu, powerSaveBlocker, protocol, net, clipboard, shell } from 'electron';
 import { join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { z } from 'zod';
@@ -15,11 +15,12 @@ import { IterationService } from '../iteration/service';
 import { bootHealth } from './boot-health';
 import { activeVersion } from './active-version';
 import { PRODUCT_NAME, LEGACY_DATA_DIRECTORY } from '../shared/branding';
+import { messageWebUrl } from '../shared/message-url';
 
 protocol.registerSchemesAsPrivileged([{ scheme: 'kuade', privileges: { standard: true, secure: true, supportFetchAPI: true } }]);
 app.setPath('userData', process.env.KUADE_USER_DATA ? resolve(process.env.KUADE_USER_DATA) : join(app.getPath('appData'), LEGACY_DATA_DIRECTORY));
 app.setName(PRODUCT_NAME);
-const redirect = await activeVersion(app.getPath('userData'), process.execPath, process.argv);
+const redirect = await activeVersion(app.getPath('userData'), process.execPath, process.argv, app.getVersion());
 if (redirect) { app.relaunch({ execPath: redirect.executable, args: redirect.args }); app.exit(0); }
 let window: BrowserWindow | undefined;
 let runtime: RuntimeSupervisor;
@@ -87,12 +88,18 @@ else app.whenReady().then(async () => {
     z.string().max(120).parse(endpoint);
     const args = argsSchema.parse(input);
     if (endpoint === 'app/info') return { version: app.getVersion(), packaged: app.isPackaged };
+    if (endpoint === 'app/copy-text') return clipboard.writeText(z.string().max(5 * 1024 * 1024).parse(args.text));
+    if (endpoint === 'app/open-web-link') {
+      const url = messageWebUrl(z.string().max(8192).parse(args.url));
+      if (!url) throw new Error('仅支持有效的 HTTP 或 HTTPS 网页链接');
+      return shell.openExternal(url);
+    }
     if (endpoint === 'app/ready') { if (runtime.state.phase === 'ready') await health.ready(); return; }
     if (endpoint === 'iteration/status') return iterations!.status();
     if (endpoint === 'iteration/start') return iterations!.start(args);
     if (endpoint === 'iteration/cancel') return iterations!.cancel();
     if (endpoint === 'iteration/retry') return iterations!.retry();
-    if (iterations!.isRestarting && ['session/prompt', 'session/create', 'commands/execute', 'extensions/save'].includes(endpoint)) throw new Error('正在切换新版本，请稍候再开始任务');
+    if (iterations!.isRestarting && ['session/prompt', 'session/create', 'commands/execute', 'extensions/save', 'goals/create', 'goals/resume'].includes(endpoint)) throw new Error('正在切换新版本，请稍候再开始任务');
     if (endpoint === 'workspace/default') return defaultWorkspace.ensure();
     if (endpoint === 'models/catalog') return models.catalog(args.refresh === true);
     if (endpoint === 'models/prepare') return models.prepare(z.string().min(1).parse(args.provider), z.string().min(1).parse(args.model));
@@ -106,6 +113,7 @@ else app.whenReady().then(async () => {
       await extensions.save(args.config); await runtime.stop(); await runtime.start(); return;
     }
     if (endpoint === 'git/changes') return git.changes(z.string().min(1).parse(args.sessionId));
+    if (endpoint === 'git/preview') return git.preview(z.string().min(1).parse(args.sessionId), z.string().min(1).max(8192).parse(args.file));
     if (endpoint === 'git/restore') {
       const id = z.string().min(1).parse(args.sessionId);
       if ((await getTasks()).some(row => row.running)) throw new Error('请先停止任务，再恢复文件');

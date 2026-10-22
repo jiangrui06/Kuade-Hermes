@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "date": "2026-10-16",
+  "scope": "Console-free native process identity and actual non-child exit-code observation; not long-duration acceptance",
+  "testExitCode": 0,
+  "negativeCreationTimeRejected": true,
+  "sourceSha256": "ff0cb63286bcefc30cbf4a66e90742acfa394e5160e533cef2755543c6687c7c",
+  "results": [
+    {
+      "status": "exited",
+      "processId": 18812,
+      "observerPid": 31932,
+      "consoleWindow": false,
+      "executable": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+      "processStartedAt": "2026-10-16T04:31:43.763508+00:00",
+      "processCreationTicks": "134365987037635088",
+      "attachedAt": "2026-10-16T04:31:44.764407+00:00",
+      "exitCode": 0,
+      "finishedAt": "2026-10-16T04:31:44.825861+00:00"
+    },
+    {
+      "status": "exited",
+      "processId": 16568,
+      "observerPid": 7520,
+      "consoleWindow": false,
+      "executable": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+      "processStartedAt": "2026-10-16T04:31:44.841640+00:00",
+      "processCreationTicks": "134365987048416404",
+      "attachedAt": "2026-10-16T04:31:45.355882+00:00",
+      "exitCode": 7,
+      "finishedAt": "2026-10-16T04:31:45.418846+00:00"
+    },
+    {
+      "status": "exited",
+      "processId": 14376,
+      "observerPid": 19404,
+      "consoleWindow": false,
+      "executable": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+      "processStartedAt": "2026-10-16T04:31:45.439427+00:00",
+      "processCreationTicks": "134365987054394273",
+      "attachedAt": "2026-10-16T04:31:45.945609+00:00",
+      "exitCode": 259,
+      "finishedAt": "2026-10-16T04:31:46.012124+00:00"
+    }
+  ],
+  "evidence": [
+    "D:\\Kuade-acceptance\\host-990cffbe-4bc1-434e-adc1-b18055a9d931",
+    "D:\\Kuade-acceptance\\host-7eab9950-a54f-410a-9ce6-b5ee5ab4c16c",
+    "D:\\Kuade-acceptance\\host-12c98e76-6684-4aa3-9948-06513d465e3d"
+  ],
+  "activeRun": "real-goal-24-hour-0.1.11-2026-10-16.json"
+}

@@ -24,18 +24,29 @@ for (const scenario of ['healthy', 'wrong-version']) test(`真实打包桌面：
     expect(result.status).toBe(scenario === 'healthy' ? 'completed' : 'rolled-back'); expect(result.version).toBe(artifact.version);
     const health = JSON.parse(await readFile(join(dirname(file), scenario === 'healthy' ? 'candidate-health.json' : 'previous-health.json'), 'utf8'));
     expect(health).toMatchObject({ id, pid, stage: 'ready', version: artifact.version });
-    const transport = new StdioClientTransport({ command: resolve('resources/computer/qwen-computer-use.exe'), args: ['--foreground-input', 'mcp'], stderr: 'pipe' });
+    const transport = new StdioClientTransport({ command: join(dirname(artifact.executable), 'resources/computer/qwen-computer-use.exe'), args: ['--foreground-input', 'mcp'], stderr: 'pipe' });
     const client = new Client({ name: 'kuade-rollback-acceptance', version: '1.0.0' });
     try {
       await client.connect(transport);
-      const state = await client.callTool({ name: 'get_app_state', arguments: { app: String(pid) } }, undefined, { timeout: 60000 });
-      await writeFile(join(root, 'native-observation.json'), JSON.stringify({ ...state, content: (state.content as any[]).filter(row => row.type !== 'image') }, null, 2));
-      expect(state.isError).not.toBe(true);
-      expect((state.structuredContent as any)?.desktop_observation?.pid).toBe(pid);
-      const text = (state.content as any[]).filter(row => row.type === 'text').map(row => row.text).join('\n');
+      let state: Awaited<ReturnType<typeof client.callTool>>;
+      let text = ''; let observations = 0;
+      // Chromium may publish its accessibility tree after renderer readiness.
+      // Observe the same owned PID until the actual runtime/version labels exist.
+      await expect.poll(async () => {
+        state = await client.callTool({ name: 'get_app_state', arguments: { app: String(pid) } }, undefined, { timeout: 15000 });
+        observations++;
+        expect(state.isError).not.toBe(true);
+        expect((state.structuredContent as any)?.desktop_observation?.pid).toBe(pid);
+        text = (state.content as any[]).filter(row => row.type === 'text').map(row => row.text).join('\n');
+        return text.includes('本机运行') && text.includes(artifact.version);
+      }, { timeout: 45000, intervals: [500, 1000, 2000] }).toBe(true);
+      receipt.nativeObservations = observations;
+      await writeFile(join(root, 'native-observation.json'), JSON.stringify({ ...state!, content: (state!.content as any[]).filter(row => row.type !== 'image') }, null, 2));
       await writeFile(join(root, 'restored-window.txt'), text);
-      for (const item of state.content as any[]) if (item.type === 'image') await writeFile(join(root, 'restored-window.png'), Buffer.from(item.data, 'base64'));
+      for (const item of state!.content as any[]) if (item.type === 'image') await writeFile(join(root, 'restored-window.png'), Buffer.from(item.data, 'base64'));
       expect(text).toContain('Kuade');
+      expect(text).toContain('本机运行');
+      expect(text).toContain(artifact.version);
       if (scenario === 'healthy') {
         const target = /Observed target: (window:\d+:\d+)\./.exec(text)?.[1]; expect(target).toBeTruthy();
         const pressed = await client.callTool({ name: 'press_key', arguments: { app: target, key: 'ctrl+shift+i' } }, undefined, { timeout: 60000 });

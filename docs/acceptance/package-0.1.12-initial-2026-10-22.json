@@ -1,0 +1,14 @@
+{
+  "status": "not-passed",
+  "date": "2026-10-22",
+  "output": "D:/K012-release-20261022",
+  "exitCode": 1,
+  "stage": "Windows icon conversion",
+  "error": "WebAssembly.Memory(): could not allocate memory",
+  "sourcePngSha256": "fae7fa963c3605899623064564622b825da973ff1add04ff0ca67e394fc28081",
+  "reusedIcoSha256": "1cc0dd18a3f275746d8855b30dada6db3a4240a3ce20bdd27feeddf66e904298",
+  "reusedIco": "D:/K011-release-20261015/.icon-ico/icon.ico",
+  "sourceVerifiedAgainst": "D:/K011-release-20261015/win-unpacked/resources/app.asar!assets/icon.png",
+  "resolution": "Use the existing ICO generated from the identical PNG; rerun packaging in a new output directory.",
+  "scope": "Packaging tool failure, not an application-test failure"
+}

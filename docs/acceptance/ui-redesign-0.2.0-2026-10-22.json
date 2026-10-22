@@ -1,0 +1,129 @@
+{
+  "version": "0.2.0",
+  "date": "2026-10-22",
+  "status": "passed",
+  "scope": [
+    "six application pages",
+    "conversation output",
+    "onboarding",
+    "grouped models",
+    "MCP configuration switches",
+    "restore confirmation",
+    "responsive desktop"
+  ],
+  "automaticTests": {
+    "status": "passed",
+    "applicationTests": 132,
+    "acceptanceScriptTests": 22,
+    "total": 154,
+    "note": "Full existing suite plus targeted final Changes and Extensions tests; no skipped tests counted."
+  },
+  "typecheck": "passed",
+  "productionBuild": "passed",
+  "desktopDevelopment": {
+    "status": "passed",
+    "distinctFlows": 7,
+    "provider": "controlled local SSE; real Electron and Harness",
+    "runs": {
+      "models": "default-models-e4edc337-2594-4e0d-ab06-96015ce19cd2",
+      "filesystemApprovalMcpSkills": "e2e-cbd82f0f-4b53-48bc-9fdd-e7cbade27b76",
+      "editMenu": "edit-menu-f0ade165-f88f-4e78-9bbd-8123a9a9952b",
+      "goals": "goals-37c77e29-3d99-4bfa-b6e3-8651afeb1b0a",
+      "markdown": "message-markdown-0e0fb149-63af-40d4-9f13-2ff215fb38d5",
+      "progress": "task-progress-89d90206-b681-46d8-bb4d-595d871fcb98",
+      "allPages": "ui-redesign-b40b6a0c-336b-4b67-ae24-04b1df47e204"
+    },
+    "latestUiReceipt": {
+      "status": "passed",
+      "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\ui-redesign-b40b6a0c-336b-4b67-ae24-04b1df47e204",
+      "provider": "controlled local SSE",
+      "executablePath": "development Electron",
+      "checks": [
+        "onboarding",
+        "batch model selection",
+        "starter draft",
+        "conversation",
+        "rename and search",
+        "six pages",
+        "advanced MCP draft error and discard",
+        "iteration validation",
+        "1000x760 layout"
+      ]
+    }
+  },
+  "packagedAcceptance": {
+    "status": "passed",
+    "distinctFlows": 3,
+    "sourceAncestorNodeModules": false,
+    "provider": "controlled local SSE; actual distributed Electron and Harness",
+    "runs": {
+      "models": "default-models-03ed332e-2340-43a4-a039-70803f01e91b",
+      "markdown": "message-markdown-dd35b1f1-1760-4eac-a166-2814dda0ad9a",
+      "allPages": "ui-redesign-95c1d91d-ef97-4b69-9989-dc3b64dbb90a"
+    },
+    "uiReceipt": {
+      "status": "passed",
+      "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\ui-redesign-95c1d91d-ef97-4b69-9989-dc3b64dbb90a",
+      "provider": "controlled local SSE",
+      "executablePath": "D:\\K020z-1022\\Kuade.exe",
+      "checks": [
+        "onboarding",
+        "batch model selection",
+        "starter draft",
+        "conversation",
+        "rename and search",
+        "six pages",
+        "advanced MCP draft error and discard",
+        "iteration validation",
+        "1000x760 layout"
+      ]
+    },
+    "replyReceipt": {
+      "status": "passed",
+      "provider": "controlled local SSE; real Electron, Harness, persistence and clipboard",
+      "root": "C:\\Users\\jiangrui\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\Kuade-development\\Kuade-Hermes\\.cache\\message-markdown-dd35b1f1-1760-4eac-a166-2814dda0ad9a",
+      "application": {
+        "version": "0.2.0",
+        "packaged": true
+      },
+      "sessionId": "session-fd008c4a-3732-41b2-b7f5-a6c951069cf5",
+      "primaryModelRequests": 1,
+      "checks": [
+        "unfinished streamed code",
+        "GFM table and task list",
+        "native clipboard exact code text",
+        "web-link IPC dispatch with stubbed OS opener",
+        "main-process rejects file protocol",
+        "HTML inert and no image fetch",
+        "user text preserved",
+        "narrow layout",
+        "same persisted reply after relaunch without another model request"
+      ]
+    }
+  },
+  "limitations": [
+    "No fresh external-provider reasoning, remote GitHub write, multi-day or self-update run in this UI redesign.",
+    "No new installer; portable Windows x64 ZIP only.",
+    "Prior milestone results remain historical, separately versioned evidence."
+  ],
+  "testCorrections": [
+    "Removed obsolete visible keyboard-hint assertion after hints moved to tooltips; actual shortcuts still exercised.",
+    "Isolated Git fixture disables core.autocrlf so restore byte comparison is independent of host settings.",
+    "Packaged model test timed out capturing a resized Electron window; restored/showed/focused the test window and reran the complete flow successfully. No assertion was removed."
+  ],
+  "screenshots": "docs/images/ui-0.2.0",
+  "designNotes": {
+    "simplified": "docs/UI_REDESIGN.zh-CN.md",
+    "traditional": "docs/UI_REDESIGN.zh-TW.md",
+    "english": "docs/UI_REDESIGN.en.md"
+  },
+  "release": {
+    "path": "release/Kuade Harness-0.2.0-win.zip",
+    "bytes": 300744336,
+    "sha256": "89951345ce4637ed03b55c9950e54e7849ee3ddc526f82250f6e7d5c48400915",
+    "archiveIntegrity": "7-Zip test passed; 22406 files; 2697 folders",
+    "copyHashVerified": true,
+    "authenticode": "NotSigned",
+    "extractedExecutable": "D:/K020z-1022/Kuade.exe"
+  }
+}

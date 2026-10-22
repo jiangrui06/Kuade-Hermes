@@ -1,19 +1,24 @@
 # Git 与 GitHub
 
-最新验收（2026-10-15）：82 项测试与类型检查通过。真实 Kimi K3 已在独立仓库完成检查、修改、提交和推送；宿主验证本机 bare 仓库与工作区提交一致、工作区干净。见 [Git 验收记录](acceptance/real-git-2026-10-15.json)。这项记录未涉及 GitHub 账号授权或远程写入。
-
 [繁體中文](GITHUB.zh-TW.md) · [English](GITHUB.en.md)
 
-本地版本控制继续使用系统 Git：Agent 通过 Harness 终端工具运行 Git，修改页面提供未暂存 Diff 和单文件恢复。连接 GitHub 不会自动提交、推送或创建分支；这些操作应由用户的具体任务决定。
+本地版本控制复用系统 Git：Agent 通过 Harness 终端执行 Git，修改页面提供未暂存 Diff 和单文件恢复。GitHub 连接复用官方 MCP，不另写 GitHub API 或 OAuth。操作范围由用户任务与账号权限决定。
 
-在「工具与技能」点击「添加GitHub」，等待官方组件下载和 SHA-256 校验，再点击「保存并重新加载」。有任务运行时先等待其完成。首次要求 Agent 查询 GitHub 账号或仓库时，官方 MCP 会引导你在浏览器登录授权。Kuade 不实现自己的 OAuth，也不把令牌写入扩展配置。
+在「工具与技能」点击「添加GitHub」，等待下载和 SHA-256 校验，再点击「保存并重新加载」。有任务运行时先等待其完成。首次要求 Agent 查询账号或仓库时，在浏览器完成官方授权。GitHub MCP 操作远程仓库，本地工作区提交和推送仍使用 Git。
 
-当前固定使用 GitHub 官方 MCP v2.0.2 的 Windows x64 版本（MIT），开启仓库、Git 对象、Issue、Pull Request 和用户工具，授权范围为 `repo,read:org`。实际可操作的仓库和操作取决于登录账号权限。GitHub 仓库工具操作的是远程仓库，本地工作区的提交与推送仍使用 Git。
+当前固定 GitHub MCP v2.0.2、Windows x64、MIT，开启 context、repos、issues、pull_requests、users、git 工具集，授权范围为 repo,read:org。令牌仅由官方组件保留在进程内存中，重启可能需要重新授权；Kuade 不把令牌写入扩展配置。缓存位于用户数据目录 tools/github-mcp-2.0.2，校验失败的文件不会启动。
 
-OAuth 令牌由官方 MCP 保留在进程内存中；引擎重启后可能需要重新授权。工具已注册只证明组件可用，账号连接需要通过实际 `get_me` 等调用验证。缓存位于 Kuade 用户数据目录的 `tools/github-mcp-2.0.2`；缓存校验失败时不会启动该文件。
+## 已验收范围（2026-10-15）
 
-2026-10-15：类型检查、构建及 75 项单元／组件测试通过，覆盖下载与解压校验、缓存篡改、并发安装和界面失败处理。真实桌面下载与注册、浏览器授权、真实模型的 Git/GitHub 操作分别验收；目前账号授权和远程写入仍待验收。
+- [组件注册](acceptance/github-registration-2026-10-15.json)：实际下载、校验、配置保存、引擎重载和工具注册。
+- [本地 Git](acceptance/real-git-2026-10-15.json)：真实 Kimi K3 检查、修改、提交并推送至本机 bare 仓库；宿主核对提交一致及工作区干净。
+- [GitHub 读取](acceptance/real-github-read-2026-10-15.json)：用户完成 OAuth，真实模型调用账号、提交和文件／资源读取；独立核对账号 ID、提交 SHA 与 README 完整 Git blob。初版脚本漏判资源读取路径，原失败回执保留，持久化事件复验通过。
+- [GitHub 写入](acceptance/real-github-write-2026-10-15.json)：真实模型在批准的 main 分支写入一个验收文件。首次转录少一个冒号；第二个真实模型任务修正后，宿主核对全文、blob、父提交、提交信息及唯一变更路径全部正确。首次失败保留；临时模型凭据已删除。
 
-参考：[官方 MCP](https://github.com/github/github-mcp-server/tree/v2.0.2)、[官方 OAuth 文档](https://github.com/github/github-mcp-server/blob/v2.0.2/docs/oauth-login.md)、[发布文件与校验值](https://github.com/github/github-mcp-server/releases/tag/v2.0.2)。
+以上证明具体账号和批准的单文件读写路径，不代表所有 Issue、Pull Request、组织或分支保护场景均已验收。注册状态本身不代表登录成功。
 
-真实桌面下载、配置保存、引擎重载及官方工具注册已通过（含 `get_me`）。下载改用 Electron 系统代理网络栈；新增网络错误测试通过。证据：[GitHub 注册验收](acceptance/github-registration-2026-10-15.json)。这次验收未调用账号授权或远程写入。
+## 复验
+
+标准 npm test 包含 87 项应用测试与 7 项验收检查测试。scripts/accept-real-github.mjs 默认只读：从已构建开发目录设置 KUADE_REAL_GITHUB=1 与 KUADE_MODEL_PROFILE（已保存模型连接的 Kuade 用户数据目录）后运行。使用独立实例，退出时删除临时凭据，OAuth 由用户完成。写入模式仅针对本次明确批准的固定记录；已有文件拒绝重复新增，修复模式只接受已知的冒号转录偏差，不是通用发布命令。
+
+参考：[官方 MCP](https://github.com/github/github-mcp-server/tree/v2.0.2)、[OAuth](https://github.com/github/github-mcp-server/blob/v2.0.2/docs/oauth-login.md)、[发布与校验](https://github.com/github/github-mcp-server/releases/tag/v2.0.2)。

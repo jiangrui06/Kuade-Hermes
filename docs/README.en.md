@@ -1,5 +1,11 @@
 # Kuade Harness
 
+0.2.4 improves connection status, example prompts, skill draft preservation and MCP activity labels. See [tools and skills user journey](CAPABILITY_JOURNEY.en.md).
+
+0.2.3 improves the real Kimi K3 user journey with per-file diffs, new-file previews and a direct return-to-task action. See [real user journey acceptance](USER_JOURNEY.en.md).
+
+0.2.0 redesigns all six pages and conversation output, with first-use onboarding, unified model selection, one-click tool configuration, expandable execution details and clearer code review. See [UI redesign](UI_REDESIGN.en.md).
+
 For source workspaces on exFAT or disks with slow small-file access, run `node scripts/windows.mjs install`, then `node scripts/windows.mjs dev`. The helper copies source into `%LOCALAPPDATA%/Kuade-development/<project-folder>` for execution. Keep editing the original workspace; the helper does not change the system PATH. It also accepts `typecheck`, `test`, `build`, `test:e2e`, and `package:win`. Run the helper again to sync source changes before testing or building.
 
 [简体中文](../README.md) · [繁體中文](README.zh-TW.md)
@@ -20,11 +26,11 @@ The conversation shows the agent's step plan, current activity and completed ite
 
 After cancellation, a turn error, an output limit or an interrupted restart, click “继续任务” (Continue task). A visible new prompt in the same session carries the previous plan and asks the agent to inspect files and test results before proceeding. The current model and execution mode apply. Continuation is unavailable while approval, an answer or engine readiness is pending.
 
-“本轮结束” means the model turn ended. Checklist completion is agent-reported, not independent test evidence. Harness clears the old plan at the next turn start until the agent updates it. Terminated system commands do not resume in place. References: [upstream plans](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/todo/tool-todo/README.md), [session persistence](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/session/session-persistence/README.md).
+“本轮结束” means the model turn ended. Checklist completion is agent-reported, not independent test evidence. Harness resets the current-turn plan projection. Kuade reads and labels the latest historical plan until the agent replaces or explicitly clears it. A completed goal with unfinished checklist items prompts a plan review without implying that execution continues. Terminated system commands do not resume in place. References: [upstream plans](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/todo/tool-todo/README.md), [session persistence](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/session/session-persistence/README.md).
 
 ## Development
 
-Windows x64: install `release/Kuade Harness Setup 0.1.5.exe`, or fully extract `release/Kuade Harness-0.1.5-win.zip` and launch its `Kuade.exe`. Open Model Connections, configure a provider, select a model and submit a task in the default workspace; opening another project is optional. These builds are unsigned. See the [acceptance record](ACCEPTANCE.en.md).
+Latest Windows x64 version 0.2.3: fully extract `release/Kuade Harness-0.2.3-win.zip` to a short path and launch `Kuade.exe`. The older installer remains at 0.1.12; no new installer was produced this turn. Open Model Connections, configure a provider, then select a model and submit a task in the default workspace. This build is unsigned. See [real user journey acceptance](USER_JOURNEY.en.md).
 
 Enter a name, protocol, API URL and key; the model list loads automatically. Search and check the models you need, then save. Editing an existing connection reuses its saved key; Refresh reloads the list. Local services without authentication may leave the key blank. Manual IDs remain in a collapsed fallback for providers without a listing endpoint. Discovery reuses upstream `llm/discoverModels` for OpenAI-compatible and Anthropic protocols. A returned catalog does not guarantee chat or tool-call access to every model.
 
@@ -46,7 +52,7 @@ npm run package:win
 
 Startup creates `Documents/Kuade/默认工作区`, so a task can start without a folder picker. Project choices are remembered, and new tasks reuse the current workspace. Harness continues to own workspace registration and session persistence.
 
-The composer selects a provider, a model from that connection's full discovered catalog, and supported reasoning effort. Unconfigured DeepSeek defaults are excluded. Saved models provide an offline fallback; choosing another discovered model registers it automatically on the same connection. Refresh failures keep saved entries and show a notice.
+The composer uses one model menu grouped by provider and shows reasoning effort only when supported. Each connection's complete discovered catalog is available. Unconfigured DeepSeek defaults are excluded. Saved models provide an offline fallback; choosing another discovered model registers it automatically on the same connection. Refresh failures keep saved entries and show a notice.
 
 Reasoning choices come from upstream declarations. For Ollama Cloud and standard local Ollama OpenAI-compatible endpoints, the product also reads `/api/show` on demand and offers only reported levels. Unknown capabilities use provider defaults. Switching models does not carry incompatible effort levels. Protocols and session selection still use Harness. References: [Harness provider configuration](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/providers.md), [Ollama thinking controls](https://docs.ollama.com/capabilities/thinking).
 
@@ -68,8 +74,10 @@ MCP configuration uses the upstream client. Active tasks block a configuration r
 
 Upstream built-in web search requires credentials for DeepSeek's search service; configuring another model provider does not enable that service. Connect a suitable search MCP for other providers. Accounts, fees and availability depend on the chosen service.
 
-Shortcuts: Ctrl+N starts a new task; Ctrl+Shift+I opens the Self-iteration page. Shortcut resolution lives in `src/renderer/features/shortcuts.ts` with no Electron dependency.
+Shortcuts: Ctrl+N starts a new task; Ctrl+Shift+I opens the Self-iteration page; Ctrl+Shift+M opens the Model connections page; Ctrl+Shift+H opens the Task history page. Shortcut resolution lives in `src/renderer/features/shortcuts.ts` with no Electron dependency.
 
 Upstream is pinned to `@deepseek-ai/dsh@0.2.0-rc.2`. Sources: [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness), [Electron](https://www.electronjs.org/docs/latest/tutorial/security), [Playwright MCP](https://github.com/microsoft/playwright-mcp).
 
 See [Self-iteration](SELF_ITERATION.en.md) for modules, prerequisites and acceptance status.
+
+See [ongoing goals](GOALS.en.md) for automatic continuation, pause, restart recovery and acceptance scope.

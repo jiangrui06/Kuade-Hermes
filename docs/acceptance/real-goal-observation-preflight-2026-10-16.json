@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "date": "2026-10-16",
+  "scope": "One-minute real-model observer regression and restart recovery; not 24-hour acceptance",
+  "evidenceRoot": "D:\\Kuade-acceptance\\host-9e726e89-a711-46a1-bc00-b17e84988c0a\\real-goal-df990ef3-b825-449c-9112-0109db5c568c",
+  "host": {
+    "scriptSha256": "69c213fa269a7f44703b49e3a14b4c87968f9c95c50b182e3a39a47d1ef5b71c",
+    "hostPid": 55268,
+    "finishedAt": "2026-10-16T17:31:38.8414954+08:00",
+    "kind": "recovery",
+    "startedAt": "2026-10-16T17:28:51.5028031+08:00",
+    "executableSha256": "1aedc98ead0e688e7f609f34ffd32e617fcff6a750c66f79437d7db252e672c9",
+    "taskName": "Kuade-Acceptance-9e726e89-a711-46a1-bc00-b17e84988c0a",
+    "childPid": 48112,
+    "exitCode": 0,
+    "status": "passed"
+  },
+  "sessionId": "session-c58c1fdd-da8e-4af9-9854-81181a042754",
+  "sameSession": true,
+  "originalModuleUnchanged": true,
+  "originalCredentialsUnchanged": true,
+  "temporaryCredentialsRemoved": true,
+  "requestsAfter": 1,
+  "goalPhase": "complete",
+  "roundsStarted": 3,
+  "expected": {
+    "count": 117,
+    "totalCents": 791682,
+    "byCategory": {
+      "运维": 263757,
+      "设计": 265557,
+      "开发": 262368
+    }
+  },
+  "soak": {
+    "status": "passed",
+    "startedAt": 1792142986028,
+    "pid": 27052,
+    "requestedDurationMs": 60000,
+    "intervalMs": 60000,
+    "checks": 2,
+    "batches": 10,
+    "checkedRows": 2570,
+    "elapsedMs": 60052.1014,
+    "lastCheckedAt": 1792143046081,
+    "maxGapMs": 60050.329699999995,
+    "completedAt": 1792143046082
+  },
+  "priorScreenshotFailure": "D:\\Kuade-acceptance\\host-ecb6910a-58b4-4f01-a1ce-1e658d9a27a8\\real-goal-d9583b44-1e97-4db6-97c8-173b40b5880a\\acceptance.json",
+  "observationFailureCount": 0,
+  "screenshotFailureCount": 0,
+  "regressionTests": {
+    "appTests": 110,
+    "acceptanceTests": 18,
+    "exitCode": 0
+  },
+  "helperSha256": "bc9fbb52d2fe9cebe7332054474085a8a8c0c245b806cda9c028d5ef0db7ec00"
+}

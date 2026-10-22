@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "date": "2026-10-15",
+  "version": "0.1.9",
+  "scope": "Independent Windows package, ZIP integrity, five controlled-provider Electron flows and per-user silent installer lifecycle",
+  "artifacts": [
+    {
+      "file": "Kuade Harness Setup 0.1.9.exe",
+      "sha256": "b6a66e1cb331ce38e07d470c6542d4e795307520d198998dc5503197c7c070a2",
+      "bytes": 222610026
+    },
+    {
+      "file": "Kuade Harness-0.1.9-win.zip",
+      "sha256": "eb79a80a6ff5deddb6514c02ee546350d515d8855f24a8a251634e8595c377c3",
+      "bytes": 299831994
+    }
+  ],
+  "signature": "NotSigned",
+  "buildExitCode": 0,
+  "packageExitCode": 0,
+  "typecheckExitCode": 0,
+  "tests": {
+    "application": 96,
+    "acceptanceHarness": 13,
+    "electron": 5,
+    "exitCode": 0
+  },
+  "zip": {
+    "status": "passed",
+    "archive": "D:\\K019-release-20261015\\Kuade Harness-0.1.9-win.zip",
+    "target": "D:\\K019z-1015",
+    "startedAt": 1792064664.6489675,
+    "entries": 24049,
+    "hashes": {
+      "Kuade.exe": "d6ecc6b04954b10ec96d059a2d148294a361299307be2c0ec4d1939f79c650f3",
+      "resources/app.asar": "4ca501e1926efa03e9384f284a190a7a90a1636492f5a8347fc459308dd7d1b9",
+      "resources/computer/qwen-computer-use.exe": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335"
+    },
+    "sha256": "eb79a80a6ff5deddb6514c02ee546350d515d8855f24a8a251634e8595c377c3",
+    "finishedAt": 1792064707.2804523
+  },
+  "installerReceipt": "installer-0.1.9-2026-10-15.json",
+  "reusedRealProviderEvidence": [
+    "real-self-iteration-startup-gate-2026-10-15.json",
+    "real-capabilities-packaged-0.1.8-2026-10-15.json",
+    "real-project-manager-2026-10-15.json"
+  ],
+  "limitations": [
+    "Real-provider feature evidence above belongs to 0.1.8, not a fresh 0.1.9 rerun",
+    "Interactive installer wizard and administrator installation not tested",
+    "The new 24-hour run is separate and not yet passed"
+  ]
+}

@@ -72,7 +72,24 @@ test('默认工作区直接执行、完整模型切换、思考参数和重启�
     await expect.poll(() => requests.some(item => item.model === 'reasoner' && item.reasoning_effort === 'none')).toBe(true);
     await expect(page.getByLabel('当前模型')).toBeEnabled();
     await page.screenshot({ path: resolve(root, 'controls.png') });
-    await page.getByRole('button', { name: /任务记录/ }).click();
+    const historyButton = page.getByRole('button', { name: '任务记录', exact: true });
+    await expect(historyButton).toHaveAttribute('aria-keyshortcuts', 'Control+Shift+H');
+    await page.keyboard.press('Control+Shift+H');
+    await expect(page.getByLabel('搜索任务')).toBeVisible();
+    // A task count and shortcut must coexist without making this navigation row taller.
+    const historyBounds = await historyButton.boundingBox();
+    const workbenchBounds = await page.getByRole('button', { name: '工作台', exact: true }).boundingBox();
+    expect(historyBounds!.height).toBeLessThanOrEqual(workbenchBounds!.height + 2);
+    const originalBounds = await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].getBounds());
+    await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setSize(1000, 740));
+    await expect.poll(async () => (await historyButton.boundingBox())!.height).toBeLessThanOrEqual(workbenchBounds!.height + 2);
+    await expect(historyButton.locator('.nav-count')).toBeVisible();
+    await expect(historyButton).toHaveAttribute('title', '任务记录 · Ctrl+Shift+H');
+    // An occluded Electron window can stop producing frames after native resize.
+    await app.evaluate(({ BrowserWindow }) => { const window = BrowserWindow.getAllWindows()[0]; if (window.isMinimized()) window.restore(); window.show(); window.focus(); });
+    await page.bringToFront();
+    await page.screenshot({ path: resolve(root, 'compact-shortcut.png') });
+    await app.evaluate(({ BrowserWindow }, bounds) => BrowserWindow.getAllWindows()[0].setBounds(bounds), originalBounds);
     await page.getByRole('button', { name: /^重命名 / }).click();
     await page.getByLabel('任务名称', { exact: true }).fill('项目甲 · 发布验收');
     await page.getByLabel('任务名称', { exact: true }).press('Enter');

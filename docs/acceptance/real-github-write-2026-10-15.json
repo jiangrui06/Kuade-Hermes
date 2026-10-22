@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "realMcp": true,
+  "githubWrites": true,
+  "expectedCommit": "988536475188dd1238b1abfc20912139aab3d2f6",
+  "model": "kuade-ca49e51b::kimi-k3",
+  "sessionId": "session-bd314b20-8a89-438c-b2c3-775027f934c0",
+  "credentialsUnchanged": true,
+  "commit": "51a2237adc4a63f38a7e1aefc31bb94450401673",
+  "parent": "988536475188dd1238b1abfc20912139aab3d2f6",
+  "path": "docs/acceptance/real-github-read-2026-10-15.json",
+  "blob": "478cf53730f5d2f41e4d46516f4f816fc75afd0b",
+  "calls": [
+    "mcp__github__get_me",
+    "mcp__github__list_commits",
+    "mcp__github__create_or_update_file"
+  ],
+  "date": "2026-10-15",
+  "scope": "Real model through official GitHub MCP; exact single-file write and independent API verification",
+  "temporaryCredentialsRemoved": true,
+  "initialAttempt": {
+    "status": "not-passed",
+    "commit": "988536475188dd1238b1abfc20912139aab3d2f6",
+    "onlyApprovedFileChanged": true,
+    "contentMismatch": {
+      "field": "initialScriptResult.model",
+      "expected": "kuade-ca49e51b::kimi-k3",
+      "actual": "kuade-ca49e51b:kimi-k3"
+    },
+    "initialVerifierDefect": "Expected Base64 rather than official v2.0.2 plain-text content.",
+    "originalReceiptSha256": "15696105f034826effd745630b9068c5a47057119137032ea518523abc856870"
+  },
+  "notes": "Initial addition had one missing colon. A second real-model task repaired that approved file; exact final content and commit scope passed."
+}

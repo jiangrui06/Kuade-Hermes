@@ -1,6 +1,10 @@
 # Computer Use integration
 
+2026-10-22: real Kimi K3 capability acceptance passed in the standalone 0.1.12 ZIP. The model loaded the project skill, called search and page-reading MCP tools, and submitted the random marker and official documentation URL through the browser; the host independently checked the POST. It then used the packaged qwen_computer to observe a dedicated Windows window, enter Chinese text and activate its button; the host checked the resulting file. Original credentials and environment fingerprints were unchanged; temporary credentials were removed. See [fresh evidence](acceptance/real-capabilities-packaged-0.1.12-2026-10-22.json). This covers the dedicated Windows and browser flows, not every application or macOS.
+
 [简体中文](COMPUTER.zh-CN.md) · [繁體中文](COMPUTER.zh-TW.md)
+
+2026-10-15: After correcting omitted runtime peer dependencies, standalone 0.1.7 passed real Kimi K3 Skills, search, page reading, browser submission and qwen_computer input/button activation. The receipt binds the application archive and native-component hashes: [packaged real-model acceptance](acceptance/real-capabilities-packaged-0.1.7-2026-10-15.json). Original credentials and environment fingerprints were unchanged; temporary credentials were removed. The following retains historical development-build evidence from 2026-10-14.
 
 Real Kimi K3 input and button activation on a dedicated Windows window now pass. See [real-model acceptance](REAL_CAPABILITIES.en.md) for evidence and limits.
 

@@ -18,6 +18,8 @@ describe('运行进程边界', () => {
     expect(() => validateEndpoint('../settings')).toThrow();
     expect(() => validateEndpoint('session/prompt', true)).toThrow();
     expect(() => validateEndpoint('llm/discoverModels')).not.toThrow();
+    for (const verb of ['get', 'create', 'pause', 'resume']) expect(() => validateEndpoint(`goals/${verb}`)).not.toThrow();
+    expect(() => validateEndpoint('goals/complete')).toThrow();
     expect(redactLog('http://127.0.0.1:123/?token=test123 Bearer test-secret')).not.toContain('test123');
     expect(redactLog('Bearer test-secret')).not.toContain('test-secret');
   });

@@ -1,0 +1,149 @@
+{
+  "date": "2026-10-15",
+  "status": "passed",
+  "scope": "One-minute preflight only, not multi-hour acceptance",
+  "receipt": {
+    "status": "passed",
+    "realProvider": true,
+    "goalMode": true,
+    "requestedSoakMs": 60000,
+    "durationScope": "real-model module development followed by a paced, independently checked long shell workload and restart recovery; not hours of continuous code generation",
+    "marker": "88ce49b8-dd7e-49e0-8eed-17e56182dfa2",
+    "initialPid": 35412,
+    "model": "kuade-ca49e51b::kimi-k3",
+    "soak": {
+      "status": "passed",
+      "startedAt": 1792052173964,
+      "pid": 28528,
+      "requestedDurationMs": 60000,
+      "intervalMs": 60000,
+      "checks": 2,
+      "batches": 10,
+      "checkedRows": 2570,
+      "elapsedMs": 60018.463200000006,
+      "lastCheckedAt": 1792052233986,
+      "maxGapMs": 60017.305100000005,
+      "completedAt": 1792052233987
+    },
+    "soakObservation": {
+      "observedSoakStartedAt": 1792052201355,
+      "observations": 2,
+      "checkedAt": 1792052234921
+    },
+    "planSource": "persisted todo/write event",
+    "checkpoint": {
+      "sessionId": "session-c8dbb2c8-9f8e-446c-a5cf-974ca2fe989b",
+      "sourceHash": "45f116d72c308215c1081253ce44bea633fa3636fa91939661af563658a17fbd",
+      "taskPid": 28528,
+      "requestsBefore": 1
+    },
+    "goalBeforeRestart": {
+      "id": "goal-906a668c-6c9e-46cf-994e-9f317b22a599",
+      "revision": 1,
+      "objective": "本次明确要求使用持续目标跨轮执行。每轮只处理一个阶段：第一轮完成第一阶段后结束回复，保留目标 active，让底座自动发起下一轮再运行 gate 与第二阶段；不要在第一轮运行 gate，不要提前标记完成。最终实际 CLI 测试通过后再使用 update_goal 标记 complete。\n完成当前项目的两阶段 JavaScript 账目汇总功能，并用 todo_write 记录至少两步计划。第一阶段：实现 summary.mjs，导出 summarize(rows)，只统计 status 严格为 paid 的记录，返回 {count,totalCents,byCategory}；byCategory 是按 category 汇总 amountCents 的对象，金额使用整数分，允许负数。补充 Node 单元测试并实际运行。第一阶段完成后必须运行已有 node gate.mjs 并等待它成功；这是宿主控制的长测试检查点，可能会重启应用，请不要绕过或修改 gate.mjs、soak-gate.mjs、soak-progress.json、input.jsonl、waiting.json、passed.json，不要自行请求该脚本的 HTTP 地址。第二阶段只有 gate 成功后才实现 cli.mjs，命令 node cli.mjs input.jsonl output.json 读取逐行 JSON 并输出 summarize 的 JSON 结果；实际运行并验证文件。完成后更新计划并报告结果。若被中断后收到继续，请先核对现有文件和记录，保留已正确实现的第一阶段，再重新执行未完成的 gate 与第二阶段。只操作当前临时工作区，不安装依赖，不做 Git 或远程操作。本次 gate 首次运行会持续至少 1 分钟，周期性用新数据校验你的模块；使用现有 job_output wait=true 及最长可用等待时间观察同一作业，不因等待超时而重启作业，不提前完成目标。",
+      "phase": "active",
+      "maxGoalRounds": 256,
+      "roundsStarted": 2,
+      "createdAt": 1792052140734,
+      "updatedAt": 1792052140734,
+      "activation": "armed"
+    },
+    "restartedPid": 7888,
+    "goalAfterRestart": {
+      "id": "goal-906a668c-6c9e-46cf-994e-9f317b22a599",
+      "revision": 1,
+      "objective": "本次明确要求使用持续目标跨轮执行。每轮只处理一个阶段：第一轮完成第一阶段后结束回复，保留目标 active，让底座自动发起下一轮再运行 gate 与第二阶段；不要在第一轮运行 gate，不要提前标记完成。最终实际 CLI 测试通过后再使用 update_goal 标记 complete。\n完成当前项目的两阶段 JavaScript 账目汇总功能，并用 todo_write 记录至少两步计划。第一阶段：实现 summary.mjs，导出 summarize(rows)，只统计 status 严格为 paid 的记录，返回 {count,totalCents,byCategory}；byCategory 是按 category 汇总 amountCents 的对象，金额使用整数分，允许负数。补充 Node 单元测试并实际运行。第一阶段完成后必须运行已有 node gate.mjs 并等待它成功；这是宿主控制的长测试检查点，可能会重启应用，请不要绕过或修改 gate.mjs、soak-gate.mjs、soak-progress.json、input.jsonl、waiting.json、passed.json，不要自行请求该脚本的 HTTP 地址。第二阶段只有 gate 成功后才实现 cli.mjs，命令 node cli.mjs input.jsonl output.json 读取逐行 JSON 并输出 summarize 的 JSON 结果；实际运行并验证文件。完成后更新计划并报告结果。若被中断后收到继续，请先核对现有文件和记录，保留已正确实现的第一阶段，再重新执行未完成的 gate 与第二阶段。只操作当前临时工作区，不安装依赖，不做 Git 或远程操作。本次 gate 首次运行会持续至少 1 分钟，周期性用新数据校验你的模块；使用现有 job_output wait=true 及最长可用等待时间观察同一作业，不因等待超时而重启作业，不提前完成目标。",
+      "phase": "active",
+      "maxGoalRounds": 256,
+      "roundsStarted": 2,
+      "createdAt": 1792052140734,
+      "updatedAt": 1792052140734,
+      "activation": "disarmed"
+    },
+    "progressLabel": "本轮结束\n计划 5 / 5\n\n本轮回复已结束；计划勾选由 Agent 更新，请结合文件和测试结果验收。\n\n查看步骤计划\nAgent 更新",
+    "finalTodos": [
+      {
+        "content": "阶段1：实现 summary.mjs 的 summarize(rows)",
+        "status": "completed"
+      },
+      {
+        "content": "阶段1：编写并运行 Node 单元测试",
+        "status": "completed"
+      },
+      {
+        "content": "运行 gate.mjs 并等待成功",
+        "status": "completed"
+      },
+      {
+        "content": "阶段2：实现 cli.mjs 并实际运行验证",
+        "status": "completed"
+      },
+      {
+        "content": "报告结果并标记目标完成",
+        "status": "completed"
+      }
+    ],
+    "completedGoal": {
+      "id": "goal-906a668c-6c9e-46cf-994e-9f317b22a599",
+      "revision": 3,
+      "objective": "本次明确要求使用持续目标跨轮执行。每轮只处理一个阶段：第一轮完成第一阶段后结束回复，保留目标 active，让底座自动发起下一轮再运行 gate 与第二阶段；不要在第一轮运行 gate，不要提前标记完成。最终实际 CLI 测试通过后再使用 update_goal 标记 complete。\n完成当前项目的两阶段 JavaScript 账目汇总功能，并用 todo_write 记录至少两步计划。第一阶段：实现 summary.mjs，导出 summarize(rows)，只统计 status 严格为 paid 的记录，返回 {count,totalCents,byCategory}；byCategory 是按 category 汇总 amountCents 的对象，金额使用整数分，允许负数。补充 Node 单元测试并实际运行。第一阶段完成后必须运行已有 node gate.mjs 并等待它成功；这是宿主控制的长测试检查点，可能会重启应用，请不要绕过或修改 gate.mjs、soak-gate.mjs、soak-progress.json、input.jsonl、waiting.json、passed.json，不要自行请求该脚本的 HTTP 地址。第二阶段只有 gate 成功后才实现 cli.mjs，命令 node cli.mjs input.jsonl output.json 读取逐行 JSON 并输出 summarize 的 JSON 结果；实际运行并验证文件。完成后更新计划并报告结果。若被中断后收到继续，请先核对现有文件和记录，保留已正确实现的第一阶段，再重新执行未完成的 gate 与第二阶段。只操作当前临时工作区，不安装依赖，不做 Git 或远程操作。本次 gate 首次运行会持续至少 1 分钟，周期性用新数据校验你的模块；使用现有 job_output wait=true 及最长可用等待时间观察同一作业，不因等待超时而重启作业，不提前完成目标。",
+      "phase": "complete",
+      "maxGoalRounds": 256,
+      "roundsStarted": 3,
+      "createdAt": 1792052140734,
+      "updatedAt": 1792052273926,
+      "activation": "disarmed"
+    },
+    "sessionId": "session-c8dbb2c8-9f8e-446c-a5cf-974ca2fe989b",
+    "sameSession": true,
+    "originalModuleUnchanged": true,
+    "originalCredentialsUnchanged": true,
+    "requestsAfter": 1,
+    "inputRows": 137,
+    "expected": {
+      "count": 117,
+      "totalCents": 791682,
+      "byCategory": {
+        "运维": 263757,
+        "设计": 265557,
+        "开发": 262368
+      }
+    }
+  },
+  "previousAttempts": [
+    {
+      "root": "D:\\Kuade-acceptance\\real-goal-99e173fe-cae8-455f-add6-90ddb51e5cf7",
+      "status": "not-passed",
+      "error": {
+        "stage": "checkpoint",
+        "message": "Cannot read properties of null (reading 'some')"
+      }
+    },
+    {
+      "root": "D:\\Kuade-acceptance\\real-goal-843555e0-19cc-4828-ac2c-80502a4a4b0a",
+      "status": "not-passed",
+      "error": {
+        "stage": "continue",
+        "message": "expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: '任务进度' })\nExpected substring: \"本轮结束\"\nReceived string:    \"待继续计划 3 / 4继续任务本轮已停下，计划还有未完成步骤。查看步骤计划 Agent 更新阶段一：summary.mjs + 单元测试已完成运行 gate.mjs 等待成功已完成阶段二：实现 cli.mjs 并验证已完成update_goal 标记 complete处理中\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for getByRole('region', { name: '任务进度' })\n    9 × locator resolved to <section aria-label=\"任务进度\" class=\"task-progress\">…</section>\n      - unexpected value \"待继续计划 3 / 4继续任务本轮已停下，计划还有未完成步骤。查看步骤计划 Agent 更新阶段一：summary.mjs + 单元测试已完成运行 gate.mjs 等待成功已完成阶段二：实现 cli.mjs 并验证已完成update_goal 标记 complete处理中\"\n"
+      }
+    },
+    {
+      "root": "D:\\Kuade-acceptance\\real-goal-670deab1-a2a5-412f-ab55-ebb519168cc1",
+      "status": "not-passed",
+      "error": {
+        "stage": "restart",
+        "message": "expect(locator).toBeEnabled() failed\n\nLocator: getByRole('button', { name: '恢复目标', exact: true })\nExpected: enabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for getByRole('button', { name: '恢复目标', exact: true })\n"
+      }
+    }
+  ],
+  "executable": "D:/K018z-1015/Kuade.exe",
+  "executableSha256": "10604896285c476ac9aa23940c8ae2dd9727f0d89721ab9c8e17f011216d7a03",
+  "temporaryCredentialsRemoved": true,
+  "evidenceRoot": "D:\\Kuade-acceptance\\real-goal-1737abd3-771f-4808-b47a-38657e22ccf5",
+  "verifierChanges": [
+    "Read persisted todo/write when turn-local plan is null",
+    "Validate actual goal, completed turn and independent CLI output; retain lagging plan labels",
+    "Wait up to 130 seconds for model preparation after restart",
+    "Pin the history sequence boundary before comparing restored events"
+  ]
+}

@@ -4,11 +4,11 @@ import { Composer } from '../src/renderer/components/Composer';
 afterEach(cleanup);
 const defaults = { disabled: false, sending: false, running: false, onStop: vi.fn(), model: '', setModel: vi.fn(), catalog: { groups: [] }, mode: 'ask', onMode: vi.fn(), prompt: '修复这个问题', onPrompt: vi.fn(), onModels: vi.fn() };
 describe('任务输入交互', () => {
-  it('模型列表只属于当前连接，只有声明档位的模型显示思考选择', () => {
+  it('模型列表按服务商分组，只有声明档位的模型显示思考选择', () => {
     const catalog = { groups: [{ id: 'mine', name: '我的服务', models: [{ id: 'one' }, { id: 'two' }] }, { id: 'other', name: '另一服务', models: [{ id: 'other-model' }] }] };
     const onEffort = vi.fn();
     const view = render(<Composer {...defaults} catalog={catalog} model="mine::one" send={vi.fn()} onEffort={onEffort} capability={{ reasoning: { efforts: [{ id: 'low' }, { id: 'high' }] } }} />);
-    expect([...screen.getByLabelText('当前模型').querySelectorAll('option')].map(option => option.value)).toEqual(['mine::one', 'mine::two']);
+    expect([...screen.getByLabelText('当前模型').querySelectorAll('option')].map(option => option.value)).toEqual(['mine::one', 'mine::two', 'other::other-model']);
     fireEvent.change(screen.getByLabelText('思考强度'), { target: { value: 'high' } });
     expect(onEffort).toHaveBeenCalledWith('high');
     view.rerender(<Composer {...defaults} catalog={catalog} model="mine::two" send={vi.fn()} />);

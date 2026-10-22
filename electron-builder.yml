@@ -17,9 +17,10 @@ win:
   target:
     - nsis
     - zip
-  icon: assets/icon.png
+  icon: assets/icon.ico
   signAndEditExecutable: true
 nsis:
+  include: scripts/installer.nsh
   oneClick: false
   perMachine: false
   allowToChangeInstallationDirectory: true

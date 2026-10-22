@@ -28,10 +28,10 @@ it('旧入口只跳转到已验证的版本，回退启动跳过跳转，损坏�
   const exe = join(root, 'candidate.exe'); await writeFile(exe, 'candidate');
   const spec = { executable: exe, cwd: root, version: '1.0.1', args: [], sha256: await executableHash(exe) };
   await writeJson(join(root, 'active-version.json'), { status: 'completed', launch: spec });
-  expect(await activeVersion(root, process.execPath, [])).toEqual(spec);
-  expect(await activeVersion(root, exe, [])).toBeUndefined();
-  expect(await activeVersion(root, process.execPath, ['--kuade-handoff=rollback'])).toBeUndefined();
-  await writeFile(exe, 'changed'); expect(await activeVersion(root, process.execPath, [])).toBeUndefined();
+  expect(await activeVersion(root, process.execPath, [], '1.0.0')).toEqual(spec);
+  expect(await activeVersion(root, exe, [], '1.0.0')).toBeUndefined();
+  expect(await activeVersion(root, process.execPath, ['--kuade-handoff=rollback'], '1.0.0')).toBeUndefined();
+  await writeFile(exe, 'changed'); expect(await activeVersion(root, process.execPath, [], '1.0.0')).toBeUndefined();
 });
 it('资源变化会使版本指纹失效，即便 Electron EXE 保持不变', async () => {
   const root = await mkdtemp(join(tmpdir(), 'kuade-resources-')); roots.push(root);
@@ -40,7 +40,26 @@ it('资源变化会使版本指纹失效，即便 Electron EXE 保持不变', as
   await writeFile(join(resources, 'app.asar'), 'verified-code');
   const spec = { executable: exe, cwd: root, version: '1.0.1', args: [], sha256: await executableHash(exe), resourcesSha256: await resourcesHash(resources) };
   await writeJson(join(root, 'active-version.json'), { status: 'completed', launch: spec });
-  expect(await activeVersion(root, process.execPath, [])).toEqual(spec);
+  expect(await activeVersion(root, process.execPath, [], '1.0.0')).toEqual(spec);
   await writeFile(join(resources, 'app.asar'), 'different-code');
-  expect(await activeVersion(root, process.execPath, [])).toBeUndefined();
+  expect(await activeVersion(root, process.execPath, [], '1.0.0')).toBeUndefined();
+});
+it.each([
+  ['0.1.11', '0.1.6', false],
+  ['0.1.10', '0.1.10', false],
+  ['1.0.0+new-build', '1.0.0+old-build', false],
+  ['0.1.9', '0.1.10', true],
+  ['1.0.0-rc.2', '1.0.0-rc.10', true],
+  ['1.0.0', '1.0.0-rc.10', false],
+  ['1.0.0-rc.10', '1.0.0', true],
+  ['invalid', '1.0.0', false],
+  ['1.0.0', 'invalid', false],
+])('当前版本 %s 与已保存版本 %s：只向更高版本跳转并保留原记录', async (currentVersion, savedVersion, shouldRedirect) => {
+  const root = await mkdtemp(join(tmpdir(), 'kuade-version-order-')); roots.push(root);
+  const executable = join(root, 'saved.exe'); await writeFile(executable, 'verified-saved-app');
+  const launch = { executable, cwd: root, version: savedVersion, args: [], sha256: await executableHash(executable) };
+  const pointer = join(root, 'active-version.json'); await writeJson(pointer, { status: 'completed', launch });
+  const before = await readFile(pointer, 'utf8');
+  expect(await activeVersion(root, process.execPath, [], currentVersion)).toEqual(shouldRedirect ? launch : undefined);
+  expect(await readFile(pointer, 'utf8')).toBe(before);
 });

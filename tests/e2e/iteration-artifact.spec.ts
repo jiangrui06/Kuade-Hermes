@@ -28,7 +28,7 @@ test('自迭代产物：独立启动验证版本、新快捷键与原生窗口�
       receipt.nativeObserved = !observed.isError;
     } finally { await client.close(); await transport.close(); }
     await page.keyboard.press('Control+Shift+i');
-    await expect(page.getByRole('heading', { name: '让 Kuade，继续进步。' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '自我迭代' })).toBeVisible();
     await expect(page.getByLabel('自迭代需求')).toBeVisible();
     await page.screenshot({ path: join(root, 'new-shortcut.png') });
     receipt.shortcutPassed = true;

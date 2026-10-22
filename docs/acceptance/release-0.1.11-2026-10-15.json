@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "date": "2026-10-15",
+  "version": "0.1.11",
+  "scope": "Independent Windows package, five controlled-provider Electron flows, ZIP integrity and preventing stale saved versions from overriding manual upgrades",
+  "artifacts": [
+    {
+      "file": "Kuade Harness Setup 0.1.11.exe",
+      "sha256": "761db87091ad8008f712f9f99be96603780f67bc2202c8fd3d6035abd1f4bc50",
+      "bytes": 222523058
+    },
+    {
+      "file": "Kuade Harness-0.1.11-win.zip",
+      "sha256": "04aa7ad5a10305628eb1647b26475f07847bf222e87199d1b13bad2aeece6c4d",
+      "bytes": 299747525
+    }
+  ],
+  "signature": "NotSigned",
+  "buildExitCode": 0,
+  "packageExitCode": 0,
+  "typecheckExitCode": 0,
+  "tests": {
+    "application": 110,
+    "acceptanceHarness": 13,
+    "electron": 5,
+    "exitCode": 0
+  },
+  "zip": {
+    "status": "passed",
+    "archive": "D:\\K011-release-20261015\\Kuade Harness-0.1.11-win.zip",
+    "target": "D:\\K011z-1015",
+    "startedAt": 1792068835.1720166,
+    "entries": 24046,
+    "hashes": {
+      "Kuade.exe": "1aedc98ead0e688e7f609f34ffd32e617fcff6a750c66f79437d7db252e672c9",
+      "resources/app.asar": "938fc9def1d8f8f314a57de9a6820a095319c4bf1dc0ad2efe29ce8f2b655bed",
+      "resources/computer/qwen-computer-use.exe": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335"
+    },
+    "sha256": "04aa7ad5a10305628eb1647b26475f07847bf222e87199d1b13bad2aeece6c4d",
+    "finishedAt": 1792068872.6120274
+  },
+  "savedVersionStartup": {
+    "status": "passed",
+    "executable": "D:\\K011-release-20261015\\win-unpacked\\Kuade.exe",
+    "expectedVersion": "0.1.11",
+    "credentialsCopied": false,
+    "profile": "D:\\K011-release-20261015\\saved-version-startup\\startup-profile-mUaS44",
+    "savedVersion": "0.1.10",
+    "application": {
+      "version": "0.1.11",
+      "packaged": true
+    },
+    "olderPointerPreserved": true,
+    "manualUpgradeStayedOnNewVersion": true,
+    "pid": 10828,
+    "closed": true
+  },
+  "zipStartup": {
+    "status": "passed",
+    "executable": "D:\\K011z-1015\\Kuade.exe",
+    "expectedVersion": "0.1.11",
+    "credentialsCopied": false,
+    "profile": "D:\\K011-release-20261015\\zip-startup\\startup-profile-K5OUbp",
+    "savedVersion": "0.1.6",
+    "application": {
+      "version": "0.1.11",
+      "packaged": true
+    },
+    "olderPointerPreserved": true,
+    "manualUpgradeStayedOnNewVersion": true,
+    "pid": 7080,
+    "closed": true
+  },
+  "desktopEvidence": [
+    ".cache/default-models-4b5da049-7090-40e7-80d0-b97ea9fce2e6",
+    ".cache/e2e-8c802b01-751f-41f0-b0bc-4da9b64326b0",
+    ".cache/goals-1597986d-c950-4c22-8531-c82c9ebb19d5",
+    ".cache/task-progress-fdacf4d4-6bf3-4cc8-b45c-5c9adccfb3bb"
+  ],
+  "reusedInstallerEvidence": "installer-0.1.9-2026-10-15.json",
+  "reusedRealProviderEvidence": [
+    "real-self-iteration-packaged-2026-10-15.json",
+    "real-project-manager-2026-10-15.json"
+  ],
+  "limitations": [
+    "This version installer was built but not executed; installer guard lifecycle evidence belongs to 0.1.9",
+    "Self-iteration and project-manager evidence above belongs to earlier versions; skills/search/browser/computer capabilities were freshly verified on 0.1.11",
+    "The 0.1.9 24-hour test was interrupted after about 9 hours 8 minutes; no complete 24-hour pass yet",
+    "Windows x64 independent-directory updates verified; NSIS installation-directory replacement and macOS update remain untested"
+  ],
+  "freshRealProviderEvidence": "real-capabilities-packaged-0.1.11-2026-10-15.json",
+  "additionalRollbackRegression": "rollback-packaged-0.1.11-2026-10-15.json",
+  "activeCrossDayRun": "real-goal-24-hour-0.1.11-2026-10-16.json"
+}

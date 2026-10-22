@@ -1,0 +1,85 @@
+{
+  "status": "passed",
+  "date": "2026-10-16",
+  "scope": "OS-owned desktop startup, real zero/nonzero child exit codes and invalid-manifest rejection; not a 24-hour pass",
+  "integration": {
+    "status": "passed",
+    "results": [
+      {
+        "kind": "valid-desktop",
+        "evidence": "D:\\Kuade-acceptance\\host-832b98a1-971a-4a76-bdd9-0fc1f60a3cae",
+        "host": {
+          "scriptSha256": "44e8ae5bbf76e0b33d01f41ca2f061e275146cd009ef5fd95a247c679e10558d",
+          "hostPid": 11316,
+          "finishedAt": "2026-10-16T10:30:59.1506365+08:00",
+          "kind": "startup",
+          "startedAt": "2026-10-16T10:30:51.8174738+08:00",
+          "executableSha256": "1aedc98ead0e688e7f609f34ffd32e617fcff6a750c66f79437d7db252e672c9",
+          "taskName": "Kuade-Acceptance-832b98a1-971a-4a76-bdd9-0fc1f60a3cae",
+          "childPid": 35896,
+          "exitCode": 0,
+          "status": "passed"
+        },
+        "startup": {
+          "status": "passed",
+          "executable": "D:\\K011z-1015\\Kuade.exe",
+          "expectedVersion": "0.1.11",
+          "credentialsCopied": false,
+          "profile": "D:\\Kuade-acceptance\\host-832b98a1-971a-4a76-bdd9-0fc1f60a3cae\\startup\\startup-profile-3o690t",
+          "application": {
+            "version": "0.1.11",
+            "packaged": true
+          },
+          "pid": 39316,
+          "closed": true
+        },
+        "schedulerExitCode": 0
+      },
+      {
+        "kind": "wrong-executable",
+        "evidence": "D:\\Kuade-acceptance\\host-6318cd37-92c6-401d-a205-102f3d1e8414",
+        "host": {
+          "scriptSha256": "44e8ae5bbf76e0b33d01f41ca2f061e275146cd009ef5fd95a247c679e10558d",
+          "hostPid": 24924,
+          "finishedAt": "2026-10-16T10:31:04.2413357+08:00",
+          "kind": "startup",
+          "startedAt": "2026-10-16T10:31:03.8169136+08:00",
+          "executableSha256": "0d0f5e39f9f3d9587bc19f73eab3c2c9c4903fd02d6dbf9c853dd81b3d95fad4",
+          "taskName": "Kuade-Acceptance-6318cd37-92c6-401d-a205-102f3d1e8414",
+          "childPid": 5740,
+          "exitCode": 1,
+          "status": "not-passed",
+          "error": "Acceptance child did not exit successfully"
+        },
+        "startup": {
+          "status": "not-passed",
+          "executable": "C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\\node.exe",
+          "expectedVersion": "0.1.11",
+          "credentialsCopied": false,
+          "error": "Package has ancestor node_modules: C:\\Users\\jiangrui\\AppData\\Local\\hermes\\node\n\ntrue !== false\n"
+        },
+        "schedulerExitCode": 1
+      }
+    ],
+    "invalidManifestRejected": true,
+    "temporaryTasksRemoved": true
+  },
+  "initialHostAttempt": {
+    "status": "not-passed",
+    "evidence": "D:\\Kuade-acceptance\\host-d1471092-82bc-4931-9f79-2036d030a7bf",
+    "startupPassed": true,
+    "hostExitCode": null,
+    "fix": "Retain child native handle before waiting; null remains failure"
+  },
+  "virtualizedProfileAttempt": {
+    "status": "not-passed",
+    "evidence": "D:\\Kuade-acceptance\\host-4da3d564-bbbc-4c4f-a657-521b55bde8c0",
+    "error": "Saved model profile is missing",
+    "fix": "Resolve physical model directory using Node realpathSync.native"
+  },
+  "limitations": [
+    "User must remain logged in for interactive desktop acceptance",
+    "Recovery preflight and full-duration run require separate receipts"
+  ],
+  "realModelRecoveryPreflight": "real-goal-system-host-preflight-2026-10-16.json"
+}

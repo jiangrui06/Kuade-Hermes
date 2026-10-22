@@ -1,0 +1,241 @@
+{
+  "status": "passed",
+  "realProvider": true,
+  "phase": "all",
+  "steps": [
+    {
+      "name": "web-skill",
+      "sessionId": "session-d94d3c0c-d09e-44ea-b7c9-3c36deac8302",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__search__search",
+          "at": 1792649765592,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__search__fetch_content",
+          "at": 1792649773927,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_navigate",
+          "at": 1792649777209,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_snapshot",
+          "at": 1792649793989,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_fill_form",
+          "at": 1792649781599,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__playwright__browser_click",
+          "at": 1792649792002,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "visibleToolLabels": [
+        "加载技能原始详情",
+        "工具结果原始详情",
+        "联网搜索 · 搜索互联网原始详情",
+        "工具结果原始详情",
+        "联网搜索 · 读取网页原始详情",
+        "工具结果原始详情",
+        "联网搜索 · 读取网页原始详情",
+        "工具结果原始详情",
+        "浏览器 · 打开网页原始详情",
+        "工具结果原始详情",
+        "浏览器 · 查看页面原始详情",
+        "工具结果原始详情",
+        "浏览器 · 填写表单原始详情",
+        "工具结果原始详情",
+        "浏览器 · 点击页面原始详情",
+        "工具结果原始详情",
+        "浏览器 · 查看页面原始详情",
+        "工具结果原始详情"
+      ],
+      "verified": true
+    },
+    {
+      "name": "computer",
+      "sessionId": "session-19c6913f-9276-4594-83f5-d94f88211a6e",
+      "reason": "completed",
+      "calls": [
+        {
+          "name": "mcp__qwen_computer__list_apps",
+          "at": 1792649809137,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__get_app_state",
+          "at": 1792649812564,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__set_value",
+          "at": 1792649816250,
+          "outcome": "succeeded"
+        },
+        {
+          "name": "mcp__qwen_computer__click",
+          "at": 1792649819931,
+          "outcome": "succeeded"
+        }
+      ],
+      "eventTypes": [
+        "permission/preset",
+        "sandbox/mode",
+        "approval/policy",
+        "command/run",
+        "agent/inbox/spliced",
+        "command/done",
+        "model/selection",
+        "turn/start",
+        "step/start",
+        "system/message",
+        "user/message",
+        "request/header",
+        "request/context",
+        "session/title",
+        "session/title-llm-request",
+        "assistant/message",
+        "tool/call",
+        "tool/result",
+        "step/end",
+        "turn/end"
+      ],
+      "visibleToolLabels": [
+        "加载技能原始详情",
+        "工具结果原始详情",
+        "电脑控制 · 查找窗口原始详情",
+        "工具结果原始详情",
+        "电脑控制 · 观察窗口原始详情",
+        "工具结果原始详情",
+        "电脑控制 · 填写控件原始详情",
+        "工具结果原始详情",
+        "电脑控制 · 点击控件原始详情",
+        "工具结果原始详情"
+      ],
+      "acceptedStateObserved": true,
+      "imageUnavailable": true,
+      "verified": true,
+      "fixturePid": 14964
+    }
+  ],
+  "before": {
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "process": "4238b3a69a17ca3f4293faa9a94da7564f70008c9743a5a3576f599112032e8c"
+  },
+  "executablePath": "D:\\K024z-1022\\Kuade.exe",
+  "executableSha256": "1c040e9e0fefee18e0dafddb94a672087273102930244d333e733d05f102c9ca",
+  "version": "0.2.4",
+  "packaged": true,
+  "appArchiveSha256": "4d302436a8438e4508fe0c3745b1f47c8c8cca80a771a98f30703bcc60c14a4c",
+  "nativeCommand": "D:\\K024z-1022\\resources\\computer\\qwen-computer-use.exe",
+  "nativeSha256": "b80393b2734bb877cb6935d334470c2eb90e2f31f9be1a2db0daeb4feb46d335",
+  "toolsEnabledThroughUI": true,
+  "exampleDraftOnly": true,
+  "workspaceId": "29b731cf-8e55-46b9-aec2-992f6aee382c",
+  "model": "kuade-ca49e51b::kimi-k3",
+  "inputModalities": [],
+  "skillEntryUsed": true,
+  "submissions": [
+    {
+      "marker": "Kuade 技能验收 5a4ebcd3-8ec1-4fcf-a3ee-11d15f0c8bc0",
+      "url": "https://www.electronjs.org/docs/latest/api/app",
+      "at": 1792649791429
+    }
+  ],
+  "capabilityUXVerified": true,
+  "extensionsRestored": true,
+  "credentialsUnchanged": true,
+  "modelSettingsUnchanged": true,
+  "teardownErrors": [],
+  "temporaryCredentialsRemoved": true,
+  "after": {
+    "Machine": "0FE1870BE1F6A4F2C933F37C1C14AF68DAFE42AF3C9B1058B125931E435976ED",
+    "User": "20F228937ECD4DA63257BD5714B5CE510AA456E3705F843874306E1B49B6A549",
+    "process": "4238b3a69a17ca3f4293faa9a94da7564f70008c9743a5a3576f599112032e8c"
+  },
+  "environmentUnchanged": true,
+  "evidenceRoot": "D:\\Kuade-acceptance\\real-capabilities-04595295-d739-4084-999d-a2853af3b0a4",
+  "toolResultAudit": [
+    {
+      "Task": "web-skill",
+      "ToolCalls": 9,
+      "FailedToolResults": 0
+    },
+    {
+      "Task": "computer",
+      "ToolCalls": 5,
+      "FailedToolResults": 0
+    }
+  ],
+  "release": {
+    "extractedExecutable": "D:\\K024z-1022\\Kuade.exe",
+    "sha256": "F1F58238A2FDE0E59811A50B56638B12264E29BDC99D6105B1AC42A45F477440",
+    "testedArtifact": "extracted ZIP; real provider; final version 0.2.4",
+    "authenticode": "NotSigned",
+    "archive": "release/Kuade Harness-0.2.4-win.zip",
+    "bytes": 300797616,
+    "archiveIntegrity": "7z test passed"
+  },
+  "validation": {
+    "finalPackagedUI": "tools, examples, skill draft preservation, readable tool names, model image disclosure and narrow layout passed with real provider",
+    "desktopUIEvidence": "ui-redesign-d0a1c64d-4bb0-4d8c-a90b-642769112340",
+    "desktopUI": "development Electron six-page and 1000x760 flow passed",
+    "scope": "Windows fixture controls; screenshot vision, arbitrary apps, macOS and new GitHub remote writes not tested",
+    "typecheck": "passed",
+    "unitAndComponentTests": "full suite passed; added hook tests passed; changed model catalog and Extensions regression passed after final adjustment"
+  },
+  "previousAttempts": [
+    {
+      "evidence": "real-capabilities-6f2f86f1-ca59-47a6-8b3a-7da4303d7c69",
+      "status": "observer failed before model task",
+      "reason": "Test read workspace before UI selection settled; fixed waiting and exact skill selection"
+    },
+    {
+      "status": "0.2.3 baseline passed",
+      "evidence": "real-capabilities-a5c85aa3-6b8a-46b7-b511-0e250711f423"
+    },
+    {
+      "evidence": "ui-redesign-f62b1ef4-014c-4872-9e3e-b4cc9658d7c4",
+      "status": "failed",
+      "reason": "Expected model-picker page absent; observed home page; cause not established; fresh run passed"
+    },
+    {
+      "evidence": "real-capabilities-1f45ec72-a7a6-4c6d-aad8-5372f0ed1d17",
+      "status": "0.2.4 incomplete",
+      "reason": "Web model turn completed but screenshot timed out; added bounded screenshot-only retry; final extracted ZIP rerun passed without screenshot retries"
+    }
+  ],
+  "screenshotRetries": []
+}

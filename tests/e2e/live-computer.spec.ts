@@ -57,7 +57,8 @@ test('电脑控制：Kuade 通过 qwen_computer 观察、输入中文并点击�
   await new Promise<void>(done => server.listen(0, '127.0.0.1', done));
   const port = (server.address() as { port: number }).port;
   const env: Record<string, string> = { ...Object.fromEntries(Object.entries(process.env).filter((row): row is [string, string] => row[1] !== undefined)), KUADE_USER_DATA: resolve(root, 'app') }; delete env.ELECTRON_RUN_AS_NODE;
-  const app = await electron.launch({ args: ['.'], cwd: resolve('.'), env });
+  const executablePath = process.env.KUADE_TEST_EXECUTABLE;
+  const app = await electron.launch({ ...(executablePath ? { executablePath } : {}), args: executablePath ? [] : ['.'], cwd: resolve('.'), env });
   let status = 'not-passed';
   try {
     await expect.poll(() => readFile(readyPath, 'utf8').catch(() => ''), { timeout: 20000 }).toBe(String(fixture.pid));
@@ -70,9 +71,9 @@ test('电脑控制：Kuade 通过 qwen_computer 观察、输入中文并点击�
     }, port);
     await page.reload();
     await page.getByRole('button', { name: '工具与技能' }).click();
-    await page.getByRole('button', { name: '添加电脑控制' }).click();
+    await page.getByRole('switch', { name: '电脑控制' }).click();
     await expect(page.getByLabel('MCP 配置')).toHaveValue(/qwen_computer/);
-    await page.getByRole('button', { name: '保存并重新加载' }).click();
+
     await expect(page.getByRole('region', { name: '扩展运行状态' })).toContainText('9 个工具已注册', { timeout: 45000 });
     await page.getByRole('button', { name: '新任务' }).click();
     await page.getByLabel('当前模型', { exact: true }).selectOption('acceptance::computer-acceptance');
@@ -88,7 +89,7 @@ test('电脑控制：Kuade 通过 qwen_computer 观察、输入中文并点击�
     await expect(page.getByRole('region', { name: '扩展运行状态' })).toContainText('工具返回成功');
     await page.screenshot({ path: resolve(root, 'accepted.png') }); status = 'passed';
   } finally {
-    await writeFile(resolve(root, 'acceptance.json'), JSON.stringify({ status, controlledProvider: true, realDesktopInput: true, imageObserved, marker, fixturePid: fixture.pid, providerError, receipts }, null, 2));
+    await writeFile(resolve(root, 'acceptance.json'), JSON.stringify({ status, executablePath: executablePath ?? 'development', controlledProvider: true, realDesktopInput: true, imageObserved, marker, fixturePid: fixture.pid, providerError, receipts }, null, 2));
     await app.close(); if (fixture.pid && fixture.exitCode === null) fixture.kill();
     await new Promise<void>(done => server.close(() => done()));
     console.log('电脑控制集成验收：', root);

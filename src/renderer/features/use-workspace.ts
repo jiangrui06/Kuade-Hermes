@@ -3,6 +3,7 @@ import type { Approval, RuntimeState, Task, Workspace } from '../../shared/contr
 import { emptyView, reduceSession } from './session-model';
 import { useModels } from './use-models';
 import { recoverTaskList } from './task-list';
+import { usePersistedPlan } from './use-persisted-plan';
 
 export function useWorkspace() {
   const [runtime, setRuntime] = useState<RuntimeState>({ phase: 'starting', message: '正在连接桌面服务…', version: '0.2.0-rc.2' });
@@ -19,6 +20,7 @@ export function useWorkspace() {
   const [sending, setSending] = useState(false);
   const sendLock = useRef(false);
   const selectedSession = useRef('');
+  const persistedPlan = usePersistedPlan(sessionId, runtime.phase === 'ready', selectedSession.current === sessionId ? view.planAnchor : undefined);
   const taskRefresh = useRef(0);
   const refreshTasks = useCallback(async () => {
     const revision = ++taskRefresh.current;
@@ -95,7 +97,7 @@ export function useWorkspace() {
       setWorkspaceId(result.workspace.workspaceId); setSessionId('');
     } catch (e) { setError((e as Error).message); }
   };
-  const send = async (text: string, mode: 'ask' | 'auto' = 'ask') => {
+  const send = async (text: string, mode: 'ask' | 'auto' = 'ask', goalRounds?: number) => {
     if (!text.trim() || sendLock.current) return false;
     if (!workspaceId) { setError('默认工作区正在准备，请稍后发送'); return false; }
     if (!models.model) { setError('请先配置并选择模型'); return false; }
@@ -111,7 +113,8 @@ export function useWorkspace() {
       const info = await window.kuade.call('models/prepare', { provider, model: modelParts.join('::') });
       const reasoningEffort = models.effort && info.reasoning?.efforts?.some((item: any) => item.id === models.effort) ? models.effort : undefined;
       await window.kuade.call('session/selectModel', { request: { sessionId: id, provider, model: modelParts.join('::'), ...(reasoningEffort ? { reasoningEffort } : {}) } });
-      await window.kuade.call('session/prompt', { request: { sessionId: id, requestId: crypto.randomUUID(), mode: 'queue', content: [{ type: 'text', text }], clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone } });
+      if (goalRounds !== undefined) await window.kuade.call('goals/create', { agentId: id, request: { objective: text.trim(), maxGoalRounds: goalRounds } });
+      else await window.kuade.call('session/prompt', { request: { sessionId: id, requestId: crypto.randomUUID(), mode: 'queue', content: [{ type: 'text', text }], clientTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone } });
       await refreshTasks();
       return true;
     } catch (e) { setError((e as Error).message); return false; }
@@ -138,5 +141,5 @@ export function useWorkspace() {
     return accepted.title;
   };
   const current = tasks.find(row => row.sessionId === sessionId);
-  return { runtime, workspaces, workspace, workspaceId, setWorkspaceId, tasks, sessionId, setSessionId, view, error, setError, ...models, approvals, sending, current, openProject, send, respond, refreshTasks, loadMore, renameTask };
+  return { runtime, workspaces, workspace, workspaceId, setWorkspaceId, tasks, sessionId, setSessionId, view, persistedPlan, error, setError, ...models, approvals, sending, current, openProject, send, respond, refreshTasks, loadMore, renameTask };
 }

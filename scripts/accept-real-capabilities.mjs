@@ -2,17 +2,21 @@
 import { _electron as electron, expect } from '@playwright/test';
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { resolve, join } from 'node:path';
+import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { dirname, resolve, join } from 'node:path';
 import { randomUUID, createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 
 if (process.env.KUADE_REAL_CAPABILITIES !== '1') throw new Error('Set KUADE_REAL_CAPABILITIES=1 for real model and desktop acceptance');
+if (!process.env.KUADE_MODEL_PROFILE) throw new Error('Set KUADE_MODEL_PROFILE; real acceptance uses an isolated copy of model settings');
 const phase = process.env.KUADE_ACCEPT_PHASE ?? 'all';
+const expectUX = process.env.KUADE_EXPECT_CAPABILITY_UX === '1';
 assert.ok(['all', 'web', 'computer'].includes(phase));
-const root = resolve('.cache/real-capabilities-' + randomUUID());
+const root = resolve(process.env.KUADE_ACCEPT_ROOT ?? '.cache', 'real-capabilities-' + randomUUID());
 const project = join(root, 'project');
+const profile = join(root, 'app');
 await mkdir(join(project, '.agents/skills/acceptance-workflow'), { recursive: true });
+await mkdir(join(profile, 'harness/profiles/web'), { recursive: true });
 const marker = 'Kuade 技能验收 ' + randomUUID();
 const submissions = [];
 const server = createServer(async (request, response) => {
@@ -35,11 +39,23 @@ function environmentFingerprint() {
   return { ...JSON.parse(result.stdout), process: createHash('sha256').update(JSON.stringify(Object.entries(process.env).sort())).digest('hex') };
 }
 const receipt = { status: 'not-passed', realProvider: true, phase, steps: [], before: environmentFingerprint() };
-const env = { ...process.env }; delete env.ELECTRON_RUN_AS_NODE; delete env.KUADE_USER_DATA;
-let app, page, originalConfig, credentialPath, credentialHash, fixture, sessionId;
+const env = { ...process.env, KUADE_USER_DATA: profile }; delete env.ELECTRON_RUN_AS_NODE;
+const temporaryCredentials = join(profile, 'harness/.credentials.yaml');
+const temporarySettings = join(profile, 'harness/profiles/web/cordis.patch.yml');
+let app, page, originalConfig, credentialPath, credentialHash, settingsHash, fixture, sessionId;
 let stage = 'launch';
 const hashFile = async path => createHash('sha256').update(await readFile(path)).digest('hex');
 const call = (endpoint, args) => page.evaluate(({ endpoint, args }) => window.kuade.call(endpoint, args), { endpoint, args });
+async function capture(name) {
+  // A compositor timeout must not replay a model task or desktop action.
+  try { await page.screenshot({ path: join(root, name), timeout: 15000 }); }
+  catch (error) {
+    if (error.name !== 'TimeoutError') throw error;
+    receipt.screenshotRetries = [...(receipt.screenshotRetries ?? []), name];
+    await page.bringToFront();
+    await page.screenshot({ path: join(root, name), timeout: 30000 });
+  }
+}
 async function runTask(prompt, name) {
   stage = name;
   await page.getByRole('button', { name: '新任务' }).click();
@@ -49,7 +65,17 @@ async function runTask(prompt, name) {
   await page.getByLabel('执行模式').selectOption('auto');
   const previous = (await call('session/list', { _request: {} })).items.map(row => row.sessionId);
   const start = Date.now();
-  await page.getByLabel('任务需求').fill(prompt);
+  if (name === 'web-skill') {
+    const draft = '请保留这段需求，并完成指定技能中的验收。';
+    if (expectUX) await page.getByLabel('任务需求').fill(draft);
+    await page.getByRole('button', { name: '工具与技能', exact: true }).click();
+    await page.getByRole('region', { name: '项目技能' }).locator('article').filter({ has: page.getByRole('heading', { name: 'acceptance-workflow', exact: true }) }).getByRole('button', { name: '用于任务' }).click();
+    await expect(page.getByLabel('任务需求')).toHaveValue(/acceptance-workflow/);
+    if (expectUX) await expect(page.getByLabel('任务需求')).toHaveValue(new RegExp(draft));
+    receipt.skillEntryUsed = true;
+  }
+  const input = page.getByLabel('任务需求');
+  await input.fill(name === 'web-skill' ? `${await input.inputValue()}\n${prompt}` : prompt);
   await page.getByLabel('发送任务', { exact: true }).click();
   let history, boundary;
   for (let nextLog = 0; Date.now() - start < 12 * 60_000;) {
@@ -72,36 +98,79 @@ async function runTask(prompt, name) {
   receipt.steps.push({ name, sessionId, reason: boundary?.data?.reason?.kind, calls, eventTypes: [...new Set(history?.records.map(row => row.event.type) ?? [])] });
   // Only this newly-created fixture task is saved, never settings or credential values.
   if (history) await writeFile(join(root, name + '-history.json'), JSON.stringify(history, null, 2));
-  await page.screenshot({ path: join(root, name + '.png') });
+  await capture(name + '.png');
+  await page.getByRole('button', { name: '展开执行过程', exact: true }).click();
+  receipt.steps.at(-1).visibleToolLabels = await page.locator('.tool-event > summary').allTextContents();
+  if (expectUX) {
+    const labels = receipt.steps.at(-1).visibleToolLabels;
+    assert.ok(labels.some(label => label.includes(name === 'computer' ? '电脑控制 ·' : '联网搜索 ·')));
+    assert.ok(!labels.some(label => label.includes('mcp__')), 'Known tools should have readable labels');
+  }
+  await capture(name + '-tools.png');
   assert.equal(boundary?.data?.reason?.kind, 'completed', 'Actual turn must complete');
   return { calls, history };
 }
 try {
-  app = await electron.launch({ args: ['.'], cwd: resolve('.'), env });
+  credentialPath = join(process.env.KUADE_MODEL_PROFILE, 'harness/.credentials.yaml'); credentialHash = await hashFile(credentialPath);
+  settingsHash = await hashFile(join(process.env.KUADE_MODEL_PROFILE, 'harness/profiles/web/cordis.patch.yml'));
+  await copyFile(credentialPath, temporaryCredentials);
+  await copyFile(join(process.env.KUADE_MODEL_PROFILE, 'harness/profiles/web/cordis.patch.yml'), temporarySettings);
+  const executablePath = process.env.KUADE_ACCEPT_EXECUTABLE;
+  receipt.executablePath = executablePath ?? 'development';
+  if (executablePath) receipt.executableSha256 = await hashFile(executablePath);
+  app = await electron.launch({ ...(executablePath ? { executablePath } : {}), args: executablePath ? [] : ['.'], cwd: executablePath ? project : resolve('.'), env });
   page = await app.firstWindow();
   await expect(page.getByText('本机运行', { exact: true })).toBeVisible({ timeout: 130000 });
-  const profile = await app.evaluate(({ app }) => app.getPath('userData'));
-  credentialPath = join(profile, 'harness/.credentials.yaml'); credentialHash = await hashFile(credentialPath);
+  assert.equal(resolve(await app.evaluate(({ app }) => app.getPath('userData'))), resolve(profile));
+  receipt.version = await app.evaluate(({ app }) => app.getVersion());
+  receipt.packaged = await app.evaluate(({ app }) => app.isPackaged);
+  if (executablePath) {
+    assert.equal(receipt.packaged, true);
+    receipt.appArchiveSha256 = await hashFile(join(dirname(executablePath), 'resources/app.asar'));
+  }
   assert.ok(!(await call('session/list', { _request: {} })).items.some(row => row.running), 'Existing tasks must be idle');
   stage = 'configure-tools';
   console.log(JSON.stringify({ stage }));
   originalConfig = await call('extensions/read');
   const native = await call('extensions/computer');
-  await call('extensions/save', { config: { mcpServers: {
-    playwright: { command: 'npx', args: ['-y', '@playwright/mcp@0.0.83', '--isolated'], toolCallTimeoutMs: 120000 },
-    search: { command: process.env.KUADE_UVX ?? 'uvx', args: ['--with', 'duckduckgo-mcp-server[browser]==0.7.0', 'duckduckgo-mcp-server==0.7.0'], toolCallTimeoutMs: 120000 },
-    qwen_computer: native,
-  } } });
+  receipt.nativeCommand = native.command;
+  receipt.nativeSha256 = await hashFile(native.command);
+  if (executablePath) assert.equal(resolve(native.command), resolve(dirname(executablePath), 'resources/computer/qwen-computer-use.exe'));
+  await page.getByRole('button', { name: '工具与技能', exact: true }).click();
+  for (const name of ['浏览器操作', '联网搜索', '电脑控制']) {
+    const toggle = page.getByRole('switch', { name, exact: true });
+    await expect(toggle).toBeEnabled({ timeout: 130000 });
+    await toggle.click();
+    await expect(toggle).toBeChecked({ timeout: 130000 });
+    await expect(toggle).toBeEnabled({ timeout: 130000 });
+  }
+  receipt.toolsEnabledThroughUI = true;
   await expect.poll(async () => (await call('extensions/status')).servers.filter(row => row.state === 'registered').length, { timeout: 130000 }).toBe(3);
   console.log(JSON.stringify({ stage: 'tools-registered' }));
-  const workspace = await call('workspace/create', { request: { path: project } });
-  receipt.workspaceId = workspace.workspace.workspaceId;
+  if (expectUX) {
+    for (const title of ['浏览器操作', '联网搜索', '电脑控制']) {
+      await expect(page.getByRole('article', { name: title, exact: true })).toContainText('可调用', { timeout: 15000 });
+    }
+    await page.getByRole('article', { name: '联网搜索', exact: true }).getByRole('button', { name: '试一试' }).click();
+    await expect(page.getByLabel('任务需求')).toHaveValue(/app.relaunch/);
+    assert.ok(!(await call('session/list', { _request: {} })).items.some(row => row.running));
+    receipt.exampleDraftOnly = true;
+    await page.getByRole('button', { name: '工具与技能', exact: true }).click();
+  }
+  await capture('tools-enabled.png');
+  await app.evaluate(({ dialog }, path) => { dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [path] }); }, project);
+  await page.getByRole('button', { name: '打开项目', exact: true }).click();
+  await expect(page.getByLabel('当前项目', { exact: true }).locator('option:checked')).toHaveText('project');
+  receipt.workspaceId = await page.getByLabel('当前项目', { exact: true }).inputValue();
   await page.reload();
   await expect(page.getByText('本机运行', { exact: true })).toBeVisible({ timeout: 130000 });
   await expect(page.getByLabel('当前模型').locator('option')).not.toHaveCount(0, { timeout: 60000 });
   const options = await page.getByLabel('当前模型').locator('option').evaluateAll(rows => rows.map(row => row.value));
   receipt.model = options.find(value => value.endsWith('::' + (process.env.KUADE_ACCEPT_MODEL ?? 'kimi-k3')));
   assert.ok(receipt.model, 'Saved real model not found');
+  const [provider, ...modelParts] = receipt.model.split('::');
+  const modelInfo = await call('models/prepare', { provider, model: modelParts.join('::') });
+  receipt.inputModalities = modelInfo.inputModalities;
   if (phase !== 'computer') {
     const result = await runTask('这是受控验收任务。请调用 skill 工具加载当前项目的 acceptance-workflow 技能，并完整执行技能中的联网搜索、网页阅读和浏览器提交任务。只在当前项目和技能指定的网页操作。不安装依赖、不访问其他目录。直接执行，无需额外询问。', 'web-skill');
     assert.ok(result.calls.some(row => row.name === 'mcp__search__search' && row.outcome === 'succeeded'));
@@ -124,11 +193,33 @@ try {
     const invoked = result.history.records.some(row => row.event.type === 'tool/call' && row.event.data?.name === 'mcp__qwen_computer__perform_secondary_action' && JSON.parse(row.event.data.arguments).action === 'Invoke');
     assert.ok(succeeded('click') || (succeeded('perform_secondary_action') && invoked), 'Requires native button activation');
     assert.equal(await readFile(resultPath, 'utf8'), text);
+    const results = result.history.records.filter(row => row.event.type === 'tool/result').map(row => row.event.data.message);
+    assert.ok(results.some(message => message?.content?.some(block => block.type === 'text' && block.text.includes('Accepted: ' + text))), 'Native observation must confirm the input was accepted');
+    receipt.steps.at(-1).acceptedStateObserved = true;
+    receipt.steps.at(-1).imageUnavailable = results.some(message => message?.content?.some(block => block.type === 'text' && block.text.includes('[image unavailable:')));
+    const desktopCalls = result.history.records.filter(row => row.event.type === 'tool/call').map(row => row.event.data);
+    for (const tool of desktopCalls) {
+      assert.ok(tool.name === 'skill' || tool.name.startsWith('mcp__qwen_computer__'), 'Desktop task must use computer MCP rather than scripts');
+      const args = JSON.parse(tool.arguments);
+      if (args.app !== undefined) assert.ok(args.app === String(fixture.pid) || args.app.startsWith(`window:${fixture.pid}:`), 'Desktop actions must target the fixture window');
+    }
     receipt.steps.at(-1).verified = true;
     receipt.steps.at(-1).fixturePid = fixture.pid;
   }
+  if (expectUX) {
+    await page.getByRole('button', { name: '工具与技能', exact: true }).click();
+    const computerCard = page.getByRole('article', { name: '电脑控制', exact: true });
+    if (receipt.inputModalities?.includes('image')) await expect(computerCard).toContainText('连接已声明支持图片输入');
+    else if (receipt.inputModalities) await expect(computerCard).toContainText('当前连接未声明图片输入');
+    await capture('tools-final.png');
+    await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].setSize(1000, 760));
+    await capture('tools-narrow.png');
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    receipt.capabilityUXVerified = true;
+  }
   receipt.status = 'passed';
 } catch (error) {
+  if (page) await page.screenshot({ path: join(root, 'last-state.png') }).catch(() => {});
   receipt.error = { stage, name: error.name, message: String(error.message).replace(/(Bearer\s+|token=)\S+/gi, '$1[redacted]').slice(0, 1200) };
   process.exitCode = 1;
 } finally {
@@ -138,12 +229,15 @@ try {
     catch { receipt.extensionsRestored = false; receipt.status = 'not-passed'; process.exitCode = 1; }
   }
   if (credentialPath) receipt.credentialsUnchanged = credentialHash === await hashFile(credentialPath);
-  if (app) await app.close();
-  if (fixture && fixture.exitCode === null) fixture.kill();
+  if (settingsHash) receipt.modelSettingsUnchanged = settingsHash === await hashFile(join(process.env.KUADE_MODEL_PROFILE, 'harness/profiles/web/cordis.patch.yml'));
+  const teardown = await Promise.allSettled([app?.close(), Promise.resolve().then(() => { if (fixture && fixture.exitCode === null) fixture.kill(); })]);
+  receipt.teardownErrors = teardown.filter(row => row.status === 'rejected').map(row => String(row.reason));
+  await rm(temporaryCredentials, { force: true }); await rm(temporarySettings, { force: true });
+  receipt.temporaryCredentialsRemoved = true;
   await new Promise(done => server.close(done));
   receipt.after = environmentFingerprint();
   receipt.environmentUnchanged = Object.keys(receipt.before).every(key => receipt.before[key] === receipt.after[key]);
-  if (!receipt.environmentUnchanged || receipt.credentialsUnchanged === false) { receipt.status = 'not-passed'; process.exitCode = 1; }
+  if (!receipt.environmentUnchanged || receipt.credentialsUnchanged === false || receipt.modelSettingsUnchanged === false || receipt.teardownErrors.length) { receipt.status = 'not-passed'; process.exitCode = 1; }
   await writeFile(join(root, 'acceptance.json'), JSON.stringify(receipt, null, 2));
   console.log(JSON.stringify({ ...receipt, evidence: root }));
 }
